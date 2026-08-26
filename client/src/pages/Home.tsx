@@ -1,33 +1,140 @@
-import { useAuth } from "@/_core/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useRoute } from "wouter";
+import { ArrowRight, BookOpen, Check, ChevronLeft, ChevronRight, Compass, Search, Sparkles, Target, Timer, RotateCcw, Lightbulb, Link2, Menu, X } from "lucide-react";
+import canonicalBook from "../content/book.md?raw";
+import { chapters, concepts, exercises, partColors, sectionizeChapter, gradeExercise, experimentResult, authoredChapterGuidance, feedbackLibrary, sourceAnchorFor, readingPositionKey, saveReadingPosition, restoreReadingPosition, masteryAfterAttempt, learnerStateAfterAttempt, recommendedChapter, type Chapter, type Exercise } from "../content/model";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
+const cover = "/manus-storage/cover-art_f5bf4d3e.jpg";
+const escapementImage = "/manus-storage/escapement-macro_92bf54e9.jpg";
+const benchImage = "/manus-storage/watchmaker-bench_6e1308e1.jpg";
+const diagram = "/manus-storage/claim-to-measurement_3a0b1f2c.png";
+
+type View = "home" | "book" | "concepts" | "practice" | "progress" | "glossary" | "roadmap" | "references";
+type Progress = { viewed: string[]; completed: string[]; attempts: Record<string, number>; mastered: string[]; current: string };
+const blankProgress: Progress = { viewed: [], completed: [], attempts: {}, mastered: [], current: "ch-01" };
+
+function loadProgress(): Progress {
+  try { return { ...blankProgress, ...JSON.parse(localStorage.getItem("escapement-progress") || "null") }; } catch { return blankProgress; }
+}
+
+function chapterBody(chapter: Chapter) {
+  const lines = canonicalBook.split("\n");
+  const marker = `## Chapter ${chapter.number} —`;
+  const start = lines.findIndex((line) => line.startsWith(marker));
+  if (start < 0) return "The canonical chapter text is being prepared for this reader.";
+  const end = lines.findIndex((line, index) => index > start && (line.startsWith("## Chapter ") || line.startsWith("# Part ")));
+  return lines.slice(start, end < 0 ? lines.length : end).join("\n").replace(/^## Chapter[^\n]*\n/, "").trim();
+}
+
+function markdownToBlocks(text: string, sections: { id: string; title: string }[] = []) {
+  return text.split(/\n\s*\n/).filter(Boolean).map((block, index) => {
+    const clean = block.replace(/^#+\s*/, "").trim();
+    if (block.startsWith("- ")) return <ul key={index}>{block.split("\n").map((item) => <li key={item}>{item.replace(/^- /, "")}</li>)}</ul>;
+    if (block.startsWith(">")) return <blockquote key={index}>{clean.replace(/^>\s*/, "")}</blockquote>;
+    if (block.startsWith("|")) return null;
+    if (block.startsWith("### ")) {
+      const title = clean.replace(/^###\s*/, "");
+      const section = sections.find((item) => item.title === title);
+      return <h3 id={section?.id} key={index}>{title}</h3>;
+    }
+    return <p key={index}>{clean}</p>;
+  });
+}
+
 export default function Home() {
-  // The useAuth hook provides authentication state.
-  // To implement login/logout, call logout(), or start login from an event
-  // handler: onClick={() => startLogin()} (imported from "@/const"). Never call
-  // startLogin() during render (no href={startLogin()}) — it mints a one-time
-  // nonce cookie and must run only at the moment of navigation.
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
+  const [location] = useLocation();
+  const [, readParams] = useRoute("/read/:chapter");
+  const [view, setView] = useState<View>(() => location === "/practice" ? "practice" : location === "/progress" ? "progress" : location === "/explore" ? "concepts" : location.startsWith("/read/") ? "book" : "home");
+  const [selectedId, setSelectedId] = useState("ch-01");
+  const [query, setQuery] = useState("");
+  const [progress, setProgress] = useState<Progress>(loadProgress);
+  const [mobileNav, setMobileNav] = useState(false);
+  const [activeExercise, setActiveExercise] = useState<Exercise | null>(null);
+  const [answer, setAnswer] = useState<string | number | number[] | null>(null);
+  const [feedback, setFeedback] = useState<"correct" | "misconception" | null>(null);
+  const [showHint, setShowHint] = useState(false);
+  const [sectionId, setSectionId] = useState("");
+  const [experimentValue, setExperimentValue] = useState(5);
+  const selected = chapters.find((chapter) => chapter.id === selectedId) ?? chapters[0];
+  const viewedChapter = progress.viewed.includes(selected.id);
+  const completion = Math.round((progress.completed.length / chapters.length) * 100);
 
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+  useEffect(() => { localStorage.setItem("escapement-progress", JSON.stringify(progress)); }, [progress]);
+  useEffect(() => {
+    if (readParams?.chapter) {
+      const match = chapters.find((chapter) => chapter.id === readParams.chapter || `ch-${chapter.number}` === readParams.chapter);
+      if (match) setSelectedId(match.id);
+    }
+  }, [readParams?.chapter]);
+  useEffect(() => {
+    if (view !== "book") return;
+    const savedSection = localStorage.getItem(`escapement-section-${selected.id}`) || "";
+    setSectionId(savedSection);
+    setProgress((current) => ({ ...current, current: selected.id, viewed: current.viewed.includes(selected.id) ? current.viewed : [...current.viewed, selected.id] }));
+  }, [view, selected.id]);
+  useEffect(() => {
+    if (view !== "book") return;
+    const save = () => saveReadingPosition(localStorage, selected.id, window.scrollY);
+    window.addEventListener("scroll", save, { passive: true });
+    const saved = restoreReadingPosition(localStorage, selected.id);
+    if (saved > 0) window.setTimeout(() => window.scrollTo({ top: saved }), 80);
+    const savedAnchor = localStorage.getItem(`escapement-section-${selected.id}`);
+    if (savedAnchor) window.setTimeout(() => document.getElementById(savedAnchor)?.scrollIntoView({ behavior: "auto", block: "start" }), 120);
+    return () => window.removeEventListener("scroll", save);
+  }, [view, selected.id]);
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+  const filteredChapters = useMemo(() => chapters.filter((c) => `${c.title} ${c.part} ${c.summary}`.toLowerCase().includes(query.toLowerCase())), [query]);
+  const filteredConcepts = useMemo(() => concepts.filter((c) => `${c.label} ${c.definition}`.toLowerCase().includes(query.toLowerCase())), [query]);
+  const currentIndex = chapters.findIndex((c) => c.id === selected.id);
+  const chapterSections = useMemo(() => sectionizeChapter(chapterBody(selected), selected.id), [selected]);
+  const guidance = authoredChapterGuidance[selected.id];
+  const nextChapter = recommendedChapter(progress.current, progress.completed);
+
+  function openChapter(id: string, section?: string) { setSelectedId(id); setView("book"); setSectionId(section || ""); setMobileNav(false); if (section) localStorage.setItem(`escapement-section-${id}`, section); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  function markComplete() { setProgress((current) => ({ ...current, completed: current.completed.includes(selected.id) ? current.completed : [...current.completed, selected.id] })); }
+  function grade(ex: Exercise) {
+    const attempts = (progress.attempts[ex.id] || 0) + 1;
+    const evaluated = gradeExercise(ex, ex.type === "experiment" ? experimentValue : answer);
+    setProgress((current) => ({ ...current, attempts: { ...current.attempts, [ex.id]: attempts }, mastered: masteryAfterAttempt(current.mastered, ex.id, evaluated.correct) }));
+    setFeedback(evaluated.state);
+  }
+  function resetExercise() { setAnswer(null); setFeedback(null); setShowHint(false); }
+
+  return <div className="app-shell">
+    <header className="topbar">
+      <button className="brand" onClick={() => setView("home")} aria-label="Go to home"><span className="brand-mark">E</span><span><strong>ESCAPEMENT</strong><small>INTERACTIVE LEARNING EDITION</small></span></button>
+      <button className="mobile-menu" onClick={() => setMobileNav(!mobileNav)} aria-label="Toggle navigation">{mobileNav ? <X /> : <Menu />}</button>
+      <nav className={mobileNav ? "nav open" : "nav"} aria-label="Primary navigation">
+        {[ ["book", "Read the book"], ["roadmap", "Roadmap"], ["concepts", "Explore concepts"], ["practice", "Practice"], ["progress", "Your progress"]].map(([id, label]) => <button key={id} className={view === id ? "active" : ""} onClick={() => { setView(id as View); setMobileNav(false); }}>{label}</button>)}
+      </nav>
+      <div className="top-actions"><button className="icon-btn" aria-label="Search" onClick={() => setView("book")}><Search size={18} /></button><button className="progress-pill" onClick={() => setView("progress")}><span>{completion}%</span> journey</button></div>
+    </header>
+
+    {view === "home" && <main>
+      <section className="hero">
+        <div className="hero-copy"><p className="eyebrow">THE BOOK, WITH A BENCH BESIDE IT</p><h1>Learn to read the<br /><em>life</em> inside a watch.</h1><p className="hero-lede">A calm, guided way into horology: read the complete book, test your understanding, and follow the evidence from mainspring to measured result.</p><div className="hero-actions"><button className="primary" onClick={() => openChapter(progress.current)}>Continue the journey <ArrowRight size={17} /></button><button className="text-button" onClick={() => setView("book")}>Browse all 23 chapters</button></div><div className="hero-meta"><span><Timer size={15} /> 6 parts · 23 chapters</span><span><BookOpen size={15} /> 24,500 words</span><span><Target size={15} /> Learn at your pace</span></div></div>
+        <div className="hero-visual"><img src={cover} alt="Macro view of a balance and escapement" /><div className="visual-caption"><span>01 / THE OSCILLATOR</span><strong>Where a claim<br />becomes a number.</strong></div></div>
+      </section>
+      <section className="intro-band"><div><p className="eyebrow">A BOOK + A COURSE + A KNOWLEDGE EXPLORER</p><h2>Good horology rewards<br /><em>patient attention.</em></h2></div><p>Escapement is built around a simple promise: the original book remains the source of truth. The learning layer helps you notice what matters, try a concept, see why an answer works, and return to the exact passage that explains it.</p></section>
+      <section className="path-section"><div className="section-head"><div><p className="eyebrow">CHOOSE YOUR NEXT MOVE</p><h2>A deliberate path through<br />small, precise ideas.</h2></div><button className="text-button" onClick={() => setView("progress")}>View progress <ArrowRight size={16} /></button></div><div className="path-grid"><button className="path-card featured" onClick={() => openChapter(progress.current)}><span className="path-number">01</span><BookOpen /><h3>Continue reading</h3><p>{selected.title}</p><span className="card-link">{viewedChapter ? "Return to your place" : "Begin with foundations"} <ArrowRight size={15} /></span></button><button className="path-card" onClick={() => setView("concepts")}><span className="path-number">02</span><Compass /><h3>Explore the ideas</h3><p>Move from prerequisites to applications through the concept map.</p><span className="card-link">Open explorer <ArrowRight size={15} /></span></button><button className="path-card" onClick={() => setView("practice")}><span className="path-number">03</span><Sparkles /><h3>Test yourself</h3><p>Prediction prompts, sequences, and practical decisions with explanations.</p><span className="card-link">Go to practice <ArrowRight size={15} /></span></button></div></section>
+      <section className="feature-split"><div className="feature-image"><img src={benchImage} alt="Watchmaker working at a clean bench" /></div><div className="feature-copy"><p className="eyebrow">THE LEARNING LAYER</p><h2>Every interaction should earn its place.</h2><p>Not gamification for its own sake. Each activity answers a useful question: can you predict the effect of position, sequence an escapement cycle, or choose the next measurement at the bench?</p><div className="mini-list"><span><strong>01</strong> Read the source passage</span><span><strong>02</strong> Make a prediction</span><span><strong>03</strong> Get a diagnosis, not a red mark</span></div></div></section>
+      <section className="quote-band"><img src={diagram} alt="Diagram showing a claim becoming a measurement" /><blockquote>“A number is only useful when you can say what was measured, under which conditions, and why it matters.”</blockquote></section>
+    </main>}
+
+    {view === "book" && <main className="reader-layout"><aside className="library"><div className="library-title"><p className="eyebrow">THE CANONICAL BOOK</p><h2>Chapter library</h2></div><label className="search-box"><Search size={16} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search chapters…" /></label><div className="chapter-list">{filteredChapters.map((chapter) => <button key={chapter.id} className={chapter.id === selected.id ? "chapter-item selected" : "chapter-item"} onClick={() => openChapter(chapter.id)}><span className="chapter-dot" style={{ background: partColors[chapter.part] }}></span><span><small>{String(chapter.number).padStart(2, "0")} · {chapter.part}</small><strong>{chapter.title}</strong></span>{progress.completed.includes(chapter.id) && <Check size={15} className="completed" />}</button>)}</div></aside><article className="reader"><div className="reader-top"><span className="eyebrow">PART {Math.ceil(selected.number / 4)} · {selected.part.toUpperCase()}</span><span>{currentIndex + 1} / {chapters.length}</span></div><h1>{selected.title}</h1><p className="reader-deck">{selected.summary}</p><div className="guidance-grid"><div><span className="label">OBJECTIVES</span>{selected.objectives.map((x) => <p key={x}>↗ {x}</p>)}</div><div><span className="label">BEFORE YOU BEGIN</span><p>{selected.prerequisites[0]}</p><span className="label effort"><Timer size={14} /> {selected.minutes} min read</span></div></div><div className="concept-row"><span className="label">CONCEPTS IN THIS CHAPTER</span>{selected.concepts.map((x) => <button key={x} onClick={() => { setQuery(x); setView("concepts"); }}>{x}</button>)}</div>{chapterSections.length > 0 && <nav className="section-toc" aria-label="Chapter sections"><span className="label">IN THIS CHAPTER</span>{chapterSections.map((section) => <button key={section.id} onClick={() => { setSectionId(section.id); localStorage.setItem(`escapement-section-${selected.id}`, section.id); document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" }); }}>{section.title}</button>)}</nav>}<div className="chapter-guidance"><div><span className="label">KEY IDEA</span><p>{selected.summary}</p></div><div><span className="label">WHY THIS MATTERS</span><p>{guidance.explanation}</p></div><div><span className="label">NEXT STEP</span><p>{guidance.nextStep}</p></div></div><div className="reader-content">{markdownToBlocks(chapterBody(selected), chapterSections)}</div><div className="chapter-check"><div><span className="eyebrow">BEFORE YOU LEAVE THIS CHAPTER</span><h3>Can you explain the idea in your own words?</h3><p>Mark this chapter complete when you can connect its central claim to a measurement, mechanism, or decision.</p></div><button className={progress.completed.includes(selected.id) ? "complete-button done" : "complete-button"} onClick={markComplete}>{progress.completed.includes(selected.id) ? <><Check size={17} /> Completed</> : <>Mark complete <ArrowRight size={16} /></>}</button></div><div className="reader-nav"><button disabled={currentIndex <= 0} onClick={() => openChapter(chapters[currentIndex - 1].id)}><ChevronLeft size={16} /> Previous</button><button disabled={currentIndex >= chapters.length - 1} onClick={() => openChapter(chapters[currentIndex + 1].id)}>Next chapter <ChevronRight size={16} /></button></div></article></main>}
+
+    {view === "concepts" && <main className="explorer-page"><div className="page-intro"><p className="eyebrow">NON-LINEAR EXPLORATION</p><h1>Follow the thread<br /><em>between ideas.</em></h1><p>Concepts are the connective tissue of the book. Start with a definition, see what it depends on, then return to the chapter where the author develops it.</p><label className="search-box wide"><Search size={17} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search concepts, definitions, or chapters…" /></label></div><div className="concept-map"><div className="map-line"></div><div className="map-node root"><span>FOUNDATION</span><strong>Rate & precision</strong></div><div className="map-node mid"><span>MECHANISM</span><strong>Escapement</strong></div><div className="map-node end"><span>PROOF</span><strong>Chronometer</strong></div></div><div className="concept-grid">{filteredConcepts.map((concept) => <article className="concept-card" key={concept.id}><div className="concept-card-top"><span className="concept-index">{String(concepts.indexOf(concept) + 1).padStart(2, "0")}</span><Link2 size={16} /></div><h3>{concept.label}</h3><p>{concept.definition}</p><div className="concept-footer"><span>Chapter {chapters.find((c) => c.id === concept.chapterId)?.number}</span><button onClick={() => openChapter(concept.chapterId)}>Read context <ArrowRight size={14} /></button></div></article>)}</div></main>}
+
+    {view === "practice" && <main className="practice-page"><div className="page-intro compact"><p className="eyebrow">PRACTICE WITH FEEDBACK</p><h1>Make a prediction.<br /><em>Then inspect the result.</em></h1><p>These checkpoints are small on purpose. A useful answer changes what you notice in the next passage.</p></div><div className="practice-grid">{exercises.map((ex, index) => <article className="exercise-card" key={ex.id}><div className="exercise-meta"><span>CHECKPOINT 0{index + 1}</span><span>{ex.type === "choice" ? "MULTIPLE CHOICE" : ex.type === "sequence" ? "SEQUENCE" : ex.type === "classification" ? "CLASSIFICATION" : "EXPERIMENT"}</span></div><h2>{ex.prompt}</h2>{ex.type === "choice" && <div className="options">{ex.options?.map((option, i) => <button key={option} className={answer === i ? "option chosen" : "option"} onClick={() => { setActiveExercise(ex); setAnswer(i); setFeedback(null); }}>{String.fromCharCode(65 + i)} <span>{option}</span></button>)}</div>}{ex.type === "sequence" && <div className="options">{ex.options?.map((option, i) => <button key={option} className={Array.isArray(answer) && answer.includes(i) ? "option chosen" : "option"} onClick={() => { setActiveExercise(ex); setAnswer([...(Array.isArray(answer) ? answer : []), i]); setFeedback(null); }}>{i + 1} <span>{option}</span></button>)}</div>}{ex.type === "classification" && <div className="options">{ex.options?.map((option, i) => <button key={option} className={Array.isArray(answer) && answer[i] !== undefined ? "option chosen" : "option"} onClick={() => { const next = Array.isArray(answer) ? [...answer] : []; next[i] = next[i] === 0 ? 1 : 0; setActiveExercise(ex); setAnswer(next); setFeedback(null); }}>{i + 1} <span>{option} — {Array.isArray(answer) && answer[i] === 1 ? "regulated motion" : "stored energy"}</span></button>)}</div>}{ex.type === "experiment" && <div className="experiment-input"><label htmlFor="amplitude-slider">Adjust the observed positional spread: <strong>{experimentValue} s/d</strong></label><input id="amplitude-slider" type="range" min="0" max="12" value={experimentValue} onChange={(e) => { setExperimentValue(Number(e.target.value)); setAnswer(Number(e.target.value)); setFeedback(null); }} /><output className={`experiment-result ${experimentResult(experimentValue).tone}`}><strong>{experimentResult(experimentValue).label}</strong><span>{experimentResult(experimentValue).guidance}</span></output></div>}<div className="exercise-actions"><button className="primary small" onClick={() => { setActiveExercise(ex); grade(ex); }}>Check answer</button><button className="hint-button" onClick={() => { setActiveExercise(ex); setShowHint(!showHint); }}><Lightbulb size={15} /> Hint</button>{feedback && activeExercise?.id === ex.id && <button className="reset-button" onClick={resetExercise}><RotateCcw size={15} /> Retry</button>}</div>{showHint && activeExercise?.id === ex.id && <div className="hint-box"><Lightbulb size={15} /> {ex.hint}</div>}{feedback && activeExercise?.id === ex.id && <div className={feedback === "correct" ? "feedback correct" : "feedback misconception"}><strong>{feedback === "correct" ? "Good reading." : "Misconception to inspect."}</strong><p>{feedback === "correct" ? (ex.type === "experiment" ? experimentResult(experimentValue).guidance : ex.explanation) : (ex.type === "experiment" ? experimentResult(experimentValue).guidance : `${ex.misconception} ${ex.hint}`)}</p>{feedback !== "correct" && <button onClick={() => { const source = sourceAnchorFor(ex.id) || `${ex.chapterId}-section-1`; openChapter(ex.chapterId, source); }}>Return to source passage <ArrowRight size={14} /></button>}</div>}</article>)}</div></main>}
+
+    {view === "progress" && <main className="progress-page"><div className="progress-hero"><div><p className="eyebrow">YOUR LEARNING STATE</p><h1>Progress is a<br /><em>place to begin.</em></h1><p>Use this page as a quiet orientation point, not a scoreboard. The next step is the one that makes the book more useful.</p></div><div className="progress-ring"><strong>{completion}%</strong><span>complete</span></div></div><div className="stats-grid"><div><span>CHAPTERS VIEWED</span><strong>{progress.viewed.length}<small> / {chapters.length}</small></strong></div><div><span>CHAPTERS COMPLETED</span><strong>{progress.completed.length}<small> / {chapters.length}</small></strong></div><div><span>EXERCISES MASTERED</span><strong>{progress.mastered.length}<small> / {exercises.length}</small></strong></div></div><section className="next-step"><div><p className="eyebrow">RECOMMENDED NEXT STEP</p><h2>{nextChapter.title}</h2><p>{progress.completed.includes(progress.current) ? "You have completed this chapter. Continue to the next idea when you are ready." : "Return to your current chapter and look for the sentence that turns an observation into a test."}</p></div><button className="primary" onClick={() => openChapter(nextChapter.id)}>Continue <ArrowRight size={17} /></button></section><section className="progress-list"><div className="section-head"><div><p className="eyebrow">THE FULL JOURNEY</p><h2>Six parts, one connected practice.</h2></div><span>{progress.completed.length} of {chapters.length} complete</span></div>{chapters.map((chapter) => <button className="progress-row" key={chapter.id} onClick={() => openChapter(chapter.id)}><span className="row-number">{String(chapter.number).padStart(2, "0")}</span><span className="row-title"><small>{chapter.part}</small>{chapter.title}</span><span className={progress.completed.includes(chapter.id) ? "row-status done" : "row-status"}>{progress.completed.includes(chapter.id) ? <Check size={15} /> : ""}</span></button>)}</section></main>}
+
+    {view === "roadmap" && <main className="roadmap-page"><div className="page-intro compact"><p className="eyebrow">THE LEARNING ROADMAP</p><h1>From first principles<br /><em>to measured judgment.</em></h1><p>Six connected parts move from the difficulty of equal seconds to the future of standards. Take the linear path or enter anywhere through the chapter library.</p></div><div className="roadmap-list">{Array.from(new Set(chapters.map((c) => c.part))).map((part, i) => <section className="roadmap-part" key={part}><span className="part-number">0{i + 1}</span><div><span className="eyebrow">PART {i + 1}</span><h2>{part}</h2><p>{chapters.filter((c) => c.part === part).map((c) => c.title).join(" · ")}</p></div><button className="primary small" onClick={() => openChapter(chapters.find((c) => c.part === part)?.id || "ch-01")}>Enter part <ArrowRight size={15} /></button></section>)}</div></main>}
+
+    {view === "references" && <main className="explorer-page"><div className="page-intro compact"><p className="eyebrow">REFERENCE DESK</p><h1>Sources for<br /><em>careful claims.</em></h1><p>The learning layer keeps the book’s evidence close to the reading experience. Return to the standards chapters for context and consult the primary organizations before practice.</p></div><div className="reference-list"><article><span className="reference-number">01</span><div><h2>COSC</h2><p>Official certification information, test scope, and published chronometer criteria.</p><a href="https://www.cosc.swiss" target="_blank" rel="noreferrer">cosc.swiss <ArrowRight size={14} /></a></div></article><article><span className="reference-number">02</span><div><h2>METAS</h2><p>Institutional metrology context for finished-watch and magnetic-resistance claims.</p><a href="https://www.metas.ch" target="_blank" rel="noreferrer">metas.ch <ArrowRight size={14} /></a></div></article><article><span className="reference-number">03</span><div><h2>Return to the book</h2><p>Read the chapters where measurement scope, testing, and evidence are treated in detail.</p><button onClick={() => openChapter("ch-12")}>Open standards <ArrowRight size={14} /></button></div></article></div></main>}
+
+    {view === "glossary" && <main className="explorer-page"><div className="page-intro compact"><p className="eyebrow">REFERENCE DESK</p><h1>Glossary &<br /><em>source notes.</em></h1><p>Keep the working vocabulary close. Every definition points back to a chapter where the term does real work.</p></div><div className="concept-grid">{concepts.map((concept) => <article className="concept-card" key={concept.id}><h3>{concept.label}</h3><p>{concept.definition}</p><div className="concept-footer"><span>Source chapter {chapters.find((c) => c.id === concept.chapterId)?.number}</span><button onClick={() => openChapter(concept.chapterId)}>Open chapter <ArrowRight size={14} /></button></div></article>)}</div></main>}
+
+    <footer className="footer"><div><span className="brand-mark">E</span><strong>ESCAPEMENT</strong></div><p>The Interactive Learning Edition · The canonical book by Hicham Bedrani</p><div className="footer-links"><button onClick={() => setView("roadmap")}>Roadmap</button><button onClick={() => setView("glossary")}>Glossary</button><button onClick={() => setView("references")}>References</button><button onClick={() => setView("concepts")}>Concept explorer</button><button onClick={() => setView("progress")}>Progress</button></div></footer>
+  </div>;
 }

@@ -1,0 +1,24 @@
+{
+  "id": "replace-with-book-id",
+  "title": "Book title",
+  "author": "Author name",
+  "language": "en",
+  "sourceVersion": "1.0.0",
+  "sourcePath": "content/book.md",
+  "chapters": "content/chapters.json",
+  "concepts": "content/concepts.json",
+  "activities": "content/activities.json",
+  "references": "content/references.json",
+  "visualTheme": {
+    "direction": "calm editorial",
+    "primaryInk": "#17384A",
+    "paper": "#F6F3ED",
+    "accent": "#B97A43",
+    "displayFont": "serif",
+    "bodyFont": "serif"
+  },
+  "progress": {
+    "anonymousStorageKey": "book-id-progress",
+    "remoteTable": "learner_progress"
+  }
+}

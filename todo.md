@@ -40,3 +40,43 @@
 
 - [x] Add a test that resolves an exercise to its exact reader section anchor
 - [x] Add learner-state flow tests for reading-position restore, attempt count, mastery, and misconception feedback
+
+- [x] Add database-backed account progress records scoped to the authenticated user
+- [x] Add progress read, upsert, and merge procedures with safe anonymous fallback
+- [x] Sync viewed chapters, completed chapters, attempts, mastery, and current position across devices
+- [x] Add sign-in and sync status affordances without blocking public reading
+- [x] Expand practice with chapter-specific activities across the canonical book
+- [x] Add activity metadata, validation rules, feedback, hints, and source anchors for new exercises
+- [x] Add reusable content configuration for future books without hardcoding Escapement-specific routes
+- [x] Create a reusable implementation program, schemas, prompts, QA gates, and operating procedures for interactive book learning editions
+- [x] Add tests for authenticated progress sync, merge behavior, expanded activities, and reusable configuration
+- [x] Run typecheck, tests, visual verification, and save a delivery checkpoint
+
+- [x] Sync saved scroll and section position through the authenticated progress snapshot and restore it across devices
+- [x] Add validation, feedback, hint, and exact source-anchor records for every new exercise
+- [x] Refactor runtime content loading through a reusable book configuration layer
+- [x] Add formal JSON schemas and reusable prompt templates to the implementation program
+- [x] Add tests for protected progress procedures, new exercises, and reusable package validation
+- [x] Save a fresh checkpoint after validating the upgraded feature set
+
+- [x] Restore remote section anchors from the synchronized progress snapshot on another device
+- [x] Make the reader’s canonical source and metadata resolve through the reusable book configuration layer
+- [x] Add authenticated progress upsert and expanded-activity grading coverage
+- [x] Add executable validation coverage for the reusable schema/program package
+- [x] Save a fresh checkpoint for the upgraded scope
+
+- [x] Use the synchronized section id for actual anchor scrolling and test cross-device restore
+- [x] Move chapter metadata behind the reusable content configuration boundary
+- [x] Add authenticated upsert/sync test coverage without destructive fixture data
+- [x] Execute the reusable validator against pass and fail fixtures
+- [x] Save a new checkpoint for the upgraded scope passes validation
+
+- [x] Test synchronized section-anchor restoration explicitly
+- [x] Add authenticated successful progress upsert/sync coverage without destructive fixtures
+- [x] Test validator rejection of an invalid package
+- [x] Save a fresh checkpoint for the final upgraded scope
+
+- [x] Add an explicit authenticated sync-flow test covering remote read, local merge, and restored synchronized progress
+- [x] Save a new webdev checkpoint after the final upgraded-scope validation
+
+- [x] Save a fresh checkpoint after the final upgraded-scope changes, using the validated state

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/interactive-book-learning-edition/content.schema.json",
+  "title": "Interactive Book Learning Edition Content",
+  "type": "object",
+  "required": ["book", "chapters", "concepts", "activities", "references"],
+  "properties": {
+    "book": { "$ref": "#/$defs/book" },
+    "chapters": { "type": "array", "items": { "$ref": "#/$defs/chapter" }, "minItems": 1 },
+    "concepts": { "type": "array", "items": { "$ref": "#/$defs/concept" } },
+    "activities": { "type": "array", "items": { "$ref": "#/$defs/activity" } },
+    "references": { "type": "array", "items": { "type": "object", "required": ["id", "title", "url"], "properties": { "id": { "type": "string" }, "title": { "type": "string" }, "url": { "type": "string", "format": "uri" } } } }
+  },
+  "$defs": {
+    "book": { "type": "object", "required": ["id", "title", "author", "language", "sourceVersion"], "properties": { "id": { "type": "string" }, "title": { "type": "string" }, "author": { "type": "string" }, "language": { "type": "string" }, "sourceVersion": { "type": "string" } } },
+    "chapter": { "type": "object", "required": ["id", "number", "title", "summary", "objectives", "prerequisites", "minutes"], "properties": { "id": { "type": "string" }, "number": { "type": "integer", "minimum": 1 }, "title": { "type": "string" }, "summary": { "type": "string" }, "objectives": { "type": "array", "items": { "type": "string" } }, "prerequisites": { "type": "array", "items": { "type": "string" } }, "minutes": { "type": "integer", "minimum": 1 } } },
+    "concept": { "type": "object", "required": ["id", "label", "definition", "chapterId"], "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "definition": { "type": "string" }, "chapterId": { "type": "string" }, "prerequisites": { "type": "array", "items": { "type": "string" } } } },
+    "activity": { "type": "object", "required": ["id", "type", "chapterId", "prompt", "answer", "explanation", "misconception", "hint", "sourceAnchor"], "properties": { "id": { "type": "string" }, "type": { "enum": ["choice", "sequence", "classification", "experiment", "prediction"] }, "chapterId": { "type": "string" }, "prompt": { "type": "string" }, "answer": {}, "explanation": { "type": "string" }, "misconception": { "type": "string" }, "hint": { "type": "string" }, "sourceAnchor": { "type": "string" } } }
+  }
+}

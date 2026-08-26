@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { chapters, exercises, completionPercent, gradeExercise, searchChapters, experimentResult, recommendedChapter, readingPositionKey, saveReadingPosition, restoreReadingPosition, masteryAfterAttempt, sourceAnchorFor, learnerStateAfterAttempt } from "../client/src/content/model";
+import { chapters, exercises, completionPercent, gradeExercise, searchChapters, experimentResult, recommendedChapter, readingPositionKey, saveReadingPosition, restoreReadingPosition, masteryAfterAttempt, sourceAnchorFor, learnerStateAfterAttempt, mergeProgressStates, restoreSectionPosition } from "../client/src/content/model";
 
 describe("learning model", () => {
   it("returns explanatory feedback for correct answers", () => {
@@ -41,6 +41,10 @@ describe("learning model", () => {
     expect(readingPositionKey("ch-07")).toBe("escapement-scroll-ch-07");
   });
 
+  it("restores a synchronized section anchor from remote progress", () => {
+    expect(restoreSectionPosition({ viewed: [], completed: [], attempts: {}, mastered: [], current: "ch-05", positions: { "ch-05": { scrollY: 420, sectionId: "ch-05-section-2" } } }, "ch-05")).toBe("ch-05-section-2");
+  });
+
   it("adds mastery only after a correct attempt and never duplicates it", () => {
     expect(masteryAfterAttempt([], "ex-rate", false)).toEqual([]);
     expect(masteryAfterAttempt([], "ex-rate", true)).toEqual(["ex-rate"]);
@@ -52,6 +56,15 @@ describe("learning model", () => {
     const adapter = { setItem: (key: string, value: string) => storage.set(key, value), getItem: (key: string) => storage.get(key) ?? null };
     saveReadingPosition(adapter, "ch-05", 842.7);
     expect(restoreReadingPosition(adapter, "ch-05")).toBe(843);
+  });
+
+  it("merges local and remote progress without losing attempts or completions", () => {
+    const merged = mergeProgressStates({ viewed: ["ch-01"], completed: [], attempts: { "ex-rate": 1 }, mastered: [], current: "ch-01", positions: {} }, { viewed: ["ch-02"], completed: ["ch-02"], attempts: { "ex-rate": 3 }, mastered: ["ex-rate"], current: "ch-02", positions: { "ch-02": { scrollY: 300, sectionId: "ch-02-section-1" } } });
+    expect(merged.viewed).toEqual(["ch-01", "ch-02"]);
+    expect(merged.completed).toEqual(["ch-02"]);
+    expect(merged.attempts["ex-rate"]).toBe(3);
+    expect(merged.mastered).toEqual(["ex-rate"]);
+    expect(merged.current).toBe("ch-02");
   });
 
   it("resolves exact source anchors and updates learner state after grading", () => {

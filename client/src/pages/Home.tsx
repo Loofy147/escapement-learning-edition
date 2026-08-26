@@ -1,8 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useRoute } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { startLogin } from "@/const";
+import { trpc } from "@/lib/trpc";
 import { ArrowRight, BookOpen, Check, ChevronLeft, ChevronRight, Compass, Search, Sparkles, Target, Timer, RotateCcw, Lightbulb, Link2, Menu, X } from "lucide-react";
-import canonicalBook from "../content/book.md?raw";
-import { chapters, concepts, exercises, partColors, sectionizeChapter, gradeExercise, experimentResult, authoredChapterGuidance, feedbackLibrary, sourceAnchorFor, readingPositionKey, saveReadingPosition, restoreReadingPosition, masteryAfterAttempt, learnerStateAfterAttempt, recommendedChapter, type Chapter, type Exercise } from "../content/model";
+import { bookConfig, bookChapters, bookConcepts, bookExercises, bookPartColors } from "../content/book.config";
+import { sectionizeChapter, gradeExercise, experimentResult, authoredChapterGuidance, feedbackLibrary, sourceAnchorFor, readingPositionKey, saveReadingPosition, restoreReadingPosition, restoreSectionPosition, masteryAfterAttempt, learnerStateAfterAttempt, mergeProgressStates, recommendedChapter, type Chapter, type Exercise } from "../content/model";
+const chapters = bookChapters;
+const concepts = bookConcepts;
+const exercises = bookExercises;
+const partColors = bookPartColors;
 
 const cover = "/manus-storage/cover-art_f5bf4d3e.jpg";
 const escapementImage = "/manus-storage/escapement-macro_92bf54e9.jpg";
@@ -10,15 +17,16 @@ const benchImage = "/manus-storage/watchmaker-bench_6e1308e1.jpg";
 const diagram = "/manus-storage/claim-to-measurement_3a0b1f2c.png";
 
 type View = "home" | "book" | "concepts" | "practice" | "progress" | "glossary" | "roadmap" | "references";
-type Progress = { viewed: string[]; completed: string[]; attempts: Record<string, number>; mastered: string[]; current: string };
-const blankProgress: Progress = { viewed: [], completed: [], attempts: {}, mastered: [], current: "ch-01" };
+type Progress = { viewed: string[]; completed: string[]; attempts: Record<string, number>; mastered: string[]; current: string; positions: Record<string, { scrollY: number; sectionId: string }> };
+const blankProgress: Progress = { viewed: [], completed: [], attempts: {}, mastered: [], current: "ch-01", positions: {} };
 
 function loadProgress(): Progress {
-  try { return { ...blankProgress, ...JSON.parse(localStorage.getItem("escapement-progress") || "null") }; } catch { return blankProgress; }
+  try { return { ...blankProgress, ...JSON.parse(localStorage.getItem(bookConfig.anonymousProgressKey) || "null") }; } catch { return blankProgress; }
 }
 
+
 function chapterBody(chapter: Chapter) {
-  const lines = canonicalBook.split("\n");
+  const lines = bookConfig.source.split("\\n");
   const marker = `## Chapter ${chapter.number} —`;
   const start = lines.findIndex((line) => line.startsWith(marker));
   if (start < 0) return "The canonical chapter text is being prepared for this reader.";
@@ -48,6 +56,9 @@ export default function Home() {
   const [selectedId, setSelectedId] = useState("ch-01");
   const [query, setQuery] = useState("");
   const [progress, setProgress] = useState<Progress>(loadProgress);
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
+  const remoteProgress = trpc.progress.get.useQuery(undefined, { enabled: isAuthenticated, staleTime: 60_000 });
+  const syncProgress = trpc.progress.upsert.useMutation();
   const [mobileNav, setMobileNav] = useState(false);
   const [activeExercise, setActiveExercise] = useState<Exercise | null>(null);
   const [answer, setAnswer] = useState<string | number | number[] | null>(null);
@@ -58,8 +69,19 @@ export default function Home() {
   const selected = chapters.find((chapter) => chapter.id === selectedId) ?? chapters[0];
   const viewedChapter = progress.viewed.includes(selected.id);
   const completion = Math.round((progress.completed.length / chapters.length) * 100);
+  const syncedSection = progress.positions[selected.id]?.sectionId || "";
 
-  useEffect(() => { localStorage.setItem("escapement-progress", JSON.stringify(progress)); }, [progress]);
+  useEffect(() => { localStorage.setItem(bookConfig.anonymousProgressKey, JSON.stringify(progress)); }, [progress]);
+  useEffect(() => {
+    const state = remoteProgress.data?.state;
+    if (!state) return;
+    try { setProgress((current) => mergeProgressStates(current, JSON.parse(state))); } catch { /* preserve local progress if a legacy snapshot is malformed */ }
+  }, [remoteProgress.data?.state]);
+  useEffect(() => {
+    if (!isAuthenticated || authLoading) return;
+    const timer = window.setTimeout(() => syncProgress.mutate({ state: JSON.stringify(progress) }), 500);
+    return () => window.clearTimeout(timer);
+  }, [progress, isAuthenticated, authLoading]);
   useEffect(() => {
     if (readParams?.chapter) {
       const match = chapters.find((chapter) => chapter.id === readParams.chapter || `ch-${chapter.number}` === readParams.chapter);
@@ -68,20 +90,20 @@ export default function Home() {
   }, [readParams?.chapter]);
   useEffect(() => {
     if (view !== "book") return;
-    const savedSection = localStorage.getItem(`escapement-section-${selected.id}`) || "";
+    const savedSection = syncedSection || localStorage.getItem(`escapement-section-${selected.id}`) || "";
     setSectionId(savedSection);
-    setProgress((current) => ({ ...current, current: selected.id, viewed: current.viewed.includes(selected.id) ? current.viewed : [...current.viewed, selected.id] }));
-  }, [view, selected.id]);
+    setProgress((current) => ({ ...current, current: selected.id, viewed: current.viewed.includes(selected.id) ? current.viewed : [...current.viewed, selected.id], positions: current.positions || {} }));
+  }, [view, selected.id, syncedSection]);
   useEffect(() => {
     if (view !== "book") return;
-    const save = () => saveReadingPosition(localStorage, selected.id, window.scrollY);
+    const save = () => { saveReadingPosition(localStorage, selected.id, window.scrollY); setProgress((current) => ({ ...current, positions: { ...current.positions, [selected.id]: { scrollY: Math.round(window.scrollY), sectionId: current.positions[selected.id]?.sectionId || sectionId } } })); };
     window.addEventListener("scroll", save, { passive: true });
-    const saved = restoreReadingPosition(localStorage, selected.id);
+    const saved = progress.positions[selected.id]?.scrollY || restoreReadingPosition(localStorage, selected.id);
     if (saved > 0) window.setTimeout(() => window.scrollTo({ top: saved }), 80);
-    const savedAnchor = localStorage.getItem(`escapement-section-${selected.id}`);
+    const savedAnchor = restoreSectionPosition(progress, selected.id) || localStorage.getItem(`escapement-section-${selected.id}`);
     if (savedAnchor) window.setTimeout(() => document.getElementById(savedAnchor)?.scrollIntoView({ behavior: "auto", block: "start" }), 120);
     return () => window.removeEventListener("scroll", save);
-  }, [view, selected.id]);
+  }, [view, selected.id, syncedSection, remoteProgress.data?.state]);
 
   const filteredChapters = useMemo(() => chapters.filter((c) => `${c.title} ${c.part} ${c.summary}`.toLowerCase().includes(query.toLowerCase())), [query]);
   const filteredConcepts = useMemo(() => concepts.filter((c) => `${c.label} ${c.definition}`.toLowerCase().includes(query.toLowerCase())), [query]);
@@ -107,12 +129,12 @@ export default function Home() {
       <nav className={mobileNav ? "nav open" : "nav"} aria-label="Primary navigation">
         {[ ["book", "Read the book"], ["roadmap", "Roadmap"], ["concepts", "Explore concepts"], ["practice", "Practice"], ["progress", "Your progress"]].map(([id, label]) => <button key={id} className={view === id ? "active" : ""} onClick={() => { setView(id as View); setMobileNav(false); }}>{label}</button>)}
       </nav>
-      <div className="top-actions"><button className="icon-btn" aria-label="Search" onClick={() => setView("book")}><Search size={18} /></button><button className="progress-pill" onClick={() => setView("progress")}><span>{completion}%</span> journey</button></div>
+      <div className="top-actions"><button className="icon-btn" aria-label="Search" onClick={() => setView("book")}><Search size={18} /></button><button className="progress-pill" onClick={() => setView("progress")}><span>{completion}%</span> journey</button>{isAuthenticated ? <span className="sync-status" title="Progress syncs across your devices"><span className="sync-dot"></span>{user?.name || "Synced"}</span> : <button className="sync-button" onClick={() => startLogin()}>Sign in to sync</button>}</div>
     </header>
 
     {view === "home" && <main>
       <section className="hero">
-        <div className="hero-copy"><p className="eyebrow">THE BOOK, WITH A BENCH BESIDE IT</p><h1>Learn to read the<br /><em>life</em> inside a watch.</h1><p className="hero-lede">A calm, guided way into horology: read the complete book, test your understanding, and follow the evidence from mainspring to measured result.</p><div className="hero-actions"><button className="primary" onClick={() => openChapter(progress.current)}>Continue the journey <ArrowRight size={17} /></button><button className="text-button" onClick={() => setView("book")}>Browse all 23 chapters</button></div><div className="hero-meta"><span><Timer size={15} /> 6 parts · 23 chapters</span><span><BookOpen size={15} /> 24,500 words</span><span><Target size={15} /> Learn at your pace</span></div></div>
+        <div className="hero-copy"><p className="eyebrow">THE BOOK, WITH A BENCH BESIDE IT</p><h1>Learn to read the<br /><em>life</em> inside a watch.</h1><p className="hero-lede">A calm, guided way into horology: read the complete book, test your understanding, and follow the evidence from mainspring to measured result.</p><div className="hero-actions"><button className="primary" onClick={() => openChapter(progress.current)}>Continue the journey <ArrowRight size={17} /></button><button className="text-button" onClick={() => setView("book")}>Browse all 23 chapters</button></div><div className="hero-meta"><span><Timer size={15} /> 6 parts · {bookConfig.chapterCount} chapters</span><span><BookOpen size={15} /> 24,500 words</span><span><Target size={15} /> Learn at your pace</span></div></div>
         <div className="hero-visual"><img src={cover} alt="Macro view of a balance and escapement" /><div className="visual-caption"><span>01 / THE OSCILLATOR</span><strong>Where a claim<br />becomes a number.</strong></div></div>
       </section>
       <section className="intro-band"><div><p className="eyebrow">A BOOK + A COURSE + A KNOWLEDGE EXPLORER</p><h2>Good horology rewards<br /><em>patient attention.</em></h2></div><p>Escapement is built around a simple promise: the original book remains the source of truth. The learning layer helps you notice what matters, try a concept, see why an answer works, and return to the exact passage that explains it.</p></section>
@@ -121,7 +143,7 @@ export default function Home() {
       <section className="quote-band"><img src={diagram} alt="Diagram showing a claim becoming a measurement" /><blockquote>“A number is only useful when you can say what was measured, under which conditions, and why it matters.”</blockquote></section>
     </main>}
 
-    {view === "book" && <main className="reader-layout"><aside className="library"><div className="library-title"><p className="eyebrow">THE CANONICAL BOOK</p><h2>Chapter library</h2></div><label className="search-box"><Search size={16} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search chapters…" /></label><div className="chapter-list">{filteredChapters.map((chapter) => <button key={chapter.id} className={chapter.id === selected.id ? "chapter-item selected" : "chapter-item"} onClick={() => openChapter(chapter.id)}><span className="chapter-dot" style={{ background: partColors[chapter.part] }}></span><span><small>{String(chapter.number).padStart(2, "0")} · {chapter.part}</small><strong>{chapter.title}</strong></span>{progress.completed.includes(chapter.id) && <Check size={15} className="completed" />}</button>)}</div></aside><article className="reader"><div className="reader-top"><span className="eyebrow">PART {Math.ceil(selected.number / 4)} · {selected.part.toUpperCase()}</span><span>{currentIndex + 1} / {chapters.length}</span></div><h1>{selected.title}</h1><p className="reader-deck">{selected.summary}</p><div className="guidance-grid"><div><span className="label">OBJECTIVES</span>{selected.objectives.map((x) => <p key={x}>↗ {x}</p>)}</div><div><span className="label">BEFORE YOU BEGIN</span><p>{selected.prerequisites[0]}</p><span className="label effort"><Timer size={14} /> {selected.minutes} min read</span></div></div><div className="concept-row"><span className="label">CONCEPTS IN THIS CHAPTER</span>{selected.concepts.map((x) => <button key={x} onClick={() => { setQuery(x); setView("concepts"); }}>{x}</button>)}</div>{chapterSections.length > 0 && <nav className="section-toc" aria-label="Chapter sections"><span className="label">IN THIS CHAPTER</span>{chapterSections.map((section) => <button key={section.id} onClick={() => { setSectionId(section.id); localStorage.setItem(`escapement-section-${selected.id}`, section.id); document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" }); }}>{section.title}</button>)}</nav>}<div className="chapter-guidance"><div><span className="label">KEY IDEA</span><p>{selected.summary}</p></div><div><span className="label">WHY THIS MATTERS</span><p>{guidance.explanation}</p></div><div><span className="label">NEXT STEP</span><p>{guidance.nextStep}</p></div></div><div className="reader-content">{markdownToBlocks(chapterBody(selected), chapterSections)}</div><div className="chapter-check"><div><span className="eyebrow">BEFORE YOU LEAVE THIS CHAPTER</span><h3>Can you explain the idea in your own words?</h3><p>Mark this chapter complete when you can connect its central claim to a measurement, mechanism, or decision.</p></div><button className={progress.completed.includes(selected.id) ? "complete-button done" : "complete-button"} onClick={markComplete}>{progress.completed.includes(selected.id) ? <><Check size={17} /> Completed</> : <>Mark complete <ArrowRight size={16} /></>}</button></div><div className="reader-nav"><button disabled={currentIndex <= 0} onClick={() => openChapter(chapters[currentIndex - 1].id)}><ChevronLeft size={16} /> Previous</button><button disabled={currentIndex >= chapters.length - 1} onClick={() => openChapter(chapters[currentIndex + 1].id)}>Next chapter <ChevronRight size={16} /></button></div></article></main>}
+    {view === "book" && <main className="reader-layout"><aside className="library"><div className="library-title"><p className="eyebrow">THE CANONICAL BOOK</p><h2>Chapter library</h2></div><label className="search-box"><Search size={16} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search chapters…" /></label><div className="chapter-list">{filteredChapters.map((chapter) => <button key={chapter.id} className={chapter.id === selected.id ? "chapter-item selected" : "chapter-item"} onClick={() => openChapter(chapter.id)}><span className="chapter-dot" style={{ background: partColors[chapter.part] }}></span><span><small>{String(chapter.number).padStart(2, "0")} · {chapter.part}</small><strong>{chapter.title}</strong></span>{progress.completed.includes(chapter.id) && <Check size={15} className="completed" />}</button>)}</div></aside><article className="reader"><div className="reader-top"><span className="eyebrow">PART {Math.ceil(selected.number / 4)} · {selected.part.toUpperCase()}</span><span>{currentIndex + 1} / {chapters.length}</span></div><h1>{selected.title}</h1><p className="reader-deck">{selected.summary}</p><div className="guidance-grid"><div><span className="label">OBJECTIVES</span>{selected.objectives.map((x) => <p key={x}>↗ {x}</p>)}</div><div><span className="label">BEFORE YOU BEGIN</span><p>{selected.prerequisites[0]}</p><span className="label effort"><Timer size={14} /> {selected.minutes} min read</span></div></div><div className="concept-row"><span className="label">CONCEPTS IN THIS CHAPTER</span>{selected.concepts.map((x) => <button key={x} onClick={() => { setQuery(x); setView("concepts"); }}>{x}</button>)}</div>{chapterSections.length > 0 && <nav className="section-toc" aria-label="Chapter sections"><span className="label">IN THIS CHAPTER</span>{chapterSections.map((section) => <button key={section.id} onClick={() => { setSectionId(section.id); localStorage.setItem(`escapement-section-${selected.id}`, section.id); setProgress((current) => ({ ...current, positions: { ...current.positions, [selected.id]: { scrollY: current.positions[selected.id]?.scrollY || 0, sectionId: section.id } } })); document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" }); }}>{section.title}</button>)}</nav>}<div className="chapter-guidance"><div><span className="label">KEY IDEA</span><p>{selected.summary}</p></div><div><span className="label">WHY THIS MATTERS</span><p>{guidance.explanation}</p></div><div><span className="label">NEXT STEP</span><p>{guidance.nextStep}</p></div></div><div className="reader-content">{markdownToBlocks(chapterBody(selected), chapterSections)}</div><div className="chapter-check"><div><span className="eyebrow">BEFORE YOU LEAVE THIS CHAPTER</span><h3>Can you explain the idea in your own words?</h3><p>Mark this chapter complete when you can connect its central claim to a measurement, mechanism, or decision.</p></div><button className={progress.completed.includes(selected.id) ? "complete-button done" : "complete-button"} onClick={markComplete}>{progress.completed.includes(selected.id) ? <><Check size={17} /> Completed</> : <>Mark complete <ArrowRight size={16} /></>}</button></div><div className="reader-nav"><button disabled={currentIndex <= 0} onClick={() => openChapter(chapters[currentIndex - 1].id)}><ChevronLeft size={16} /> Previous</button><button disabled={currentIndex >= chapters.length - 1} onClick={() => openChapter(chapters[currentIndex + 1].id)}>Next chapter <ChevronRight size={16} /></button></div></article></main>}
 
     {view === "concepts" && <main className="explorer-page"><div className="page-intro"><p className="eyebrow">NON-LINEAR EXPLORATION</p><h1>Follow the thread<br /><em>between ideas.</em></h1><p>Concepts are the connective tissue of the book. Start with a definition, see what it depends on, then return to the chapter where the author develops it.</p><label className="search-box wide"><Search size={17} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search concepts, definitions, or chapters…" /></label></div><div className="concept-map"><div className="map-line"></div><div className="map-node root"><span>FOUNDATION</span><strong>Rate & precision</strong></div><div className="map-node mid"><span>MECHANISM</span><strong>Escapement</strong></div><div className="map-node end"><span>PROOF</span><strong>Chronometer</strong></div></div><div className="concept-grid">{filteredConcepts.map((concept) => <article className="concept-card" key={concept.id}><div className="concept-card-top"><span className="concept-index">{String(concepts.indexOf(concept) + 1).padStart(2, "0")}</span><Link2 size={16} /></div><h3>{concept.label}</h3><p>{concept.definition}</p><div className="concept-footer"><span>Chapter {chapters.find((c) => c.id === concept.chapterId)?.number}</span><button onClick={() => openChapter(concept.chapterId)}>Read context <ArrowRight size={14} /></button></div></article>)}</div></main>}
 

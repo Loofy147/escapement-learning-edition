@@ -8,6 +8,13 @@
       "when": 1787767280291,
       "tag": "0000_narrow_agent_brand",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787769932538,
+      "tag": "0001_dark_iron_monger",
+      "breakpoints": true
     }
   ]
 }

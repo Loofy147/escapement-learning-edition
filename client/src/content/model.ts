@@ -157,6 +157,7 @@ export function readingPositionKey(chapterId: string) { return `escapement-scrol
 export function masteryAfterAttempt(masteredIds: string[], activityId: string, correct: boolean) { return correct && !masteredIds.includes(activityId) ? [...masteredIds, activityId] : masteredIds; }
 export function saveReadingPosition(storage: Pick<Storage, "setItem">, chapterId: string, scrollY: number) { storage.setItem(readingPositionKey(chapterId), String(Math.max(0, Math.round(scrollY)))); }
 export function restoreReadingPosition(storage: Pick<Storage, "getItem">, chapterId: string) { return Number(storage.getItem(readingPositionKey(chapterId)) || 0); }
+export function restoreSectionPosition(progress: LearningProgress, chapterId: string) { return progress.positions[chapterId]?.sectionId || ""; }
 
 export function recommendedChapter(currentId: string, completedIds: string[]) {
   const index = chapters.findIndex((chapter) => chapter.id === currentId);
@@ -204,3 +205,49 @@ export function learnerStateAfterAttempt(state: { attempts: Record<string, numbe
     feedbackState: correct ? "correct" as const : "misconception" as const,
   };
 }
+
+
+exercises.push(
+  { id: "ex-chronometer", type: "choice", chapterId: "ch-11", prompt: "Which statement best separates a chronometer from a chronograph?", options: ["A chronometer is a tested performance claim; a chronograph records intervals.", "A chronometer always has a stopwatch hand.", "They are two names for the same complication."], answer: 0, explanation: "The words describe different categories: one concerns tested timekeeping performance, the other an interval-recording function.", misconception: "You are treating a performance designation as if it were a display complication.", hint: "Ask whether the word describes evidence or an added function." },
+  { id: "ex-cosc-scope", type: "choice", chapterId: "ch-12", prompt: "What is the most important scope question when reading a COSC claim?", options: ["Was the finished watch tested in every possible activity?", "Was the movement tested under the prescribed regime?", "Was the dial made by hand?"], answer: 1, explanation: "The traditional regime evaluates a movement under defined conditions; the object and conditions define what the result supports.", misconception: "You are extending a movement-level result beyond its stated test object.", hint: "Name the object that enters the test laboratory." },
+  { id: "ex-material-role", type: "classification", chapterId: "ch-07", prompt: "Classify each observation by the role it plays in material selection.", options: ["Resists repeated bending", "Limits sliding loss", "Survives temperature change", "Matches a decorative finish"], answer: [1, 1, 1, 0], explanation: "Load, friction, and temperature are engineering requirements; decoration may matter, but it does not substitute for a service property.", misconception: "Aesthetic or familiar material labels are replacing the actual load case.", hint: "Classify by the failure mode the observation helps control." },
+  { id: "ex-service", type: "sequence", chapterId: "ch-17", prompt: "Put the service diagnosis in the order that preserves evidence.", options: ["Record the symptom", "Inspect and measure", "Intervene once", "Measure again"], answer: [0, 1, 2, 3], explanation: "A baseline makes the intervention legible; one controlled change followed by a second measurement preserves the causal story.", misconception: "You are changing several variables before establishing what the watch was doing.", hint: "The first measurement should describe the problem, not the solution." },
+  { id: "ex-restoration", type: "choice", chapterId: "ch-19", prompt: "What is the most responsible restoration note?", options: ["Describe the intervention and distinguish original from replaced material.", "Remove all visible wear so the watch looks new.", "Keep the intervention undocumented to preserve mystery."], answer: 0, explanation: "Disclosure protects provenance and lets a future owner understand both the object and the work performed.", misconception: "You are treating appearance as more important than the object’s history.", hint: "Ask what a future custodian needs to know." },
+  { id: "ex-technology", type: "choice", chapterId: "ch-21", prompt: "Why is it weak to call one timekeeping technology universally superior?", options: ["Each technology optimizes a different combination of reference, energy, scale, and cost.", "All technologies produce exactly the same behavior.", "Mechanical systems cannot be measured."], answer: 0, explanation: "A fair comparison begins by naming the constraint: a mechanical watch, quartz oscillator, and atomic reference solve different problems.", misconception: "You are comparing systems without stating the criterion of success.", hint: "Superior for which task, under which constraint?" },
+  { id: "ex-future-test", type: "experiment", chapterId: "ch-23", prompt: "Adjust the simulated wear-related spread and decide whether the proposed future test is useful.", options: [], answer: 5, explanation: "A moderate spread is a useful investigation signal: it invites a realistic wear protocol without pretending that one number settles the whole claim.", misconception: "An average or an extreme value is being treated as the entire story.", hint: "A useful standard makes the next question clearer." },
+);
+
+
+export type LearningProgress = { viewed: string[]; completed: string[]; attempts: Record<string, number>; mastered: string[]; current: string; positions: Record<string, { scrollY: number; sectionId: string }> };
+export function mergeProgressStates(local: LearningProgress, remote: LearningProgress): LearningProgress {
+  const attempts = { ...local.attempts };
+  Object.entries(remote.attempts || {}).forEach(([id, count]) => { attempts[id] = Math.max(attempts[id] || 0, count); });
+  return {
+    viewed: Array.from(new Set([...local.viewed, ...(remote.viewed || [])])),
+    completed: Array.from(new Set([...local.completed, ...(remote.completed || [])])),
+    attempts,
+    mastered: Array.from(new Set([...local.mastered, ...(remote.mastered || [])])),
+    current: remote.current || local.current,
+    positions: { ...(local.positions || {}), ...(remote.positions || {}) },
+  };
+}
+
+
+validationRules.push(
+  { activityId: "ex-chronometer", kind: "choice", accepted: 0, misconception: "Confusing a performance designation with a display complication." },
+  { activityId: "ex-cosc-scope", kind: "choice", accepted: 1, misconception: "Extending a movement-level result beyond its stated test object." },
+  { activityId: "ex-material-role", kind: "classification", accepted: [1, 1, 1, 0], misconception: "Replacing the actual load case with an aesthetic or familiar material label." },
+  { activityId: "ex-service", kind: "sequence", accepted: [0, 1, 2, 3], misconception: "Changing several variables before establishing a baseline." },
+  { activityId: "ex-restoration", kind: "choice", accepted: 0, misconception: "Treating appearance as more important than an object’s history." },
+  { activityId: "ex-technology", kind: "choice", accepted: 0, misconception: "Comparing systems without stating the criterion of success." },
+  { activityId: "ex-future-test", kind: "experiment", accepted: "position", misconception: "Treating an average or extreme value as the entire story." },
+);
+feedbackLibrary.push(
+  { activityId: "ex-chronometer", correct: "The distinction is between tested performance and interval recording.", incorrect: "A chronometer claim is not the same thing as a stopwatch function.", hint: "Ask whether the word describes evidence or an added function.", sourceAnchor: "ch-11-section-1" },
+  { activityId: "ex-cosc-scope", correct: "Scope names the object and conditions that the result supports.", incorrect: "Do not extend a movement-level result to every finished-watch condition.", hint: "Name the object that enters the laboratory.", sourceAnchor: "ch-12-section-1" },
+  { activityId: "ex-material-role", correct: "Load, friction, and temperature describe engineering requirements.", incorrect: "Classify by the failure mode the observation helps control.", hint: "Separate service properties from decoration.", sourceAnchor: "ch-07-section-1" },
+  { activityId: "ex-service", correct: "A baseline makes the intervention legible.", incorrect: "The order protects the causal story of the service.", hint: "Measure before you change one variable.", sourceAnchor: "ch-17-section-1" },
+  { activityId: "ex-restoration", correct: "Disclosure preserves provenance for the next custodian.", incorrect: "A polished surface cannot replace an honest intervention record.", hint: "Ask what a future owner needs to know.", sourceAnchor: "ch-19-section-1" },
+  { activityId: "ex-technology", correct: "A fair comparison names the constraint first.", incorrect: "Different technologies optimize different combinations of reference, energy, scale, and cost.", hint: "Superior for which task and under which constraint?", sourceAnchor: "ch-21-section-1" },
+  { activityId: "ex-future-test", correct: "The modeled spread is an investigation signal, not a final verdict.", incorrect: "Use the spread to define a more realistic wear protocol.", hint: "A useful standard makes the next question clearer.", sourceAnchor: "ch-23-section-1" },
+);

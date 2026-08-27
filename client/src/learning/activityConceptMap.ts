@@ -9,31 +9,17 @@ import type { Exercise, Concept } from "../content/model";
  */
 export const activityConceptMap: Record<string, string[]> = {
   "ex-rate": ["rate"],
-  "ex-sequence": ["escapement", "impulse"],
+  "ex-sequence": ["escapement"],
   "ex-experiment": ["position", "rate", "amplitude"],
 };
 
-export function learningActivitiesFromCatalog(
-  exercises: Exercise[],
-  concepts: Concept[],
-) {
+export function learningActivitiesFromCatalog(exercises: Exercise[], concepts: Concept[]) {
   const validConceptIds = new Set(concepts.map((concept) => concept.id));
-
   return exercises.map((exercise) => {
     const conceptIds = activityConceptMap[exercise.id];
-    if (!conceptIds || conceptIds.length === 0) {
-      throw new Error(`Missing explicit concept mapping for activity: ${exercise.id}`);
-    }
-
+    if (!conceptIds || conceptIds.length === 0) throw new Error(`Missing explicit concept mapping for activity: ${exercise.id}`);
     const unknown = conceptIds.filter((conceptId) => !validConceptIds.has(conceptId));
-    if (unknown.length > 0) {
-      throw new Error(`Activity ${exercise.id} references unknown concepts: ${unknown.join(", ")}`);
-    }
-
-    return {
-      id: exercise.id,
-      chapterId: exercise.chapterId,
-      conceptIds,
-    };
+    if (unknown.length > 0) throw new Error(`Activity ${exercise.id} references unknown concepts: ${unknown.join(", ")}`);
+    return { id: exercise.id, chapterId: exercise.chapterId, conceptIds };
   });
 }

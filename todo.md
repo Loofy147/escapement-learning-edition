@@ -122,7 +122,13 @@
 - [x] Repair and verify the E2E selectors and local persistence contract
 - [x] Run final release-hardening validation, visual verification, and save a delivery checkpoint
 
-- [ ] Commit and push the latest release-hardening updates to the existing private GitHub repository
-- [ ] Verify the pushed remote and branch state
-- [ ] Continue with the next practical release improvement after the push
-- [ ] Fix GitHub Actions pnpm setup conflict and verify the pushed CI run
+- [x] Commit and push the latest release-hardening updates to the existing private GitHub repository
+- [x] Verify the pushed remote and branch state
+- [x] Continue with the next practical release improvement after the push
+- [x] Fix GitHub Actions pnpm setup conflict and verify the pushed CI run
+
+- [x] Verify feat/learning-intelligence-v1, PR #1, and CI status for commit 2769c5891e22df935f181899492246b9ba803f77
+- [x] Define explicit Concept Graph metadata for prerequisites, related concepts, applications, activities, misconceptions, and transfer tasks using only canonical concepts
+- [x] Add explicit Misconception IDs and connect them to activity and concept learning state
+- [x] Add strict validation and tests for graph references, misconception IDs, and next-best-action inputs
+- [x] Run CI-equivalent validation and save a checkpoint for the learning-intelligence foundation

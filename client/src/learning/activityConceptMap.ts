@@ -8,8 +8,28 @@ import type { Exercise, Concept } from "../content/model";
  * chosen subset of them.
  */
 export const activityConceptMap: Record<string, string[]> = {
+  "ex-apprenticeship": ["rate"],
+  "ex-oscillator": ["isochronism"],
   "ex-rate": ["rate"],
+  "ex-longitude": ["rate"],
   "ex-sequence": ["escapement"],
+  "ex-classify": ["escapement"],
+  "ex-complication": ["rate"],
+  "ex-hairspring": ["isochronism"],
+  "ex-jewels": ["friction"],
+  "ex-environment": ["amplitude"],
+  "ex-material-role": ["friction"],
+  "ex-chronometer": ["chronometer"],
+  "ex-cosc-scope": ["COSC"],
+  "ex-observatory": ["chronometer"],
+  "ex-bench": ["friction"],
+  "ex-finished-watch": ["rate"],
+  "ex-service": ["friction"],
+  "ex-restoration": ["friction"],
+  "ex-technology": ["rate"],
+  "ex-composite-scope": ["chronometer"],
+  "ex-independent": ["rate"],
+  "ex-future-test": ["amplitude"],
   "ex-experiment": ["position", "rate", "amplitude"],
 };
 

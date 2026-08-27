@@ -125,3 +125,4 @@
 - [ ] Commit and push the latest release-hardening updates to the existing private GitHub repository
 - [ ] Verify the pushed remote and branch state
 - [ ] Continue with the next practical release improvement after the push
+- [ ] Fix GitHub Actions pnpm setup conflict and verify the pushed CI run

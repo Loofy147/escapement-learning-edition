@@ -99,6 +99,42 @@ export async function getLearnerProgress(userId: number) {
 export async function upsertLearnerProgress(input: InsertLearnerProgress) {
   const db = await getDb();
   if (!db) return undefined;
-  await db.insert(learnerProgress).values(input).onDuplicateKeyUpdate({ set: { state: input.state, updatedAt: new Date() } });
+  const existing = await getLearnerProgress(input.userId);
+  let state = input.state;
+  try {
+    const incoming = JSON.parse(input.state);
+    const previous = existing?.state ? JSON.parse(existing.state) : {};
+    if (previous && typeof previous === "object" && previous.learningState && incoming && typeof incoming === "object" && !incoming.learningState) {
+      incoming.learningState = previous.learningState;
+      state = JSON.stringify(incoming);
+    }
+  } catch {
+    // Preserve legacy behavior when a malformed/opaque snapshot is supplied.
+  }
+  await db.insert(learnerProgress).values({ ...input, state }).onDuplicateKeyUpdate({ set: { state, updatedAt: new Date() } });
   return getLearnerProgress(input.userId);
+}
+
+export async function getLearnerLearningState(userId: number) {
+  const row = await getLearnerProgress(userId);
+  if (!row) return undefined;
+  try {
+    const parsed = JSON.parse(row.state);
+    return parsed && typeof parsed === "object" ? parsed.learningState ?? null : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function upsertLearnerLearningState(userId: number, learningState: string) {
+  const existing = await getLearnerProgress(userId);
+  let state = "{}";
+  try {
+    const current = existing?.state ? JSON.parse(existing.state) : {};
+    const nextLearning = JSON.parse(learningState);
+    state = JSON.stringify({ ...(current && typeof current === "object" ? current : {}), learningState: nextLearning });
+  } catch {
+    throw new Error("Learning state must be valid JSON");
+  }
+  return upsertLearnerProgress({ userId, state });
 }

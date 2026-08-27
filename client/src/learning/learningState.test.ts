@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { emptyLearningState, mergeLearningStates, recordRetrievalReview, recordTransferAttempt } from "./learningState";
+import { assessmentHistory, emptyLearningState, mergeLearningStates, recordAssessment, recordRetrievalReview, recordTransferAttempt } from "./learningState";
 
 describe("persisted learning state", () => {
   it("records a graded transfer attempt", () => {
@@ -14,6 +14,21 @@ describe("persisted learning state", () => {
     const second = recordRetrievalReview(first, "a1", false, 2000);
     expect(second.retrieval.a1.intervalDays).toBe(0);
     expect(second.retrieval.a1.dueAt).toBe(2000);
+  });
+
+  it("records an ordered temporal event history for learning evidence", () => {
+    const transfer = recordTransferAttempt(emptyLearningState, "t1", true, 1000);
+    const retrieval = recordRetrievalReview(transfer, "a1", false, 2000);
+    const assessed = recordAssessment(retrieval, "pre", 0.5, 3000);
+    expect(assessed.events.map((event) => event.kind)).toEqual(["transfer", "retrieval", "assessment"]);
+    expect(assessmentHistory(assessed)[0]).toMatchObject({ stage: "pre", score: 0.5, occurredAt: 3000 });
+  });
+
+  it("merges temporal events without duplicating the same event id", () => {
+    const local = recordTransferAttempt(emptyLearningState, "t1", true, 1000);
+    const merged = mergeLearningStates(local, local);
+    expect(merged.events).toHaveLength(1);
+    expect(merged.events[0].id).toBe("transfer:t1:1000");
   });
 
   it("merges transfer and retrieval state without resetting newer scheduling", () => {

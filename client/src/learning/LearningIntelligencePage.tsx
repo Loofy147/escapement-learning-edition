@@ -7,7 +7,7 @@ import { buildConceptGraph, buildMisconceptionState } from "./conceptGraph";
 import { activityLearningState, buildConceptLearningStates, recommendNextLearningAction } from "./learningIntelligence";
 import { misconceptions } from "./learningAnnotations";
 import { gradeTransferTask, transferReadiness, transferTasks } from "./transfer";
-import { emptyLearningState, mergeLearningStates, normalizeLearningState, recordRetrievalReview, recordTransferAttempt, type PersistedLearningState } from "./learningState";
+import { assessmentHistory, emptyLearningState, mergeLearningStates, normalizeLearningState, recordAssessment, recordRetrievalReview, recordTransferAttempt, type PersistedLearningState } from "./learningState";
 import { trpc } from "@/lib/trpc";
 import type { LearningProgressInput } from "./learningIntelligence";
 
@@ -32,6 +32,7 @@ export default function LearningIntelligencePage() {
   const [selectedConceptId, setSelectedConceptId] = useState(conceptGraph[0]?.id ?? "");
   const [transferSelections, setTransferSelections] = useState<Record<string, number | null>>({});
   const [transferFeedback, setTransferFeedback] = useState<Record<string, string>>({});
+  const [assessment, setAssessment] = useState<{ stage: "pre" | "post" | "delayed"; correct: number; total: number } | null>(null);
 
   useEffect(() => { localStorage.setItem("escapement-learning-state", JSON.stringify(learningState)); }, [learningState]);
 
@@ -51,6 +52,7 @@ export default function LearningIntelligencePage() {
   const misconceptionStates = useMemo(() => buildMisconceptionState(conceptGraph, progress.evidence?.misconception || {}), [progress]);
   const action = useMemo(() => recommendNextLearningAction(conceptInputs, activityInputs, progress), [progress]);
   const attention = useMemo(() => activityInputs.map((activity) => activityLearningState(activity.id, progress)).filter((state) => state.attempts > 0 && state.needsRemediation).sort((a, b) => a.score - b.score).slice(0, 5), [progress]);
+  const transfer = useMemo(() => transferTasks.map((task) => ({ task, readiness: transferReadiness(task, progress) })), [progress]);
   const selectedConcept = conceptGraph.find((concept) => concept.id === selectedConceptId) ?? conceptGraph[0];
   const selectedState = states.find((state) => state.conceptId === selectedConcept?.id);
 
@@ -80,6 +82,14 @@ export default function LearningIntelligencePage() {
     setLearningState((current) => recordRetrievalReview(current, activityId, correct));
   }
 
+  function beginAssessment(stage: "pre" | "post" | "delayed") { setAssessment({ stage, correct: 0, total: 0 }); }
+  function answerAssessment(correct: boolean) { setAssessment((current) => current ? { ...current, correct: current.correct + (correct ? 1 : 0), total: current.total + 1 } : current); }
+  function finishAssessment() {
+    if (!assessment || assessment.total === 0) return;
+    setLearningState((current) => recordAssessment(current, assessment.stage, assessment.correct / assessment.total));
+    setAssessment(null);
+  }
+
   const bandLabel: Record<string, string> = { unseen: "Not yet encountered", introduced: "Needs support", developing: "Developing", stable: "Stable", mastered: "Repeated evidence" };
   const actionLabel = action.kind === "remediate" ? "Remediate a weak point" : action.kind === "retrieve" ? "Retrieve before advancing" : action.kind === "advance" ? "Advance to a new chapter" : action.kind === "introduce" ? "Introduce a new concept" : "Test transfer";
 
@@ -104,6 +114,8 @@ export default function LearningIntelligencePage() {
       </section>
 
       <section className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="mb-5 flex items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Transfer</p><h2 className="mt-1 text-2xl font-semibold">Choose a diagnosis, then see why.</h2></div><span className="text-sm text-slate-500">Deterministically graded</span></div><div className="grid gap-4 lg:grid-cols-3">{transfer.map(({ task, readiness }) => { const selected = transferSelections[task.id] ?? null; const evaluation = selected === null ? null : gradeTransferTask(task, selected); return <article key={task.id} className="rounded-2xl border border-slate-200 p-5"><div className="flex items-center justify-between gap-3"><span className="text-xs font-semibold uppercase tracking-wider text-slate-500">{task.skill}</span><span className="text-xs font-semibold">{readiness.ready ? "Ready" : "Prerequisites"}</span></div><h3 className="mt-3 font-semibold">{task.id.replace("transfer-", "").replaceAll("-", " ")}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{task.prompt}</p><div className="mt-4 space-y-2">{task.options.map((option, index) => <button key={option.label} disabled={!readiness.ready || selected !== null} onClick={() => attemptTransfer(task.id, index)} className={`w-full rounded-xl border px-3 py-3 text-left text-sm ${selected === index ? (evaluation?.correct ? "border-slate-800 bg-slate-100" : "border-amber-400 bg-amber-50") : "border-slate-200 hover:bg-slate-50"}`}><strong>{String.fromCharCode(65 + index)}.</strong> {option.label}</button>)}</div>{selected !== null && <div className="mt-4 rounded-xl bg-slate-50 p-3 text-sm"><strong>{evaluation?.correct ? "Correct transfer judgment." : "Not yet."}</strong><p className="mt-1 text-slate-600">{transferFeedback[task.id] || evaluation?.feedback}</p></div>} {!readiness.ready && <p className="mt-3 text-xs text-slate-500">Prerequisite evidence: {Math.round(readiness.prerequisiteScore * 100)}%</p>}</article>; })}</div></section>
+
+      <section className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="mb-5 flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Temporal assessment</p><h2 className="mt-1 text-2xl font-semibold">Measure learning across time.</h2><p className="mt-2 text-sm text-slate-600">Each completed assessment is stored as an event. No score is recorded until you answer and finish.</p></div><div className="flex flex-wrap gap-2">{(["pre", "post", "delayed"] as const).map((stage) => <button key={stage} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold" onClick={() => beginAssessment(stage)}>Start {stage}</button>)}</div></div>{assessment && <div className="rounded-2xl bg-slate-50 p-4"><p className="text-sm font-semibold">{assessment.stage} assessment · {assessment.total} answered</p><div className="mt-3 flex flex-wrap gap-2"><button className="rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white" onClick={() => answerAssessment(true)}>I can explain it</button><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold" onClick={() => answerAssessment(false)}>Not yet</button><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold" disabled={assessment.total === 0} onClick={finishAssessment}>Finish and save</button></div></div>}{(() => { const history = assessmentHistory(learningState); const pre = [...history].reverse().find((event) => event.stage === "pre"); const post = [...history].reverse().find((event) => event.stage === "post"); return <p className="mt-4 text-sm text-slate-600">{pre && post ? `Pre → post change: ${Math.round((post.score - pre.score) * 100)} percentage points.` : "Complete pre and post to compare temporal evidence."}</p>; })()}</section>
 
       <section className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="mb-5 flex items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Spaced retrieval</p><h2 className="mt-1 text-2xl font-semibold">Review what is due.</h2></div><span className="text-sm text-slate-500">{retrievalQueue.filter((item) => item.due).length} due now</span></div><div className="grid gap-3 md:grid-cols-3">{retrievalQueue.slice(0, 6).map((item) => <article key={item.activityId} className={`rounded-2xl border p-4 ${item.due ? "border-amber-300 bg-amber-50" : "border-slate-200 bg-white"}`}><div className="flex items-center justify-between gap-3"><strong>{item.activityId}</strong><span className="text-xs uppercase tracking-wider text-slate-500">{item.reviews} reviews</span></div><p className="mt-2 text-sm text-slate-600">{item.due ? "Due now. Retrieve before moving on." : `Next review ${new Date(item.dueAt).toLocaleDateString()}`}</p><div className="mt-3 flex gap-2"><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm" onClick={() => review(item.activityId, true)}><CheckCircle2 size={14} className="mr-1 inline" />I recalled it</button><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm" onClick={() => review(item.activityId, false)}>Needs another pass</button></div></article>)}</div></section>
 

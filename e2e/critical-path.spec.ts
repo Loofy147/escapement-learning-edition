@@ -33,3 +33,17 @@ test("public readers can discover account sync without being blocked", async ({ 
   await page.goto("/");
   await expect(page.getByRole("button", { name: /Sign in to sync/i })).toBeVisible();
 });
+
+test("learning intelligence records temporal assessment evidence", async ({ page }) => {
+  await page.goto("/learning");
+  await expect(page.getByRole("heading", { name: /Measure learning across time/i })).toBeVisible();
+  await page.getByRole("button", { name: "Start pre" }).click();
+  await page.getByRole("button", { name: "I can explain it" }).click();
+  await page.getByRole("button", { name: "Finish and save" }).click();
+  await page.getByRole("button", { name: "Start post" }).click();
+  await page.getByRole("button", { name: "I can explain it" }).click();
+  await page.getByRole("button", { name: "Finish and save" }).click();
+  await expect(page.getByText(/Pre → post change:/)).toBeVisible();
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("escapement-learning-state") || "{}"));
+  expect(saved.events.filter((event: { kind: string }) => event.kind === "assessment")).toHaveLength(2);
+});

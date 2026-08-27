@@ -133,9 +133,13 @@
 - [x] Add strict validation and tests for graph references, misconception IDs, and next-best-action inputs
 - [x] Run CI-equivalent validation and save a checkpoint for the learning-intelligence foundation
 
-- [ ] Verify feat/learning-intelligence-v1, PR #1, and independent CI status for head bc3f25d72c5c0fc2f37e9be8d4606aaea91ed80d
-- [ ] Build learner-facing Transfer and Spaced Retrieval runtime activities from canonical tasks and scheduler output
-- [ ] Add Delayed Retrieval flow with persisted due/response state
-- [ ] Add deterministic pre-assessment and post-assessment comparison without fabricating learner outcomes
-- [ ] Add regression and browser coverage for the full learning architecture chain and runtime flows
-- [ ] Run full validation, push the feature branch, verify CI, and save a checkpoint
+- [x] Verify feat/learning-intelligence-v1, PR #1, and independent CI status for head bc3f25d72c5c0fc2f37e9be8d4606aaea91ed80d
+- [x] Build learner-facing Transfer and Spaced Retrieval runtime activities from canonical tasks and scheduler output
+- [x] Add Delayed Retrieval flow with persisted due/response state
+- [x] Add deterministic pre-assessment and post-assessment comparison without fabricating learner outcomes
+- [x] Add regression and browser coverage for the full learning architecture chain and runtime flows
+- [x] Run full validation, push the feature branch, verify CI, and save a checkpoint
+
+- [x] Verify deterministically graded transfer runtime from canonical transfer tasks
+- [x] Add and run regression/browser coverage for transfer grading with retrieval and assessment flows
+- [x] Push the latest temporal-runtime head, verify its Quality gates run, and save a fresh checkpoint

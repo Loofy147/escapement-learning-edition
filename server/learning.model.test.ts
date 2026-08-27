@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { chapters, exercises, completionPercent, gradeExercise, searchChapters, experimentResult, recommendedChapter, readingPositionKey, saveReadingPosition, restoreReadingPosition, masteryAfterAttempt, sourceAnchorFor, learnerStateAfterAttempt, mergeProgressStates, restoreSectionPosition } from "../client/src/content/model";
+import { chapters, exercises, completionPercent, gradeExercise, searchChapters, experimentResult, recommendedChapter, readingPositionKey, saveReadingPosition, restoreReadingPosition, masteryAfterAttempt, sourceAnchorFor, learnerStateAfterAttempt, mergeProgressStates, restoreSectionPosition, classifyProgressConflict, resolveProgressConflict } from "../client/src/content/model";
 
 describe("learning model", () => {
   it("returns explanatory feedback for correct answers", () => {
@@ -43,6 +43,15 @@ describe("learning model", () => {
 
   it("restores a synchronized section anchor from remote progress", () => {
     expect(restoreSectionPosition({ viewed: [], completed: [], attempts: {}, mastered: [], current: "ch-05", positions: { "ch-05": { scrollY: 420, sectionId: "ch-05-section-2" } } }, "ch-05")).toBe("ch-05-section-2");
+  });
+
+  it("classifies and resolves cross-device progress conflicts", () => {
+    const local = { viewed: ["ch-01"], completed: [], attempts: {}, mastered: [], current: "ch-01", positions: {}, syncMeta: { revision: 2, updatedAt: 200, deviceId: "a" } };
+    const remote = { viewed: ["ch-02"], completed: ["ch-02"], attempts: {}, mastered: [], current: "ch-02", positions: {}, syncMeta: { revision: 3, updatedAt: 300, deviceId: "b" } };
+    expect(classifyProgressConflict(local, remote)).toBe("remote-newer");
+    expect(resolveProgressConflict(local, remote, "local")).toBe(local);
+    expect(resolveProgressConflict(local, remote, "remote")).toBe(remote);
+    expect(resolveProgressConflict(local, remote, "merge").viewed).toEqual(["ch-01", "ch-02"]);
   });
 
   it("adds mastery only after a correct attempt and never duplicates it", () => {

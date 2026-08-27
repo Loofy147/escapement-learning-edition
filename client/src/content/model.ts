@@ -218,7 +218,20 @@ exercises.push(
 );
 
 
-export type LearningProgress = { viewed: string[]; completed: string[]; attempts: Record<string, number>; mastered: string[]; current: string; positions: Record<string, { scrollY: number; sectionId: string }> };
+export type SyncMeta = { revision: number; updatedAt: number; deviceId: string };
+export type LearningProgress = { viewed: string[]; completed: string[]; attempts: Record<string, number>; mastered: string[]; current: string; positions: Record<string, { scrollY: number; sectionId: string }>; syncMeta?: SyncMeta };
+export type SyncConflict = "none" | "remote-newer" | "local-newer" | "diverged";
+export function classifyProgressConflict(local: LearningProgress, remote: LearningProgress): SyncConflict {
+  if (!local.syncMeta || !remote.syncMeta || local.syncMeta.revision === remote.syncMeta.revision) return "none";
+  if (local.syncMeta.deviceId === remote.syncMeta.deviceId) return local.syncMeta.revision > remote.syncMeta.revision ? "local-newer" : "remote-newer";
+  if (local.syncMeta.updatedAt === remote.syncMeta.updatedAt) return "diverged";
+  return local.syncMeta.updatedAt > remote.syncMeta.updatedAt ? "local-newer" : "remote-newer";
+}
+export function resolveProgressConflict(local: LearningProgress, remote: LearningProgress, choice: "local" | "remote" | "merge") {
+  if (choice === "local") return local;
+  if (choice === "remote") return remote;
+  return mergeProgressStates(local, remote);
+}
 export function mergeProgressStates(local: LearningProgress, remote: LearningProgress): LearningProgress {
   const attempts = { ...local.attempts };
   Object.entries(remote.attempts || {}).forEach(([id, count]) => { attempts[id] = Math.max(attempts[id] || 0, count); });
@@ -229,6 +242,7 @@ export function mergeProgressStates(local: LearningProgress, remote: LearningPro
     mastered: Array.from(new Set([...local.mastered, ...(remote.mastered || [])])),
     current: remote.current || local.current,
     positions: { ...(local.positions || {}), ...(remote.positions || {}) },
+    syncMeta: remote.syncMeta || local.syncMeta,
   };
 }
 
@@ -250,4 +264,50 @@ feedbackLibrary.push(
   { activityId: "ex-restoration", correct: "Disclosure preserves provenance for the next custodian.", incorrect: "A polished surface cannot replace an honest intervention record.", hint: "Ask what a future owner needs to know.", sourceAnchor: "ch-19-section-1" },
   { activityId: "ex-technology", correct: "A fair comparison names the constraint first.", incorrect: "Different technologies optimize different combinations of reference, energy, scale, and cost.", hint: "Superior for which task and under which constraint?", sourceAnchor: "ch-21-section-1" },
   { activityId: "ex-future-test", correct: "The modeled spread is an investigation signal, not a final verdict.", incorrect: "Use the spread to define a more realistic wear protocol.", hint: "A useful standard makes the next question clearer.", sourceAnchor: "ch-23-section-1" },
+);
+
+// One additional practice checkpoint for each chapter not covered by the original activity set.
+exercises.push(
+  { id: "ex-longitude", type: "choice", chapterId: "ch-02", prompt: "Why did the longitude problem turn clock performance into a public engineering question?", options: ["A small time error becomes a navigational distance error.", "Ships cannot carry clocks.", "Longitude is determined only by the color of a dial."], answer: 0, explanation: "At sea, elapsed time is a proxy for position, so timekeeping error has geographic consequences.", misconception: "Treating accuracy as a cosmetic property rather than a navigational variable.", hint: "Connect elapsed time to position on a moving vessel." },
+  { id: "ex-oscillator", type: "choice", chapterId: "ch-04", prompt: "What is the most useful first question when a rate changes between positions?", options: ["Which orientation changes the balance’s geometry, friction, or spring behavior?", "Which dial color is most attractive?", "How can the average hide the difference?"], answer: 0, explanation: "Position changes the forces and interfaces acting on the oscillator, so the orientation-specific evidence matters.", misconception: "Treating position as noise that can be erased by averaging.", hint: "The watch is a physical system in a gravitational field." },
+  { id: "ex-complication", type: "classification", chapterId: "ch-06", prompt: "Classify each addition as an indication function or a timekeeping load.", options: ["Chronograph recording hand", "Additional switching friction", "Calendar display", "Extra torque demand"], answer: [0, 1, 0, 1], explanation: "The display functions indicate information; switching friction and torque demand change the mechanical load.", misconception: "Confusing what a complication shows with what it asks the movement to do.", hint: "Ask whether the item describes information or mechanical demand." },
+  { id: "ex-hairspring", type: "sequence", chapterId: "ch-08", prompt: "Put the hairspring inspection sequence in a useful order.", options: ["Observe breathing and centering", "Check attachment and stud", "Measure behavior in positions", "Change one variable"], answer: [0, 1, 2, 3], explanation: "Observation precedes inspection, measurement establishes a baseline, and only then should one controlled change be made.", misconception: "Regulating before understanding the spring’s geometry and attachment.", hint: "Start with evidence, then isolate one cause." },
+  { id: "ex-jewels", type: "choice", chapterId: "ch-09", prompt: "What does a jewel bearing primarily contribute to a movement?", options: ["A controlled, durable contact interface that limits wear and energy loss.", "A guarantee that friction disappears.", "A decorative substitute for lubrication."], answer: 0, explanation: "Jewels manage contact and wear; they remain part of a friction and lubrication system rather than eliminating it.", misconception: "Treating jewels as magic friction-proof components.", hint: "A bearing controls an interface; it does not repeal physics." },
+  { id: "ex-environment", type: "choice", chapterId: "ch-10", prompt: "Which pairing best describes an environmental sensitivity and its control strategy?", options: ["Magnetism — use non-ferrous or resistant components.", "Temperature — ignore it because rate is constant.", "Silicon — increase magnetic pickup deliberately."], answer: 0, explanation: "Modern components and materials aim to reduce predictable sensitivity to magnetism and temperature.", misconception: "Treating environmental effects as unrelated to material choice.", hint: "Match the disturbance to a material or design response." },
+  { id: "ex-composite-scope", type: "choice", chapterId: "ch-13", prompt: "What should a reader compare before ranking two certification regimes?", options: ["The test object, conditions, independence, and claim scope.", "Only the number printed in a brochure.", "The case finish and marketing vocabulary."], answer: 0, explanation: "A result is meaningful only in relation to what was tested, how it was tested, and what the issuer claims it proves.", misconception: "Comparing numbers while ignoring the regimes that produced them.", hint: "Scope is part of the result." },
+  { id: "ex-finished-watch", type: "sequence", chapterId: "ch-14", prompt: "Put a finished-watch evaluation in the order that keeps the claim honest.", options: ["Define the wear-relevant conditions", "Test the cased watch", "Record the result and limits", "State what the claim supports"], answer: [0, 1, 2, 3], explanation: "The test becomes credible when conditions, observations, limits, and interpretation remain connected.", misconception: "Treating a finished-watch claim as if casing and wear cannot change behavior.", hint: "Define the test before interpreting its number." },
+  { id: "ex-observatory", type: "choice", chapterId: "ch-15", prompt: "What did observatory trials add to the culture of precision?", options: ["Public comparison under demanding, shared conditions.", "A reason to avoid measurement.", "A guarantee that every watch would behave identically in daily life."], answer: 0, explanation: "Trials made performance comparable and visible while still leaving room to state the limits of the test.", misconception: "Confusing a demanding comparison with a promise of universal behavior.", hint: "Think about shared conditions and public evidence." },
+  { id: "ex-bench", type: "classification", chapterId: "ch-16", prompt: "Classify each bench choice as reducing contamination or improving observation.", options: ["Covered parts tray", "Stable task lighting", "Finger cots", "Magnification at the point of inspection"], answer: [0, 1, 0, 1], explanation: "Trays and finger cots protect cleanliness; lighting and magnification improve what the watchmaker can see.", misconception: "Treating workspace choices as cosmetic rather than evidentiary controls.", hint: "Ask whether the choice protects the object or improves the observation." },
+  { id: "ex-apprenticeship", type: "choice", chapterId: "ch-20", prompt: "Which practice loop most reliably builds early trade judgment?", options: ["Observe, attempt, inspect, record, and repeat.", "Copy a result without inspecting the cause.", "Change several variables and remember only the final impression."], answer: 0, explanation: "Short, documented feedback loops turn repetition into transferable judgment rather than muscle memory alone.", misconception: "Equating repetition with learning without inspection or records.", hint: "A useful loop makes the next attempt more informed." },
+  { id: "ex-independent", type: "choice", chapterId: "ch-22", prompt: "What should be considered alongside originality in independent watchmaking?", options: ["Maintainability, service access, and the honesty of the production scale.", "Only visual novelty.", "Whether the mechanism can avoid all future service."], answer: 0, explanation: "Independent work can be original and still be judged by whether owners and future watchmakers can understand and maintain it.", misconception: "Treating originality as a substitute for durable responsibility.", hint: "Craft has a future custodian." },
+);
+
+validationRules.push(
+  { activityId: "ex-longitude", kind: "choice", accepted: 0, misconception: "Treating accuracy as cosmetic rather than navigational." },
+  { activityId: "ex-oscillator", kind: "choice", accepted: 0, misconception: "Treating position as noise that can be erased." },
+  { activityId: "ex-complication", kind: "classification", accepted: [0, 1, 0, 1], misconception: "Confusing display function with mechanical load." },
+  { activityId: "ex-hairspring", kind: "sequence", accepted: [0, 1, 2, 3], misconception: "Regulating before understanding spring geometry." },
+  { activityId: "ex-jewels", kind: "choice", accepted: 0, misconception: "Treating jewels as friction-proof components." },
+  { activityId: "ex-environment", kind: "choice", accepted: 0, misconception: "Ignoring the link between environment and materials." },
+  { activityId: "ex-composite-scope", kind: "choice", accepted: 0, misconception: "Comparing numbers without comparing regimes." },
+  { activityId: "ex-finished-watch", kind: "sequence", accepted: [0, 1, 2, 3], misconception: "Assuming casing cannot change behavior." },
+  { activityId: "ex-observatory", kind: "choice", accepted: 0, misconception: "Confusing demanding comparison with universal behavior." },
+  { activityId: "ex-bench", kind: "classification", accepted: [0, 1, 0, 1], misconception: "Treating workspace choices as cosmetic." },
+  { activityId: "ex-apprenticeship", kind: "choice", accepted: 0, misconception: "Repeating without inspection or records." },
+  { activityId: "ex-independent", kind: "choice", accepted: 0, misconception: "Treating originality as a substitute for responsibility." },
+);
+
+feedbackLibrary.push(
+  { activityId: "ex-longitude", correct: "Time error becomes navigational distance error.", incorrect: "Accuracy is a practical variable when time is used to locate a vessel.", hint: "Connect elapsed time to position.", sourceAnchor: "ch-02-section-1" },
+  { activityId: "ex-oscillator", correct: "Position is evidence about geometry, friction, and spring behavior.", incorrect: "Do not erase orientation-specific behavior with an average.", hint: "Ask what gravity changes at the interface.", sourceAnchor: "ch-04-section-1" },
+  { activityId: "ex-complication", correct: "Indication and mechanical load are different categories.", incorrect: "A complication shows information but also changes what the movement must do.", hint: "Classify information versus demand.", sourceAnchor: "ch-06-section-1" },
+  { activityId: "ex-hairspring", correct: "Evidence should precede a controlled adjustment.", incorrect: "Inspect breathing, attachment, and positions before regulating.", hint: "Start with observation.", sourceAnchor: "ch-08-section-1" },
+  { activityId: "ex-jewels", correct: "Jewels manage contact; they do not abolish friction.", incorrect: "Keep the bearing inside the larger lubrication and wear system.", hint: "A bearing controls an interface.", sourceAnchor: "ch-09-section-1" },
+  { activityId: "ex-environment", correct: "Material and design choices can reduce environmental sensitivity.", incorrect: "Match each disturbance with a physical control strategy.", hint: "Start with magnetism and non-ferrous components.", sourceAnchor: "ch-10-section-1" },
+  { activityId: "ex-composite-scope", correct: "Scope belongs beside every certification number.", incorrect: "Compare object, conditions, independence, and claim.", hint: "Scope is part of the result.", sourceAnchor: "ch-13-section-1" },
+  { activityId: "ex-finished-watch", correct: "Conditions and interpretation keep a finished-watch claim honest.", incorrect: "Casing and wear belong inside the test definition.", hint: "Define before interpreting.", sourceAnchor: "ch-14-section-1" },
+  { activityId: "ex-observatory", correct: "Shared conditions make public comparison possible.", incorrect: "A trial creates evidence, not a universal daily-life promise.", hint: "Think shared conditions.", sourceAnchor: "ch-15-section-1" },
+  { activityId: "ex-bench", correct: "The bench controls both cleanliness and observation.", incorrect: "Workspace decisions are evidentiary controls.", hint: "Protect the object or improve the observation.", sourceAnchor: "ch-16-section-1" },
+  { activityId: "ex-apprenticeship", correct: "Documented feedback turns repetition into judgment.", incorrect: "Repeat only after inspecting what the last attempt taught.", hint: "Make the next attempt more informed.", sourceAnchor: "ch-20-section-1" },
+  { activityId: "ex-independent", correct: "Originality is strongest when it remains maintainable.", incorrect: "A future custodian is part of the design problem.", hint: "Think beyond the first owner.", sourceAnchor: "ch-22-section-1" },
 );

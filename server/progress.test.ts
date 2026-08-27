@@ -6,7 +6,7 @@ vi.mock("./db", () => ({
 }));
 import { appRouter } from "./routers";
 import type { TrpcContext } from "./_core/context";
-import { chapters, exercises } from "../client/src/content/model";
+import { chapters, exercises, feedbackLibrary, sourceAnchorFor } from "../client/src/content/model";
 import { bookConfig } from "../client/src/content/book.config";
 import { gradeExercise, mergeProgressStates, restoreSectionPosition } from "../client/src/content/model";
 import fs from "node:fs";
@@ -27,9 +27,17 @@ describe("progress access and reusable content contracts", () => {
   });
 
   it("keeps the expanded practice library attached to canonical chapters", () => {
-    expect(exercises.length).toBeGreaterThan(4);
+    expect(exercises.length).toBeGreaterThanOrEqual(chapters.length);
+    expect(new Set(exercises.map((activity) => activity.chapterId)).size).toBe(chapters.length);
     expect(exercises.every((activity) => chapters.some((chapter) => chapter.id === activity.chapterId))).toBe(true);
     expect(exercises.every((activity) => activity.prompt && activity.explanation && activity.hint)).toBe(true);
+    for (const activity of exercises) {
+      const evaluated = gradeExercise(activity, activity.type === "experiment" ? 5 : activity.answer ?? null);
+      expect(evaluated.correct).toBe(true);
+      expect(evaluated.explanation.length).toBeGreaterThan(10);
+      expect(feedbackLibrary.some((record) => record.activityId === activity.id)).toBe(true);
+      expect(sourceAnchorFor(activity.id)).toMatch(new RegExp(`^${activity.chapterId}-section-`));
+    }
   });
 
   it("exposes a replaceable book configuration contract", () => {

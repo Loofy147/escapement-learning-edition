@@ -80,3 +80,20 @@
 - [x] Save a new webdev checkpoint after the final upgraded-scope validation
 
 - [x] Save a fresh checkpoint after the final upgraded-scope changes, using the validated state
+
+- [x] Add one meaningful, chapter-specific activity for each of the 23 canonical chapters
+- [x] Ensure each activity has validation, explanation, hint, misconception feedback, and exact source anchor
+- [x] Add progress revision metadata and device/source timestamps for conflict detection
+- [x] Implement deterministic merge and conflict classification for remote and local progress
+- [x] Add sync status, conflict notice, and keep-local/keep-remote/merge recovery actions
+- [x] Preserve public anonymous reading and local fallback while account sync is unavailable
+- [x] Add tests for all 23 activities, conflict detection, merge recovery, and sync states
+- [x] Run typecheck, tests, visual verification, and save a fresh checkpoint
+
+- [x] Add an aggregate test proving all 23 chapter activities grade correctly and expose feedback/source-link behaviors
+- [x] Save a fresh checkpoint after the final activity-expansion and conflict-sync changes
+
+- [x] Assert every activity has a matching feedback record and exact source anchor in aggregate tests
+- [x] Save a fresh checkpoint after the final activity and conflict-sync changes
+
+- [x] Save a new checkpoint after the latest validated activity and conflict-sync changes

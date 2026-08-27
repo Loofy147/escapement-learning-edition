@@ -1,4 +1,5 @@
 import type { LearningProgressInput } from "./learningIntelligence";
+import { activityAnnotations } from "./learningAnnotations";
 
 export type TransferTask = {
   id: string;
@@ -44,11 +45,14 @@ export type TransferReadiness = {
 };
 
 export function transferReadiness(task: TransferTask, progress: LearningProgressInput): TransferReadiness {
-  const confidence = task.conceptIds.map((conceptId) => {
-    const values = Object.entries(progress.evidence?.confidence ?? {}).filter(([id]) => id.includes(conceptId));
-    return values.length ? Math.max(...values.map(([, value]) => value)) : 0;
+  const conceptEvidence = task.conceptIds.map((conceptId) => {
+    const activityIds = Object.entries(activityAnnotations)
+      .filter(([, annotation]) => annotation.conceptIds.includes(conceptId))
+      .map(([activityId]) => activityId);
+    if (!activityIds.length) return 0;
+    return Math.max(...activityIds.map((activityId) => progress.evidence?.confidence?.[activityId] ?? 0));
   });
-  const prerequisiteScore = confidence.length ? confidence.reduce((sum, value) => sum + value, 0) / confidence.length : 0;
+  const prerequisiteScore = conceptEvidence.length ? conceptEvidence.reduce((sum, value) => sum + value, 0) / conceptEvidence.length : 0;
   const ready = prerequisiteScore >= 0.67;
   return {
     taskId: task.id,

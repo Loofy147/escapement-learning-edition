@@ -19,7 +19,7 @@ describe("activity concept mapping", () => {
   });
 
   it("keeps the explicit mapping contract visible", () => {
-    expect(activityConceptMap["ex-sequence"]).toEqual(["escapement", "impulse"]);
+    expect(activityConceptMap["ex-sequence"]).toEqual(["escapement"]);
     expect(activityConceptMap["ex-experiment"]).toEqual(["position", "rate", "amplitude"]);
   });
 

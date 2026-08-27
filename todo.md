@@ -121,3 +121,7 @@
 - [x] Add GitHub Actions CI for tests, typecheck, build, and reusable package validation
 - [x] Repair and verify the E2E selectors and local persistence contract
 - [x] Run final release-hardening validation, visual verification, and save a delivery checkpoint
+
+- [ ] Commit and push the latest release-hardening updates to the existing private GitHub repository
+- [ ] Verify the pushed remote and branch state
+- [ ] Continue with the next practical release improvement after the push

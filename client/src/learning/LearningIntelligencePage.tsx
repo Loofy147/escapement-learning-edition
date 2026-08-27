@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { ArrowRight, Brain, RefreshCw, TriangleAlert } from "lucide-react";
 import { bookChapters, bookConcepts, bookExercises } from "../content/book.config";
-import { activityConceptMap } from "./activityConceptMap";
+import { learningActivitiesFromCatalog } from "./activityConceptMap";
 import { activityLearningState, buildConceptLearningStates, recommendNextLearningAction } from "./learningIntelligence";
 import type { LearningProgressInput } from "./learningIntelligence";
 
@@ -14,12 +14,7 @@ function readProgress(): LearningProgressInput {
   } catch { return emptyProgress; }
 }
 
-const activityInputs = bookExercises.map((activity) => ({
-  id: activity.id,
-  chapterId: activity.chapterId,
-  conceptIds: activityConceptMap[activity.id] ?? [],
-}));
-
+const activityInputs = learningActivitiesFromCatalog(bookExercises, bookConcepts);
 const conceptInputs = bookConcepts.map((concept) => ({ id: concept.id, label: concept.label, chapterId: concept.chapterId }));
 
 export default function LearningIntelligencePage() {

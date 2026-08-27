@@ -13,7 +13,7 @@ export type Chapter = {
 export type Exercise = {
   id: string;
   chapterId: string;
-  type: "choice" | "sequence" | "classification" | "experiment";
+  type: "choice" | "sequence" | "classification" | "experiment" | "prediction";
   prompt: string;
   options?: string[];
   answer?: string | number | number[];
@@ -89,7 +89,7 @@ export const partColors: Record<string, string> = {
 };
 
 export function gradeExercise(exercise: Exercise, answer: string | number | number[] | null) {
-  const correct = exercise.type === "choice"
+  const correct = exercise.type === "choice" || exercise.type === "prediction"
     ? answer === exercise.answer
     : exercise.type === "sequence" || exercise.type === "classification"
       ? JSON.stringify(answer) === JSON.stringify(exercise.answer)
@@ -123,6 +123,7 @@ export const feedbackLibrary: Feedback[] = [
   { activityId: "ex-sequence", correct: "The escapement meters energy in a timed cycle.", incorrect: "The order matters because energy cannot be delivered before unlocking.", hint: "Ask what must happen before impulse.", sourceAnchor: "ch-05-section-1" },
   { activityId: "ex-classify", correct: "Function is the useful classifier here.", incorrect: "Look at what each part does in the system.", hint: "Classify by role, not by material.", sourceAnchor: "ch-03-section-1" },
   { activityId: "ex-experiment", correct: "Position is the next variable to investigate.", incorrect: "The spread points to orientation-specific behavior.", hint: "The wearer does not keep one ideal orientation.", sourceAnchor: "ch-18-section-1" },
+  ...exercises.filter((activity) => !["ex-rate", "ex-sequence", "ex-classify", "ex-experiment"].includes(activity.id)).map((activity) => ({ activityId: activity.id, correct: activity.explanation, incorrect: `${activity.misconception} ${activity.hint}`, hint: activity.hint, sourceAnchor: `${activity.chapterId}-section-1` })),
 ];
 export const relationships: Relationship[] = [
   { from: "rate", to: "isochronism", kind: "prerequisite" },

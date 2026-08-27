@@ -98,6 +98,26 @@
 
 - [x] Save a new checkpoint after the latest validated activity and conflict-sync changes
 
-- [ ] Create a new private GitHub repository for the complete learning edition
-- [ ] Configure the repository remote and commit the current project state
-- [ ] Push the complete project history to GitHub and verify the remote
+- [x] Create a new private GitHub repository for the complete learning edition
+- [x] Configure the repository remote and commit the current project state
+- [x] Push the complete project history to GitHub and verify the remote
+
+- [ ] Verify and enforce real-newline canonical chapter parsing
+- [ ] Isolate answer, feedback, hint, and retry state by activity id
+- [ ] Replace calculated part labels with canonical chapter-part metadata
+- [ ] Unify schema, runtime, validator, UI, and tests around one activity algebra including prediction
+- [ ] Replace sequence click accumulation with reorderable, removable sequence interaction
+- [ ] Replace classification toggles with explicit item/category choices
+- [ ] Move book-specific metadata into reusable data/config files and load it through the content boundary
+- [ ] Record richer learner evidence: misconception, hint use, retries, confidence, and source return
+- [ ] Add a critical-path browser/E2E test strategy for reader, activity, completion, restore, and sync
+- [ ] Add GitHub Actions CI for tests, typecheck, build, and package validation
+- [ ] Run release-hardening validation, visual verification, and save a new checkpoint
+
+- [ ] Repair stale answer/setAnswer references after isolating activity state
+- [ ] Re-run typecheck, tests, build, and visual review after the repair
+
+- [x] Add critical-path browser tests for reader navigation, activity grading, progress persistence, and public sync discovery
+- [x] Add GitHub Actions CI for tests, typecheck, build, and reusable package validation
+- [x] Repair and verify the E2E selectors and local persistence contract
+- [x] Run final release-hardening validation, visual verification, and save a delivery checkpoint

@@ -1,0 +1,24 @@
+{
+  "id": "sample-book",
+  "title": "Sample Interactive Book",
+  "author": "Sample Author",
+  "language": "en",
+  "sourceVersion": "1.0.0",
+  "sourcePath": "content/book.md",
+  "chapters": "chapters.json",
+  "concepts": "concepts.json",
+  "activities": "activities.json",
+  "references": "references.json",
+  "visualTheme": {
+    "direction": "calm editorial",
+    "primaryInk": "#17384A",
+    "paper": "#F6F3ED",
+    "accent": "#B97A43",
+    "displayFont": "serif",
+    "bodyFont": "serif"
+  },
+  "progress": {
+    "anonymousStorageKey": "sample-book-progress",
+    "remoteTable": "learner_progress"
+  }
+}

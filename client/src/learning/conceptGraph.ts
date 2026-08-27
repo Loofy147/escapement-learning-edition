@@ -47,3 +47,16 @@ export function buildConceptGraph(concepts: Concept[], exercises: Exercise[]): C
 export function buildMisconceptionState(graph: ConceptGraphNode[], evidence: Record<string, number> = {}) {
   return graph.flatMap((concept) => concept.misconceptionIds.map((id) => ({ id, conceptId: concept.id, occurrences: concept.activityIds.reduce((sum, activityId) => sum + (evidence[activityId] || 0), 0), needsRemediation: concept.activityIds.some((activityId) => (evidence[activityId] || 0) > 0) })));
 }
+
+
+export function nextBestActionFromGraph(graph: ConceptGraphNode[], evidence: Record<string, number> = {}) {
+  const states = buildMisconceptionState(graph, evidence);
+  const remediation = states.find((state) => state.needsRemediation);
+  if (remediation) {
+    const concept = graph.find((item) => item.id === remediation.conceptId);
+    if (concept) return { kind: "remediate" as const, conceptId: concept.id, activityId: concept.activityIds[0], reason: `Revisit ${concept.label} before transfer.` };
+  }
+  const introduction = graph.find((concept) => concept.activityIds.length > 0);
+  if (introduction) return { kind: "retrieve" as const, conceptId: introduction.id, activityId: introduction.activityIds[0], reason: `Retrieve ${introduction.label} with a transfer task.` };
+  return { kind: "advance" as const, conceptId: graph[0]?.id, reason: "No mapped concept is available." };
+}

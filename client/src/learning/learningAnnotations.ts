@@ -24,8 +24,28 @@ export const misconceptions: Misconception[] = [
 ];
 
 export const activityAnnotations: Record<string, ActivityAnnotation> = {
+  "ex-apprenticeship": { conceptIds: ["rate"], misconceptionId: "M-PRECISION-001" },
+  "ex-oscillator": { conceptIds: ["isochronism"], misconceptionId: "M-ISOCHRONISM-001" },
   "ex-rate": { conceptIds: ["rate"], misconceptionId: "M-PRECISION-001" },
+  "ex-longitude": { conceptIds: ["rate"], misconceptionId: "M-PRECISION-001" },
   "ex-sequence": { conceptIds: ["escapement"], misconceptionId: "M-ESCAPEMENT-001" },
+  "ex-classify": { conceptIds: ["escapement"], misconceptionId: "M-ESCAPEMENT-001" },
+  "ex-complication": { conceptIds: ["rate"], misconceptionId: "M-PRECISION-001" },
+  "ex-hairspring": { conceptIds: ["isochronism"], misconceptionId: "M-ISOCHRONISM-001" },
+  "ex-jewels": { conceptIds: ["friction"], misconceptionId: "M-FRICTION-001" },
+  "ex-environment": { conceptIds: ["amplitude"], misconceptionId: "M-AMPLITUDE-001" },
+  "ex-material-role": { conceptIds: ["friction"], misconceptionId: "M-FRICTION-001" },
+  "ex-chronometer": { conceptIds: ["chronometer"], misconceptionId: "M-CHRONOMETER-001" },
+  "ex-cosc-scope": { conceptIds: ["COSC"], misconceptionId: "M-COSC-001" },
+  "ex-observatory": { conceptIds: ["chronometer"], misconceptionId: "M-CHRONOMETER-001" },
+  "ex-bench": { conceptIds: ["friction"], misconceptionId: "M-FRICTION-001" },
+  "ex-finished-watch": { conceptIds: ["rate"], misconceptionId: "M-PRECISION-001" },
+  "ex-service": { conceptIds: ["friction"], misconceptionId: "M-FRICTION-001" },
+  "ex-restoration": { conceptIds: ["friction"], misconceptionId: "M-FRICTION-001" },
+  "ex-technology": { conceptIds: ["rate"], misconceptionId: "M-PRECISION-001" },
+  "ex-composite-scope": { conceptIds: ["chronometer"], misconceptionId: "M-CHRONOMETER-001" },
+  "ex-independent": { conceptIds: ["rate"], misconceptionId: "M-PRECISION-001" },
+  "ex-future-test": { conceptIds: ["amplitude"], misconceptionId: "M-AMPLITUDE-001" },
   "ex-experiment": { conceptIds: ["position", "rate", "amplitude"], misconceptionId: "M-POSITION-001" },
 };
 

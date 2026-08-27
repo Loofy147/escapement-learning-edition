@@ -13,6 +13,11 @@ describe("learning annotations", () => {
       "M-PRECISION-001",
       "M-ESCAPEMENT-001",
       "M-POSITION-001",
+      "M-ISOCHRONISM-001",
+      "M-AMPLITUDE-001",
+      "M-CHRONOMETER-001",
+      "M-COSC-001",
+      "M-FRICTION-001",
     ]);
   });
 

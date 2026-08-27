@@ -97,3 +97,7 @@
 - [x] Save a fresh checkpoint after the final activity and conflict-sync changes
 
 - [x] Save a new checkpoint after the latest validated activity and conflict-sync changes
+
+- [ ] Create a new private GitHub repository for the complete learning edition
+- [ ] Configure the repository remote and commit the current project state
+- [ ] Push the complete project history to GitHub and verify the remote

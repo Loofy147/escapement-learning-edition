@@ -23,6 +23,12 @@ for (const file of ["chapters.json", "concepts.json", "activities.json"]) {
   if (!Array.isArray(rows) || rows.length === 0) errors.push(`${file} must be a non-empty JSON array.`);
   for (const row of rows || []) {
     if (!row.id) errors.push(`${file} contains a record without id.`);
+    if (file === "activities.json") {
+      const allowed = ["choice", "sequence", "classification", "experiment", "prediction"];
+      if (!allowed.includes(row.type)) errors.push(`${file} activity ${row.id || "(unknown)"} has unsupported type: ${row.type}.`);
+      for (const field of ["chapterId", "prompt", "explanation", "misconception", "hint", "sourceAnchor"]) if (!row[field]) errors.push(`${file} activity ${row.id || "(unknown)"} needs ${field}.`);
+      if (["choice", "prediction", "sequence", "classification"].includes(row.type) && (!Array.isArray(row.options) || row.options.length === 0)) errors.push(`${file} activity ${row.id || "(unknown)"} needs non-empty options.`);
+    }
   }
 }
 if (errors.length) {

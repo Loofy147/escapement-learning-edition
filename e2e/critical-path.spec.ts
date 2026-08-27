@@ -20,6 +20,15 @@ test("reader to practice critical path preserves learner progress", async ({ pag
   expect(saved).toContain("ch-01");
 });
 
+test("chapter completion and reload restore remain available to public readers", async ({ page }) => {
+  await page.goto("/read/ch-01");
+  await expect(page.locator("article.reader h1")).toBeVisible();
+  await page.getByRole("button", { name: /Mark complete/i }).click();
+  await expect(page.getByRole("button", { name: /Completed/i })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("button", { name: /Completed/i })).toBeVisible();
+});
+
 test("public readers can discover account sync without being blocked", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("button", { name: /Sign in to sync/i })).toBeVisible();

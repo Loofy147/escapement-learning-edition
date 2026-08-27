@@ -1,1 +1,1 @@
-[{"id":"activity-01","chapterId":"ch-01","type":"choice","prompt":"What starts a useful inquiry?","answer":0,"options":["A question","A guess"]}]
+[{"id":"activity-01","chapterId":"ch-01","type":"choice","prompt":"What starts a useful inquiry?","answer":0,"options":["A question","A guess"],"explanation":"A question gives the observation a direction.","misconception":"A guess does not define what evidence would change your mind.","hint":"Begin with what you need to find out.","sourceAnchor":"ch-01-section-1"}]

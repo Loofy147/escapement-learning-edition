@@ -220,7 +220,8 @@ exercises.push(
 
 
 export type SyncMeta = { revision: number; updatedAt: number; deviceId: string };
-export type LearningProgress = { viewed: string[]; completed: string[]; attempts: Record<string, number>; mastered: string[]; current: string; positions: Record<string, { scrollY: number; sectionId: string }>; syncMeta?: SyncMeta };
+export type LearnerEvidence = { misconception?: Record<string, number>; hintUse?: Record<string, number>; retries?: Record<string, number>; sourceReturns?: Record<string, number>; confidence?: Record<string, number> };
+export type LearningProgress = { viewed: string[]; completed: string[]; attempts: Record<string, number>; mastered: string[]; current: string; positions: Record<string, { scrollY: number; sectionId: string }>; evidence?: LearnerEvidence; syncMeta?: SyncMeta };
 export type SyncConflict = "none" | "remote-newer" | "local-newer" | "diverged";
 export function classifyProgressConflict(local: LearningProgress, remote: LearningProgress): SyncConflict {
   if (!local.syncMeta || !remote.syncMeta || local.syncMeta.revision === remote.syncMeta.revision) return "none";
@@ -236,6 +237,11 @@ export function resolveProgressConflict(local: LearningProgress, remote: Learnin
 export function mergeProgressStates(local: LearningProgress, remote: LearningProgress): LearningProgress {
   const attempts = { ...local.attempts };
   Object.entries(remote.attempts || {}).forEach(([id, count]) => { attempts[id] = Math.max(attempts[id] || 0, count); });
+  const mergeCounts = (key: keyof LearnerEvidence) => {
+    const merged: Record<string, number> = { ...((local.evidence?.[key] || {}) as Record<string, number>) };
+    Object.entries((remote.evidence?.[key] || {}) as Record<string, number>).forEach(([id, count]) => { merged[id] = key === "confidence" ? Math.max(merged[id] || 0, count) : (merged[id] || 0) + count; });
+    return merged;
+  };
   return {
     viewed: Array.from(new Set([...local.viewed, ...(remote.viewed || [])])),
     completed: Array.from(new Set([...local.completed, ...(remote.completed || [])])),
@@ -243,6 +249,7 @@ export function mergeProgressStates(local: LearningProgress, remote: LearningPro
     mastered: Array.from(new Set([...local.mastered, ...(remote.mastered || [])])),
     current: remote.current || local.current,
     positions: { ...(local.positions || {}), ...(remote.positions || {}) },
+    evidence: { misconception: mergeCounts("misconception"), hintUse: mergeCounts("hintUse"), retries: mergeCounts("retries"), sourceReturns: mergeCounts("sourceReturns"), confidence: mergeCounts("confidence") },
     syncMeta: remote.syncMeta || local.syncMeta,
   };
 }

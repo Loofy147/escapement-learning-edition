@@ -64,10 +64,22 @@ describe("progress access and reusable content contracts", () => {
     expect(() => execFileSync(process.execPath, [path.resolve(process.cwd(), "programs/interactive-book-learning-edition/scripts/validate-book-package.mjs"), fixture], { encoding: "utf8", stdio: "pipe" })).toThrow();
   });
 
+  it("rejects an activity outside the shared activity algebra", () => {
+    const fixture = fs.mkdtempSync(path.join(os.tmpdir(), "book-learning-activity-invalid-"));
+    fs.writeFileSync(path.join(fixture, "book.config.json"), JSON.stringify({ id: "sample", title: "Sample", author: "Author", language: "en", sourceVersion: "1" }));
+    fs.writeFileSync(path.join(fixture, "chapters.json"), "[{\"id\":\"sample-1\"}]");
+    fs.writeFileSync(path.join(fixture, "concepts.json"), "[{\"id\":\"concept-1\"}]");
+    fs.writeFileSync(path.join(fixture, "activities.json"), "[{\"id\":\"activity-1\",\"type\":\"flashcard\"}]");
+    const script = path.resolve(process.cwd(), "programs/interactive-book-learning-edition/scripts/validate-book-package.mjs");
+    expect(() => execFileSync(process.execPath, [script, fixture], { encoding: "utf8", stdio: "pipe" })).toThrow();
+  });
+
   it("executes the reusable package validator against a valid fixture", () => {
     const fixture = fs.mkdtempSync(path.join(os.tmpdir(), "book-learning-"));
     fs.writeFileSync(path.join(fixture, "book.config.json"), JSON.stringify({ id: "sample", title: "Sample", author: "Author", language: "en", sourceVersion: "1" }));
-    for (const file of ["chapters.json", "concepts.json", "activities.json"]) fs.writeFileSync(path.join(fixture, file), "[{\"id\":\"sample-1\"}]");
+    fs.writeFileSync(path.join(fixture, "chapters.json"), "[{\"id\":\"sample-1\"}]");
+    fs.writeFileSync(path.join(fixture, "concepts.json"), "[{\"id\":\"concept-1\"}]");
+    fs.writeFileSync(path.join(fixture, "activities.json"), "[{\"id\":\"activity-1\",\"type\":\"choice\",\"chapterId\":\"sample-1\",\"prompt\":\"Choose\",\"options\":[\"A\",\"B\"],\"answer\":0,\"explanation\":\"Because A.\",\"misconception\":\"Choosing B.\",\"hint\":\"Read the prompt.\",\"sourceAnchor\":\"ch-01-section-1\"}]");
     const script = path.resolve(process.cwd(), "programs/interactive-book-learning-edition/scripts/validate-book-package.mjs");
     expect(execFileSync(process.execPath, [script, fixture], { encoding: "utf8" })).toContain("Book package ready");
   });

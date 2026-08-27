@@ -102,20 +102,20 @@
 - [x] Configure the repository remote and commit the current project state
 - [x] Push the complete project history to GitHub and verify the remote
 
-- [ ] Verify and enforce real-newline canonical chapter parsing
-- [ ] Isolate answer, feedback, hint, and retry state by activity id
-- [ ] Replace calculated part labels with canonical chapter-part metadata
-- [ ] Unify schema, runtime, validator, UI, and tests around one activity algebra including prediction
-- [ ] Replace sequence click accumulation with reorderable, removable sequence interaction
-- [ ] Replace classification toggles with explicit item/category choices
-- [ ] Move book-specific metadata into reusable data/config files and load it through the content boundary
-- [ ] Record richer learner evidence: misconception, hint use, retries, confidence, and source return
-- [ ] Add a critical-path browser/E2E test strategy for reader, activity, completion, restore, and sync
-- [ ] Add GitHub Actions CI for tests, typecheck, build, and package validation
-- [ ] Run release-hardening validation, visual verification, and save a new checkpoint
+- [x] Verify and enforce real-newline canonical chapter parsing
+- [x] Isolate answer, feedback, hint, and retry state by activity id
+- [x] Replace calculated part labels with canonical chapter-part metadata
+- [x] Unify schema, runtime, validator, UI, and tests around one activity algebra including prediction
+- [x] Replace sequence click accumulation with reorderable, removable sequence interaction
+- [x] Replace classification toggles with explicit item/category choices
+- [x] Move book-specific metadata into reusable data/config files and load it through the content boundary
+- [x] Record richer learner evidence: misconception, hint use, retries, confidence, and source return
+- [x] Add a critical-path browser/E2E test strategy for reader, activity, completion, restore, and sync
+- [x] Add GitHub Actions CI for tests, typecheck, build, and package validation
+- [x] Run release-hardening validation, visual verification, and save a new checkpoint
 
-- [ ] Repair stale answer/setAnswer references after isolating activity state
-- [ ] Re-run typecheck, tests, build, and visual review after the repair
+- [x] Repair stale answer/setAnswer references after isolating activity state
+- [x] Re-run typecheck, tests, build, and visual review after the repair
 
 - [x] Add critical-path browser tests for reader navigation, activity grading, progress persistence, and public sync discovery
 - [x] Add GitHub Actions CI for tests, typecheck, build, and reusable package validation

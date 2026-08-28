@@ -4,8 +4,10 @@ const path = "client/src/content/book.md";
 let book = fs.readFileSync(path, "utf8");
 
 function replaceExact(label, oldText, newText) {
-  const count = book.split(oldText).length - 1;
-  if (count !== 1) throw new Error(`${label}: expected exactly 1 match, found ${count}`);
+  const oldCount = book.split(oldText).length - 1;
+  const newCount = book.split(newText).length - 1;
+  if (oldCount === 0 && newCount === 1) return;
+  if (oldCount !== 1) throw new Error(`${label}: expected exactly 1 source match or 1 already-corrected match, found source=${oldCount} target=${newCount}`);
   book = book.replace(oldText, newText);
 }
 
@@ -27,10 +29,14 @@ const replacements = [
   ["ISO citation", "[5] ISO 3159, Wrist-chronometers with sprung balance oscillator (cite as the standard; do not invent clauses or quote inaccessible text).", "[5] International Organization for Standardization. ISO 3159:2009, *Timekeeping instruments — Wrist-chronometers with spring-balance oscillator*, Edition 2. ISO currently lists this edition as published/current; the standard is under systematic review as of 2026. Consult the licensed edition for exact clauses and definitions."],
   ["scope note", "This is a book to read in sequence and to revisit by subject. Part I establishes why timekeeping is a difficult physical problem.", "This is a practitioner-oriented technical guide for readers of mechanical horology. It is not an accredited training course, a caliber-specific service manual, or a complete professional reference. Read it in sequence and revisit it by subject. Part I establishes why timekeeping is a difficult physical problem."],
   ["Harrison sequence", "- H1. A large, complex, gimballed timekeeper with paired balances to counter motion, using a remontoire and novel anti-friction designs. It represented a bold attempt to stabilize rate aboard ship and was trialed at sea to Lisbon [4].\n- H2. An improvement on H1 aiming to address identified defects. Harrison ultimately considered it imperfect and did not seek its sea trial [4].\n- H3. A rethinking with new elements—most famously a bimetallic compensation device and caged roller bearings—seeking to solve the remaining isochronism and temperature errors. It took many years and did not achieve the performance Harrison wanted [4].\n- H4. A different approach, small and watch-like, with a fast balance and a spring, showing that a portable watch could reach the required steadiness if designed and made with extraordinary care. It was this instrument that underwent a famous long-distance test [4].", "- H1. A large, complex, gimballed timekeeper with paired balances and novel anti-friction and compensation ideas; it was trialed at sea to Lisbon [4].\n- H2. A development of H1 that Harrison did not submit to a sea trial after identifying a flaw [4].\n- H3. A further development addressing temperature compensation and oscillator behavior; Harrison continued work on it for years rather than treating it as the final solution [4].\n- H4. A smaller, watch-like timekeeper with a balance and spring. Its Jamaica trial in 1761, followed by later trials and examination, became the most famous stage in Harrison’s pursuit of the Longitude reward [4]."],
-  ["Jamaica outcome", "H4 was dispatched on a voyage to the Caribbean to test its ability to carry Greenwich time across the Atlantic. Observers recorded its behavior relative to astronomical determinations at sea and at landfall. The Royal Museums Greenwich account summarizes the voyage and its assessment: H4’s performance demonstrated that a portable timekeeper could meet the Act’s criteria on a real sea passage [4]. A bench note to modern readers: the test had a route, a duration, and a method for comparing the device against reference observations. It was a chronometric trial, not a workshop boast.", "H4 was dispatched on the 1761 voyage to Jamaica. Its performance demonstrated the feasibility of using a portable timekeeper for longitude under the relevant trial conditions, but the result did not end the controversy over the reward. Further testing followed, including the Barbados trial of 1763–1764, Board consideration in 1765, and Royal Observatory testing beginning in 1766 [4]. The important historical point is not a single triumphant voyage but a sequence of increasingly demanding trials."]
+  ["Jamaica outcome", "H4 was dispatched on a voyage to the Caribbean to test its ability to carry Greenwich time across the Atlantic. Observers recorded its behavior relative to astronomical determinations at sea and at landfall. The Royal Museums Greenwich account summarizes the voyage and its assessment: H4’s performance demonstrated that a portable timekeeper could meet the Act’s criteria on a real sea passage [4]. A bench note to modern readers: the test had a route, a duration, and a method for comparing the device against reference observations. It was a chronometric trial, not a workshop boast.", "H4 was dispatched on the 1761 voyage to Jamaica. Its performance demonstrated the feasibility of using a portable timekeeper for longitude under the relevant trial conditions, but the result did not end the controversy over the reward. Further testing followed, including the Barbados trial of 1763–1764, Board consideration in 1765, and Royal Observatory testing beginning in 1766 [4]. The important historical point is not a single triumphant voyage but a sequence of increasingly demanding trials."],
 ];
 
 for (const [label, oldText, newText] of replacements) replaceExact(label, oldText, newText);
 
+if (book.includes("Review before publication")) {
+  book = book.replaceAll("Review before publication", "Editorial QA Notes");
+}
+
 fs.writeFileSync(path, book);
-console.log(`Applied ${replacements.length} Escapement Book QA corrections to ${path}`);
+console.log(`Applied or confirmed ${replacements.length} deterministic Escapement Book QA corrections.`);

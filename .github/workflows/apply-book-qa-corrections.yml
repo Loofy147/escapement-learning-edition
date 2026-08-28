@@ -6,13 +6,15 @@ permissions:
   contents: write
 jobs:
   apply:
-    if: startsWith(github.event.head_commit.message, '[apply-book-qa]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Apply deterministic book QA corrections
         run: node scripts/apply-book-qa-corrections.mjs
-      - run: git diff --check
+      - name: Validate manuscript diff
+        run: |
+          git diff --check
+          git diff -- client/src/content/book.md
       - name: Commit corrected manuscript
         run: |
           git config user.name "github-actions[bot]"

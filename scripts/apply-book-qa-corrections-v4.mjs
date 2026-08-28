@@ -35,6 +35,17 @@ replaceExact(
   "A possible future standard could also include maintainability. This is a proposal for discussion, not a current published requirement."
 );
 
+// Idempotency and publication-hygiene guards for repeated workflow runs.
+book = book.replace(/7\. Metals and Alloys in the Movement(?: in the Movement)+/g, "7. Metals and Alloys in the Movement");
+
+const futureQualifier = "The following are possible future directions proposed by the author; they are not presented as announced policy by standards bodies or manufacturers.";
+book = book.replace(new RegExp(`(?:${futureQualifier.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}\\s*){2,}`, "g"), `${futureQualifier} `);
+
+const benchGuardrail = "The procedures in this part are illustrative practitioner guidance, not universal service specifications; movement-specific tolerances, oils, tools, safety procedures, and adjustment methods must come from the applicable manufacturer documentation and qualified training.";
+book = book.replace(new RegExp(`(?:${benchGuardrail.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}\\s*){2,}`, "g"), `${benchGuardrail} `);
+
+book = book.replace(/\n## Review before publication[\s\S]*?(?=\n# Part V — Practice: At the Bench)/, "\n");
 book = book.replace(/[ \t]+\n/g, "\n");
+
 fs.writeFileSync(path, book);
-console.log("Applied or confirmed Escapement Book QA v4 contextual and scope corrections.");
+console.log("Applied or confirmed Escapement Book QA v4 contextual, scope, and publication-hygiene corrections.");

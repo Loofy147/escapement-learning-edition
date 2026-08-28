@@ -2,7 +2,8 @@ import type { LearningProgressInput } from "./learningIntelligence";
 import { activityAnnotations } from "./learningAnnotations";
 
 export type TransferOption = { label: string; rationale: string; correct?: boolean };
-export type TransferTask = { id: string; conceptIds: string[]; chapterId: string; prompt: string; expectedReasoning: string; skill: "diagnose" | "predict" | "compare" | "justify"; options: TransferOption[]; correctOption: number };
+export type TransferReasoningRubric = { requiredSignals: string[]; misconceptionId: string };
+export type TransferTask = { id: string; conceptIds: string[]; chapterId: string; prompt: string; expectedReasoning: string; skill: "diagnose" | "predict" | "compare" | "justify"; options: TransferOption[]; correctOption: number; reasoningRubric?: TransferReasoningRubric };
 
 export const transferTasks: TransferTask[] = [
   { id: "transfer-rate-position", conceptIds: ["rate", "position"], chapterId: "ch-18", prompt: "A watch gains 6 s/d dial-up, loses 3 s/d crown-down, and shows stable amplitude in both positions. What does the spread suggest, and what should you inspect next?", expectedReasoning: "Treat the positional spread as evidence of orientation-dependent behavior rather than cancelling it with an average; inspect poise, pivots, hairspring centering, and position-specific friction.", skill: "diagnose", correctOption: 0, options: [
@@ -15,7 +16,7 @@ export const transferTasks: TransferTask[] = [
     { label: "Only the regulator setting.", rationale: "Regulation changes rate; it does not explain every amplitude loss." },
     { label: "The dial typography.", rationale: "The display has no causal relationship to amplitude." },
   ] },
-  { id: "transfer-certification-scope", conceptIds: ["chronometer", "COSC"], chapterId: "ch-12", prompt: "A movement passes a movement-only chronometer test but performs differently after casing. What claim is supported, and what claim needs additional evidence?", expectedReasoning: "The movement-level certification supports the defined movement test claim; it does not by itself prove identical finished-watch performance under wear conditions.", skill: "justify", correctOption: 0, options: [
+  { id: "transfer-certification-scope", conceptIds: ["chronometer", "COSC"], chapterId: "ch-12", prompt: "A movement passes a movement-only chronometer test but performs differently after casing. What claim is supported, and what claim needs additional evidence?", expectedReasoning: "The movement-level certification supports the defined movement test claim; it does not by itself prove identical finished-watch performance under wear conditions.", skill: "justify", correctOption: 0, reasoningRubric: { requiredSignals: ["movement", "test", "finished", "watch"], misconceptionId: "M-COSC-001" }, options: [
     { label: "The movement test result is supported; finished-watch performance needs its own evidence.", rationale: "Correct: claim scope follows the object and conditions tested.", correct: true },
     { label: "The certification proves identical behavior after casing.", rationale: "That extends a movement-only result beyond its stated scope." },
     { label: "No timing claim can ever be made from certification.", rationale: "The defined movement-level claim is precisely what the test supports." },
@@ -23,7 +24,7 @@ export const transferTasks: TransferTask[] = [
 ];
 
 export type TransferReadiness = { taskId: string; ready: boolean; reason: string; prerequisiteScore: number };
-export type TransferEvaluation = { taskId: string; selectedOption: number; correct: boolean; score: number; feedback: string };
+export type TransferEvaluation = { taskId: string; selectedOption: number; correct: boolean; score: number; feedback: string; mode?: "choice" | "reasoning"; matchedSignals?: string[] };
 export function transferReadiness(task: TransferTask, progress: LearningProgressInput): TransferReadiness {
   const conceptEvidence = task.conceptIds.map((conceptId) => {
     const activityIds = Object.entries(activityAnnotations).filter(([, annotation]) => annotation.conceptIds.includes(conceptId)).map(([activityId]) => activityId);
@@ -36,5 +37,18 @@ export function transferReadiness(task: TransferTask, progress: LearningProgress
 }
 export function gradeTransferTask(task: TransferTask, selectedOption: number | null): TransferEvaluation {
   const correct = selectedOption === task.correctOption;
-  return { taskId: task.id, selectedOption: selectedOption ?? -1, correct, score: correct ? 1 : 0, feedback: correct ? task.options[task.correctOption].rationale : "Reconsider the evidence. " + task.options[task.correctOption].rationale };
+  return { taskId: task.id, selectedOption: selectedOption ?? -1, correct, score: correct ? 1 : 0, mode: "choice", feedback: correct ? task.options[task.correctOption].rationale : "Reconsider the evidence. " + task.options[task.correctOption].rationale };
+}
+
+export function gradeTransferReasoning(task: TransferTask, response: string): TransferEvaluation {
+  const rubric = task.reasoningRubric;
+  if (!rubric) return { taskId: task.id, selectedOption: -1, correct: false, score: 0, mode: "reasoning", matchedSignals: [], feedback: "No reasoning rubric is defined for this task." };
+  const normalized = response.trim().toLowerCase();
+  const matchedSignals = rubric.requiredSignals.filter((signal) => normalized.includes(signal.toLowerCase()));
+  const score = rubric.requiredSignals.length ? matchedSignals.length / rubric.requiredSignals.length : 0;
+  const correct = score >= 0.75;
+  return {
+    taskId: task.id, selectedOption: -1, correct, score, mode: "reasoning", matchedSignals,
+    feedback: correct ? "The response includes the core evidence signals required by the rubric." : "The response is missing key evidence signals. Revisit the tested object, conditions, and claim scope.",
+  };
 }

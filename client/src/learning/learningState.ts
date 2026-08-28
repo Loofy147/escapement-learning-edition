@@ -3,7 +3,7 @@ export type RetrievalState = { dueAt: number; intervalDays: number; reviews: num
 export type LearningEvent =
   | { id: string; kind: "transfer"; taskId: string; correct: boolean; occurredAt: number }
   | { id: string; kind: "retrieval"; activityId: string; correct: boolean; occurredAt: number }
-  | { id: string; kind: "assessment"; stage: "pre" | "post" | "delayed"; score: number; occurredAt: number };
+  | { id: string; kind: "assessment"; stage: "pre" | "post" | "delayed"; score: number; conceptScores: Record<string, number>; misconceptionCounts: Record<string, number>; occurredAt: number };
 export type PersistedLearningState = { version: 2; transfer: Record<string, TransferAttemptState>; retrieval: Record<string, RetrievalState>; events: LearningEvent[] };
 
 export const emptyLearningState: PersistedLearningState = { version: 2, transfer: {}, retrieval: {}, events: [] };
@@ -47,8 +47,8 @@ export function recordRetrievalReview(state: PersistedLearningState, activityId:
   return { ...state, retrieval: { ...state.retrieval, [activityId]: { dueAt: intervalDays === 0 ? now : now + intervalDays * 86_400_000, intervalDays, reviews: (previous?.reviews ?? 0) + 1, correctReviews: (previous?.correctReviews ?? 0) + (correct ? 1 : 0), lastReviewedAt: now } }, events: [...(state.events ?? []), event] };
 }
 
-export function recordAssessment(state: PersistedLearningState, stage: "pre" | "post" | "delayed", score: number, now = Date.now()): PersistedLearningState {
-  const event: LearningEvent = { id: eventId("assessment", stage, now), kind: "assessment", stage, score: Math.max(0, Math.min(1, score)), occurredAt: now };
+export function recordAssessment(state: PersistedLearningState, stage: "pre" | "post" | "delayed", score: number, conceptScores: Record<string, number> = {}, misconceptionCounts: Record<string, number> = {}, now = Date.now()): PersistedLearningState {
+  const event: LearningEvent = { id: eventId("assessment", stage, now), kind: "assessment", stage, score: Math.max(0, Math.min(1, score)), conceptScores, misconceptionCounts, occurredAt: now };
   return { ...state, events: [...(state.events ?? []), event] };
 }
 

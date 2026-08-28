@@ -17,6 +17,7 @@ jobs:
       - name: Validate manuscript diff
         run: |
           git diff --check
+          test "$(wc -l < client/src/content/book.md)" -ge 1400
           git diff -- client/src/content/book.md
       - name: Commit corrected manuscript
         run: |

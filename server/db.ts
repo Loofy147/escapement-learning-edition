@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, learnerProgress, InsertLearnerProgress } from "../drizzle/schema";
+import { InsertUser, users, learnerProgress, InsertLearnerProgress, learnerLearningEvents, InsertLearnerLearningEvent } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -137,4 +137,20 @@ export async function upsertLearnerLearningState(userId: number, learningState: 
     throw new Error("Learning state must be valid JSON");
   }
   return upsertLearnerProgress({ userId, state });
+}
+
+export async function appendLearnerLearningEvents(userId: number, events: Array<{ eventId: string; kind: string; occurredAt: Date; payload: string }>) {
+  const db = await getDb();
+  if (!db || events.length === 0) return { inserted: 0 };
+  const rows: InsertLearnerLearningEvent[] = events.map((event) => ({ userId, ...event }));
+  for (const row of rows) {
+    await db.insert(learnerLearningEvents).values(row).onDuplicateKeyUpdate({ set: { eventId: row.eventId } });
+  }
+  return { inserted: rows.length };
+}
+
+export async function getLearnerLearningEvents(userId: number, limit = 500) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(learnerLearningEvents).where(eq(learnerLearningEvents.userId, userId)).limit(limit);
 }

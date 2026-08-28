@@ -1,4 +1,4 @@
-# Escapement — Book QA Reconciliation v2
+# Escapement — Book QA Reconciliation v3
 
 Final expert-pass record for the 40 findings in `BOOK_QA_REGISTER.md`.
 
@@ -6,8 +6,10 @@ Final expert-pass record for the 40 findings in `BOOK_QA_REGISTER.md`.
 
 - High-risk factual, terminology, standards, and historical findings: resolved or explicitly qualified.
 - Editorial findings: non-blocking final-edit recommendations.
-- Independent specialist proof: still required before calling the manuscript a definitive professional reference.
-- Manuscript integrity: the Book QA workflow includes a minimum-line-count guard before committing an automated correction.
+- Author qualification: complete — Hicham Bedrani.
+- Open reader/specialist review: future track, not a current publication blocker.
+- The manuscript is not presented as an exhaustive academic monograph or formal professional certification reference.
+- Manuscript integrity: the Book QA workflow includes a minimum-line-count guard before committing automated corrections.
 
 ## Closed findings
 
@@ -34,14 +36,24 @@ BQ-038 — template-like prose: final human copy-editing can increase stylistic 
 
 BQ-039 — chapter transitions: final structural editing can tighten thematic progression and reduce restatement.
 
-These four are editorial quality findings, not factual blockers.
+These four are editorial quality findings, not factual blockers for the current author-qualified edition.
+
+## Qualification model
+
+The current edition is author-qualified by Hicham Bedrani.
+
+Open reader and specialist review is intentionally deferred. It will use the future process documented in `docs/roadmap/OPEN_REVIEW_LAYER.md`:
+
+`review → evidence → author adjudication → versioned correction / erratum`
+
+No institutional peer-review claim is made, and no reviewer trust/reputation system exists in the current baseline.
 
 ## Final judgment
 
-**BOOK QA-1: CONDITIONAL PASS**
+**BOOK QA-1: PASS — AUTHOR-QUALIFIED BASELINE**
 
-The manuscript has passed the deterministic factual/technical correction cycle and the final expert-oriented source review. It is suitable for continued product and reader development.
+The manuscript has passed the deterministic factual/technical correction cycle and multi-angle expert-oriented review at the intended practitioner-oriented scope. It is the reference book for the current project baseline.
 
-It must not yet be labeled a fully publication-ready professional reference until a qualified horology reviewer performs a final claim-level proof against the cited technical books, governing standards, and current manufacturer documentation.
+This status does not claim exhaustive professional-peer validation or psychometric/learning efficacy. Those are different questions and remain outside the current book qualification gate.
 
-The automated QA system is a reproducibility and manuscript-integrity control. It is not a substitute for peer review.
+The automated QA system is a reproducibility and manuscript-integrity control. It does not itself establish truth or professional certification.

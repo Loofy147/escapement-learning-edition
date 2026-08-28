@@ -6,7 +6,7 @@ import { learningActivitiesFromCatalog } from "./activityConceptMap";
 import { buildConceptGraph, buildMisconceptionState } from "./conceptGraph";
 import { activityLearningState, buildConceptLearningStates, recommendNextLearningAction } from "./learningIntelligence";
 import { misconceptions } from "./learningAnnotations";
-import { gradeTransferTask, transferReadiness, transferTasks } from "./transfer";
+import { gradeTransferReasoning, gradeTransferTask, transferReadiness, transferTasks } from "./transfer";
 import { assessmentHistory, emptyLearningState, mergeLearningStates, normalizeLearningState, recordAssessment, recordRetrievalReview, recordTransferAttempt, type LearningEvent, type PersistedLearningState } from "./learningState";
 import { trpc } from "@/lib/trpc";
 import type { LearningProgressInput } from "./learningIntelligence";
@@ -36,6 +36,7 @@ export default function LearningIntelligencePage() {
   const [selectedConceptId, setSelectedConceptId] = useState(conceptGraph[0]?.id ?? "");
   const [transferSelections, setTransferSelections] = useState<Record<string, number | null>>({});
   const [transferFeedback, setTransferFeedback] = useState<Record<string, string>>({});
+  const [reasoningResponses, setReasoningResponses] = useState<Record<string, string>>({});
   const [assessment, setAssessment] = useState<{ stage: "pre" | "post" | "delayed"; index: number; answers: Record<string, number | null> } | null>(null);
 
   useEffect(() => { localStorage.setItem("escapement-learning-state", JSON.stringify(learningState)); }, [learningState]);
@@ -104,6 +105,14 @@ export default function LearningIntelligencePage() {
     setLearningState((current) => recordRetrievalReview(current, activityId, correct));
   }
 
+  function submitReasoning(taskId: string) {
+    const task = transferTasks.find((item) => item.id === taskId);
+    if (!task) return;
+    const evaluation = gradeTransferReasoning(task, reasoningResponses[taskId] || "");
+    setTransferFeedback((current) => ({ ...current, [taskId]: evaluation.feedback + (evaluation.matchedSignals?.length ? " Matched: " + evaluation.matchedSignals.join(", ") + "." : "") }));
+    setLearningState((current) => recordTransferAttempt(current, taskId, evaluation.correct));
+  }
+
   function beginAssessment(stage: "pre" | "post" | "delayed") { setAssessment({ stage, index: 0, answers: {} }); }
   function answerAssessment(answer: number) {
     setAssessment((current) => current ? { ...current, answers: { ...current.answers, [assessmentItems[current.index].id]: answer }, index: Math.min(current.index + 1, assessmentItems.length) } : current);
@@ -150,6 +159,10 @@ export default function LearningIntelligencePage() {
         <div className="mb-5"><p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Learning report</p><h2 className="mt-1 text-2xl font-semibold">Concept change and misconception trend.</h2></div>
         <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b border-slate-200 text-slate-500"><th className="px-3 py-2">Concept</th><th className="px-3 py-2">Pre</th><th className="px-3 py-2">Post</th><th className="px-3 py-2">Delayed</th><th className="px-3 py-2">Post Δ</th><th className="px-3 py-2">Delayed Δ</th></tr></thead><tbody>{buildTemporalLearningReport(learningState.events).map((row)=><tr key={row.conceptId} className="border-b border-slate-100"><td className="px-3 py-2 font-medium">{bookConcepts.find(c=>c.id===row.conceptId)?.label??row.conceptId}</td><td className="px-3 py-2">{row.pre===null?"—":Math.round(row.pre*100)+"%"}</td><td className="px-3 py-2">{row.post===null?"—":Math.round(row.post*100)+"%"}</td><td className="px-3 py-2">{row.delayed===null?"—":Math.round(row.delayed*100)+"%"}</td><td className="px-3 py-2">{row.postDelta===null?"—":(row.postDelta>=0?"+":"")+Math.round(row.postDelta*100)+" pp"}</td><td className="px-3 py-2">{row.delayedDelta===null?"—":(row.delayedDelta>=0?"+":"")+Math.round(row.delayedDelta*100)+" pp"}</td></tr>)}</tbody></table></div>
         <div className="mt-5 grid gap-3 md:grid-cols-2">{misconceptionTrend(learningState.events).map((row)=><div key={row.conceptId} className="rounded-2xl bg-slate-50 p-4"><strong>{bookConcepts.find(c=>c.id===row.conceptId)?.label??row.conceptId}</strong><p className="mt-1 text-sm text-slate-600">Misconception signals — pre: {row.pre}, post: {row.post}, delayed: {row.delayed}; post Δ {row.postDelta>=0?"+":""}{row.postDelta}, delayed Δ {row.delayedDelta>=0?"+":""}{row.delayedDelta}</p></div>)}</div>
+      </section>
+      <section className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="mb-5"><p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Reasoning transfer</p><h2 className="mt-1 text-2xl font-semibold">Explain the evidence, not just the choice.</h2><p className="mt-2 text-sm text-slate-600">Responses are evaluated with an explicit evidence rubric. This is deterministic keyword/evidence matching, not AI grading.</p></div>
+        {transferTasks.filter((task)=>task.reasoningRubric).map((task)=>{ const response=reasoningResponses[task.id]||""; return <article key={task.id} className="rounded-2xl border border-slate-200 p-5"><p className="text-sm leading-6 text-slate-700">{task.prompt}</p><textarea value={response} onChange={(e)=>setReasoningResponses((current)=>({ ...current, [task.id]: e.target.value }))} placeholder="State the object tested, the condition, the evidence, and the claim it supports." className="mt-4 min-h-28 w-full rounded-xl border border-slate-300 px-3 py-3 text-sm" /><button className="mt-3 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white" disabled={!response.trim()} onClick={()=>submitReasoning(task.id)}>Evaluate reasoning</button>{transferFeedback[task.id] && <p className="mt-3 rounded-xl bg-slate-50 p-3 text-sm text-slate-700">{transferFeedback[task.id]}</p>}</article>; })}
       </section>
       <section className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="mb-5 flex items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Spaced retrieval</p><h2 className="mt-1 text-2xl font-semibold">Review what is due.</h2></div><span className="text-sm text-slate-500">{retrievalQueue.filter((item) => item.due).length} due now</span></div><div className="grid gap-3 md:grid-cols-3">{retrievalQueue.slice(0, 6).map((item) => <article key={item.activityId} className={`rounded-2xl border p-4 ${item.due ? "border-amber-300 bg-amber-50" : "border-slate-200 bg-white"}`}><div className="flex items-center justify-between gap-3"><strong>{item.activityId}</strong><span className="text-xs uppercase tracking-wider text-slate-500">{item.reviews} reviews</span></div><p className="mt-2 text-sm text-slate-600">{item.due ? "Due now. Retrieve before moving on." : `Next review ${new Date(item.dueAt).toLocaleDateString()}`}</p><div className="mt-3 flex gap-2"><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm" onClick={() => review(item.activityId, true)}><CheckCircle2 size={14} className="mr-1 inline" />I recalled it</button><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm" onClick={() => review(item.activityId, false)}>Needs another pass</button></div></article>)}</div></section>
 

@@ -48,12 +48,12 @@ This register audits **the book manuscript itself**. It deliberately excludes th
 
 | ID | Location | Finding | Action | Evidence / rationale |
 |---|---|---|---|---|
-| BQ-023 | Ch. 12, ISO 3159 | Bibliography omits edition/status detail. | `REWRITE` | Identify `ISO 3159:2009`, edition 2. ISO currently lists it as the published edition and says it remains current while under systematic review. citeturn735730search1 |
+| BQ-023 | Ch. 12, ISO 3159 | Bibliography omits edition/status detail. | `REWRITE` | Identify `ISO 3159:2009`, edition 2. ISO currently lists it as the published edition and says it remains current while under systematic review. |
 | BQ-024 | Ch. 12, COSC | Traditional COSC scope must remain explicitly movement-level. | `KEEP + CLARIFY` | Current COSC materials distinguish the traditional movement certification from finished-watch Excellence certification. |
 | BQ-025 | Ch. 14/23, COSC Excellence | Current details were previously left partially as review-needed. | `UPDATE` | Use current COSC primary material, including finished-watch scope and published current test characteristics. |
 | BQ-026 | Ch. 13, METAS | Current text underuses primary-source evidence. | `UPDATE` | Replace industry-described wording where supported by current METAS documentation; retain scope/date qualifications where implementation can evolve. |
-| BQ-027 | Ch. 13, Rolex | 2026 Superlative Chronometer changes are missing. | `UPDATE` | Rolex now states three additional criteria: magnetism, reliability and sustainability, supplementing precision, waterproofness, self-winding and autonomy; the finished-watch precision target remains -2/+2 s/day. citeturn735730search0turn735730search5 |
-| BQ-028 | Ch. 13, JLC | 1000 Hours description is too tentative. | `UPDATE` | JLC states testing for up to six weeks with extensive checks on positions, power reserve, temperature, movement and water resistance. citeturn735730search4 |
+| BQ-027 | Ch. 13, Rolex | 2026 Superlative Chronometer changes are missing. | `UPDATE` | Rolex now states three additional criteria: magnetism, reliability and sustainability, supplementing precision, waterproofness, self-winding and autonomy; the finished-watch precision target remains -2/+2 s/day. |
+| BQ-028 | Ch. 13, JLC | 1000 Hours description is too tentative. | `UPDATE` | JLC states testing for up to six weeks with extensive checks on positions, power reserve, temperature, movement and water resistance. |
 | BQ-029 | Appendix A | Certification comparison risks reducing each program to headline numbers. | `REWRITE` | Keep object, conditions, duration, measurement and authority alongside tolerances. |
 | BQ-030 | Ch. 13–14 | Proprietary brand programs can be mistaken for ISO/COSC standards. | `REWRITE` | Label public standard, third-party certification, and proprietary manufacturer program separately. |
 
@@ -61,10 +61,10 @@ This register audits **the book manuscript itself**. It deliberately excludes th
 
 | ID | Location | Finding | Action | Evidence / rationale |
 |---|---|---|---|---|
-| BQ-031 | Ch. 2, H4 narrative | Jamaica trial is compressed into a simple success story. | `RESTRUCTURE` | RMG documents the 1761 Jamaica trial, subsequent dispute, 1763–64 Barbados trial, 1766 Royal Observatory test, and the fact that H4 did not perform well in the latter. citeturn375422search0 |
-| BQ-032 | Ch. 2, H4 outcome | Wording can imply one successful voyage permanently settled the longitude question. | `QUALIFY` | Say H4 demonstrated feasibility under relevant trials; do not imply that one trial instantly ended the technical/institutional story. RMG describes continued testing and dispute. citeturn375422search0 |
+| BQ-031 | Ch. 2, H4 narrative | Jamaica trial is compressed into a simple success story. | `RESTRUCTURE` | RMG documents the 1761 Jamaica trial, subsequent dispute, 1763–64 Barbados trial, 1766 Royal Observatory test, and the fact that H4 did not perform well in the latter. |
+| BQ-032 | Ch. 2, H4 outcome | Wording can imply one successful voyage permanently settled the longitude question. | `QUALIFY` | Say H4 demonstrated feasibility under relevant trials; do not imply that one trial instantly ended the technical/institutional story. |
 | BQ-033 | Ch. 15, Observatory Trials | Kew/Neuchâtel/scoring claims are intentionally incomplete. | `RESEARCH OR REDUCE` | Either build a source-backed historical chapter or reduce it to the verified general lineage of competition → testing → standardization. |
-| BQ-034 | Ch. 2, longitude history | The role of lunar distance and Jupiter's satellites is compressed. | `QUALIFY` | Preserve as context; avoid implying the chronometer approach was the only serious route. RMG explicitly describes rival astronomical methods. citeturn375422search0 |
+| BQ-034 | Ch. 2, longitude history | The role of lunar distance and Jupiter's satellites is compressed. | `QUALIFY` | Preserve as context; avoid implying the chronometer approach was the only serious route. |
 
 ## P2 — Editorial architecture
 
@@ -88,6 +88,4 @@ No claim is allowed to remain merely because it is plausible. Each material clai
 
 ## Current publication gate
 
-`NOT YET — Book QA-1 required before publication.`
-
-The manuscript architecture is retained. The required work is a factual, source, terminology, and editorial correction pass rather than a wholesale rewrite.
+`IN CORRECTION — deterministic manuscript patch runner triggered; final publication decision remains blocked pending diff review and re-audit.`

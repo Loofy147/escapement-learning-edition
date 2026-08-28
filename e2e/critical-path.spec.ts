@@ -37,12 +37,17 @@ test("public readers can discover account sync without being blocked", async ({ 
 test("learning intelligence records temporal assessment evidence", async ({ page }) => {
   await page.goto("/learning");
   await expect(page.getByRole("heading", { name: /Measure learning across time/i })).toBeVisible();
-  await page.getByRole("button", { name: "Start pre" }).click();
-  await page.getByRole("button", { name: "I can explain it" }).click();
-  await page.getByRole("button", { name: "Finish and save" }).click();
-  await page.getByRole("button", { name: "Start post" }).click();
-  await page.getByRole("button", { name: "I can explain it" }).click();
-  await page.getByRole("button", { name: "Finish and save" }).click();
+
+  for (const stage of ["pre", "post"] as const) {
+    await page.getByRole("button", { name: `Start ${stage}` }).click();
+    for (let question = 0; question < 6; question += 1) {
+      const options = page.locator("section").filter({ hasText: "Six concept-linked questions create comparable pre, post, and delayed evidence." }).getByRole("button");
+      await expect(options.first()).toBeVisible();
+      await options.first().click();
+    }
+    await page.getByRole("button", { name: "Save assessment event" }).click();
+  }
+
   await expect(page.getByText(/Pre → post change:/)).toBeVisible();
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("escapement-learning-state") || "{}"));
   expect(saved.events.filter((event: { kind: string }) => event.kind === "assessment")).toHaveLength(2);

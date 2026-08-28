@@ -47,8 +47,30 @@ export function recordRetrievalReview(state: PersistedLearningState, activityId:
   return { ...state, retrieval: { ...state.retrieval, [activityId]: { dueAt: intervalDays === 0 ? now : now + intervalDays * 86_400_000, intervalDays, reviews: (previous?.reviews ?? 0) + 1, correctReviews: (previous?.correctReviews ?? 0) + (correct ? 1 : 0), lastReviewedAt: now } }, events: [...(state.events ?? []), event] };
 }
 
-export function recordAssessment(state: PersistedLearningState, stage: "pre" | "post" | "delayed", score: number, conceptScores: Record<string, number> = {}, misconceptionCounts: Record<string, number> = {}, now = Date.now()): PersistedLearningState {
-  const event: LearningEvent = { id: eventId("assessment", stage, now), kind: "assessment", stage, score: Math.max(0, Math.min(1, score)), conceptScores, misconceptionCounts, occurredAt: now };
+export function recordAssessment(
+  state: PersistedLearningState,
+  stage: "pre" | "post" | "delayed",
+  score: number,
+  conceptScoresOrNow: Record<string, number> | number = {},
+  misconceptionCountsOrNow: Record<string, number> | number = {},
+  now = Date.now(),
+): PersistedLearningState {
+  const conceptScores = typeof conceptScoresOrNow === "number" ? {} : conceptScoresOrNow;
+  const misconceptionCounts = typeof misconceptionCountsOrNow === "number" ? {} : misconceptionCountsOrNow;
+  const eventNow = typeof conceptScoresOrNow === "number"
+    ? conceptScoresOrNow
+    : typeof misconceptionCountsOrNow === "number"
+      ? misconceptionCountsOrNow
+      : now;
+  const event: LearningEvent = {
+    id: eventId("assessment", stage, eventNow),
+    kind: "assessment",
+    stage,
+    score: Math.max(0, Math.min(1, score)),
+    conceptScores,
+    misconceptionCounts,
+    occurredAt: eventNow,
+  };
   return { ...state, events: [...(state.events ?? []), event] };
 }
 

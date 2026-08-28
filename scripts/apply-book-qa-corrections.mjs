@@ -34,9 +34,7 @@ const replacements = [
 
 for (const [label, oldText, newText] of replacements) replaceExact(label, oldText, newText);
 
-if (book.includes("Review before publication")) {
-  book = book.replaceAll("Review before publication", "Editorial QA Notes");
-}
+book = book.replaceAll("## Review before publication", "## Editorial QA Notes");
 
 fs.writeFileSync(path, book);
 console.log(`Applied or confirmed ${replacements.length} deterministic Escapement Book QA corrections.`);

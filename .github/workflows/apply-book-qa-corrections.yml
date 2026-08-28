@@ -12,11 +12,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Apply deterministic book QA corrections v2
-        run: node scripts/apply-book-qa-corrections-v2.mjs
+      - name: Apply deterministic Book QA v4
+        run: node scripts/apply-book-qa-corrections-v4.mjs
       - name: Validate manuscript diff
         run: |
           git diff --check
+          test "$(wc -l < client/src/content/book.md)" -ge 1400
           git diff -- client/src/content/book.md
       - name: Commit corrected manuscript
         run: |
@@ -24,5 +25,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add client/src/content/book.md
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "docs: apply Escapement Book QA v2 corrections"
+          git commit -m "docs: apply Escapement Book QA v4 corrections"
           git push origin HEAD:feat/learning-intelligence-v1

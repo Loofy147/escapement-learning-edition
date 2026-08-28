@@ -32,7 +32,7 @@ For the people who keep small machines honest.
 
 **Part III — Materials & Precision Science**
 
-7. Metals and Alloys in the Movement
+7. Metals and Alloys in the Movement in the Movement
 8. Hairsprings: Evolution, Geometry, and Control
 9. Jewels, Friction, and Energy
 10. Thermal Compensation, Temperature Testing, and Magnetic Resistance; Silicon and Non‑Ferrous Components

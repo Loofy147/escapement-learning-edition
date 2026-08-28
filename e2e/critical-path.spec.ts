@@ -40,10 +40,10 @@ test("learning intelligence records temporal assessment evidence", async ({ page
 
   for (const stage of ["pre", "post"] as const) {
     await page.getByRole("button", { name: `Start ${stage}` }).click();
-    for (let question = 0; question < 6; question += 1) {
-      const options = page.locator("section").filter({ hasText: "Six concept-linked questions create comparable pre, post, and delayed evidence." }).getByRole("button");
-      await expect(options.first()).toBeVisible();
-      await options.first().click();
+    for (let question = 1; question <= 6; question += 1) {
+      const questionPanel = page.getByText(new RegExp(`^${stage} · ${question}/6 ·`)).locator("..");
+      await expect(questionPanel).toBeVisible();
+      await questionPanel.getByRole("button").first().click();
     }
     await page.getByRole("button", { name: "Save assessment event" }).click();
   }

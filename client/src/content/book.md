@@ -20,30 +20,30 @@ For the people who keep small machines honest.
 
 **Part I — Foundations: Why Timekeeping Is Hard**
 
-1. The Problem With Seconds
+1. Equal Seconds: Physics Meets the Bench
 2. The Longitude Problem
 
 **Part II — Mechanics: How a Movement Works**
 
-3. Power and the Going Train
-4. Regulation: The Balance and Hairspring
-5. The Escapement Family
+3. Energy In, Work Out: Mainspring, Barrel, and Train
+4. The Oscillator: Balance, Hairspring, Isochronism, and Positions
+5. The Escapement: Dosing Energy and Keeping Order
 6. Complications as Engineering Problems
 
 **Part III — Materials & Precision Science**
 
-7. Metals and Alloys
-8. Friction and Jeweling
-9. Thermal Compensation
-10. Magnetic Resistance
+7. Metals and Alloys in the Movement
+8. Hairsprings: Evolution, Geometry, and Control
+9. Jewels, Friction, and Energy
+10. Thermal Compensation, Temperature Testing, and Magnetic Resistance; Silicon and Non‑Ferrous Components
 
 **Part IV — The Standards That Prove It**
 
-11. What “Chronometer” Actually Means
-12. COSC, Step by Step
-13. Beyond COSC: METAS, Superlative, and 1000 Hours
-14. The New Standard: COSC Excellence Chronometer
-15. Historical Precedent: The Observatory Trials
+11. Chronometer Is Not Chronograph
+12. ISO 3159 and the COSC Regime
+13. Beyond COSC: First-Party and Composite Regimes
+14. COSC Excellence Chronometer: From Movement to Finished Watch
+15. Observatory Trials: The Ancestry of Modern Testing
 
 **Part V — Practice: At the Bench**
 
@@ -259,7 +259,7 @@ You do not need a laboratory to think like one. The following approach works at 
 - Rate is a number under circumstances.
 - Precision is the scatter of those numbers when you repeat the same circumstances.
 - Accuracy is the closeness of the indicated time to a reference over a period, and it is only meaningful with the trial attached.
-- Amplitude is the enabling variable; without enough of it, even a well-adjusted escapement will misbehave.
+- Amplitude is an important diagnostic and operating variable; too little or too much can move an escapement or oscillator outside its intended operating range, depending on the design.
 - Positional behavior is a design and finishing report card; it tells you what gravity and geometry do to your oscillator.
 
 Say what you measure. Then make the machine better.
@@ -368,9 +368,9 @@ Chronometer certification bodies test rate and positional behavior over days and
 
 Common issues encountered after mainspring or barrel work:
 
-- Low amplitude immediately after service: suspect barrel wall grease (too much/too viscous), barrel arbor friction, or a too-strong spring overloading a marginal escapement.
-- Good amplitude but poor precision (scatter): look for stick–slip in the barrel (especially automatics), rough tooth pair in the train, or a cannon pinion too tight.
-- Short reserve: spring set, bridle slipping early, or excess drag downstream.
+- Low amplitude immediately after service can be caused by barrel-wall lubrication, barrel-arbor friction, spring characteristics, train losses, or escapement loading; use the symptom to prioritize checks rather than as a diagnosis.
+- Good amplitude with poor repeatability can point toward intermittent friction or load variation in the barrel, train, motion works, or escapement; isolate variables before concluding the cause.
+- Short reserve can result from spring set, premature bridle slip, excess downstream drag, or other movement-specific faults; verify against the actual caliber’s expected power path.
 
 Organize your diagnosis from source outward: barrel first, then center to third, then third to fourth, escapement last. Do not mask a noisy energy supply by over-regulating the balance.
 
@@ -529,7 +529,7 @@ Beat error in a lever escapement expresses asymmetry in the timing of the oscill
 
 ### 5.3 English lever versus Swiss lever (and why you rarely see the former)
 
-The English lever uses pointed pallets with line contact and equal impulse. It is elegant and can be efficient, but it is less forgiving to dirt and inconsistent oils, and its manufacture is costlier. The Swiss lever’s plane pallets and sliding impulse produce slightly more friction but deliver robustness and practical safety. In wristwatches, the Swiss lever’s balance of cost, performance, and shock resistance won [6][8].
+The English lever is a historical lever-escapement form whose construction and impulse geometry differ from the later Swiss lever. English and Swiss forms should not be ranked by a single universal efficiency or robustness claim; their practical behavior depends on the specific construction, adjustment, materials, and conditions. The Swiss lever became dominant in commercial wristwatches because it offered a strong combination of manufacturability, robustness, and service practicality [6][8].
 
 ### 5.4 The detent escapement: efficiency with fragility
 
@@ -537,7 +537,7 @@ The spring detent (chronometer) escapement provides a single impulse per oscilla
 
 Merits and costs:
 
-- Very high efficiency and exquisite precision in fixed positions; minimal oiling needs at the escapement itself.
+- Direct impulse can give very high efficiency relative to sliding-impulse designs in suitable constructions, with low friction at the impulse interface. The practical result depends on the specific detent design and adjustment [6][8].
 - Poor shock safety: a jar can bounce the escape wheel past the detent or let the balance unlock outside intent, causing tripping or “galloping.” Self-starting is unreliable.
 - Demands immaculate geometry and pivot condition; small burrs or oil migration can stop it [6][8].
 
@@ -553,9 +553,9 @@ George Daniels devised the co-axial escapement as a way to reduce the lever esca
 
 Purposes and consequences:
 
-- Reducing sliding impulse friction aims to stabilize performance over time as oils age or thin, and to relax oil film sensitivity.
-- The geometry is more complex; tolerances and endshakes are tight, and lift angles differ from the Swiss lever. Misadjustment quickly erodes the intended advantages.
-- Practical implementations must reconcile the co-axial’s theoretical dry impulse with real materials; in-service practice still uses carefully placed lubrication at defined surfaces [6].
+- Reducing sliding impulse friction aims to reduce sensitivity to changes in sliding-contact lubrication; the degree of benefit depends on the implementation and service regime.
+- The geometry is more complex; tolerances and endshakes are tight, and lift angles differ from the Swiss lever. Misadjustment can quickly erode the intended advantages.
+- Daniels’ design emphasized reduced sliding friction, but practical implementations can still specify lubrication for particular contacts. Follow the manufacturer’s service documentation for the specific co-axial construction rather than applying a universal “dry escapement” rule [6].
 
 Treat co-axial escapements as their own species. Do not apply lever “rules of thumb” to stone settings or lubrication locations. Follow source geometry and document every move.
 
@@ -706,7 +706,7 @@ Practical timekeeping quality is a negotiation among:
 - Precision: how tightly repeated rate measurements cluster under the same conditions.
 - Positional behavior: how rates differ among vertical and horizontal positions due to gravity’s influence on the balance, spring, and pivots.
 - Amplitude: the balance’s swing in degrees, which co-varies with delivered torque, friction, lubrication, and escapement geometry.
-- Accuracy: the closeness of the watch’s indicated time to a reference after adjusting for the watch’s typical conditions of use.
+- Accuracy: closeness of the watch’s indicated time to a defined reference over a stated interval and conditions; use the observed rate and accumulated error with the reference and test regime stated.
 
 Materials control stability against temperature and magnetic fields; they set the friction the train can tolerate; and they define how the oscillator’s elastic and inertial properties drift with age. The workshop concern is not catalog names, but the mechanisms: expansion, magnetization, wear, and energy loss.
 
@@ -730,7 +730,7 @@ Risks and remedies:
 
 Hardened carbon steel remains the working standard for pinions and pivots because it takes a polish, holds form at small section, and can be burnished to reduce boundary friction [6][7]. Danse macabre: higher hardness improves wear but increases brittleness; finishing must keep compressive surface states and roundness.
 
-- Polishing versus burnishing: Polishing reduces asperities; burnishing compacts and work-hardens the surface, improving oil retention and impact resilience. Both raise amplitude by lowering friction, but the effect shows most in vertical positions where pivot and jewel contact is largest [6][7].
+- Polishing can reduce surface asperities; burnishing can improve surface finish and, in appropriate repairs, restore a suitable bearing surface. Either may reduce friction when surface condition is the limiting factor, but the measured effect depends on pivot geometry, bearing condition, lubrication, and load [6][7].
 - Magnetization: Steel pivots and pinions can retain magnetism from tools or external fields. While steel’s ferromagnetism hardly affects train torque directly, magnetized pivots accumulate swarf and alter lubrication behavior; magnetized hairsprings are the true rate hazard (Chapter 10).
 
 ### Wheels and Plates: Brass and Its Bearings
@@ -782,7 +782,7 @@ If the balance is the flywheel, the hairspring is the law. Mechanical timekeepin
 ### From Tempered Steel to Self-Compensating Alloys
 
 - Tempered blued steel: Early hairsprings were spring steel, hardened and tempered. Strength was high; corrosion and magnetization were endemic; the elastic modulus drifted with temperature, producing a pronounced rate error [6][7][8]. Temperature compensation was delegated to bi-metallic balances (Chapter 10), a second-order fix that worked but demanded vigilant regulation [4][6].
-- Elinvar and successors: Nickel–iron–chromium alloys developed for near-constant elastic modulus with temperature reduced the problem at its source. In practice, they render the balance solid (no cuts) and leave the spring to self-compensate. The net effect is improved stability of rate over temperature, with less residual error to correct mechanically [6].
+- Elinvar and successors: Nickel–iron–chromium alloys developed for a lower temperature coefficient of elastic modulus reduced one major source of rate drift. They enabled more practical use of solid balances, although the complete temperature behavior of a watch still depends on the balance, spring, escapement, lubrication, and other components [6].
 
 Practical interpretation: self-compensating alloys remove the need for cuts in the balance, but they do not abolish temperature effects on oil viscosity or torque. If amplitude collapses when chilled or heated, blame lubrication before geometry.
 
@@ -833,7 +833,7 @@ COSC and ISO 3159 force temperature and positional thinking [1][2][5]:
 - Positions: Multiple positions expose gravity’s hand on the spring and balance. Vertical rates reveal terminal and poise issues; horizontal rates reveal escapement and endshake friction asymmetries.
 - Temperatures: Tests at three temperatures probe both the spring’s modulus drift and oil viscosity changes; residual temperature coefficient shows as parallel rate shifts across positions.
 
-Treat those statistics as material fingerprints. If temperature shifts all positions similarly, suspect spring metallurgy; if verticals shift more than horizontals with temperature, suspect combined spring/escapement friction effects.
+Treat those statistics as evidence about the combined system rather than as a direct material assay. A common temperature-related shift across positions can implicate the oscillator’s temperature coefficient; orientation-dependent changes can implicate interactions among spring geometry, friction, endshake, and escapement behavior. Use additional inspection and controlled tests before assigning a material cause.
 
 ### What to carry to the bench
 - Hairspring collet and stud stakes, fine broaches, and studding blocks.
@@ -914,7 +914,7 @@ Harrison’s marine timekeepers confronted temperature and motion directly. His 
 - Oil viscosity: Temperature changes oil drag. At cold, amplitude falls and unlocking roughness rises; at heat, oil can thin and migrate. Both appear directly in amplitude and indirectly in rate via escapement behavior.
 - Mainspring torque: Coiled-steel torque varies with temperature and time since wind. Isochronism tuning (Chapter 8) is the countermeasure.
 
-Practical diagnosis: if all positions lose amplitude equally with cold, suspect oil; if rate changes substantially with little amplitude shift across temperatures, suspect the spring’s residual temperature coefficient.
+Practical diagnosis: a temperature-dependent amplitude loss across positions can be a clue to lubrication or other temperature-sensitive losses; a rate shift with relatively little amplitude change can point toward the oscillator’s residual temperature coefficient. These are diagnostic patterns, not standalone diagnoses; verify with controlled measurement.
 
 ### Temperature testing and what standards mean for you
 
@@ -1036,7 +1036,7 @@ When you say “good timing,” you need at least four numbers and one picture i
 - Precision/repeatability: How much the rate varies when repeated under similar conditions. A movement that runs +3, +3, +3 is precise. One that runs +6, 0, +7 in the same condition is imprecise. Precision without accuracy is common; the hairspring or regulator can be set to bring the precise rate to zero.
 - Rate: Conventionally expressed as seconds per day (s/d). It is the primary figure reported by timing equipment and formal tests.
 - Amplitude: The angular swing of the balance in degrees. Amplitude is not a performance criterion in ISO 3159 or COSC acceptance ranges, but it is a diagnostic quantity at the bench: amplitude erosion usually precedes or accompanies poor precision and positional instability [6][7].
-- Positional behavior: The change in rate when the watch’s orientation changes. The classical positions (dial up/down, crown up/right/left, crown down) stress different points of friction and gravity-torque effects on the balance and spring. Good positional behavior implies consistent isochronism and poise.
+- Positional behavior: The change in rate when the watch’s orientation changes. The classical positions (dial up/down, crown up/right/left, crown down) stress different points of friction and gravity-torque effects on the balance and spring. Good positional behavior is evidence about the combined effects of poise, spring geometry, pivots, escapement, and gravity under the tested orientations; it does not by itself prove isochronism or diagnose a single cause.
 
 It helps to maintain a simple mental matrix. If accuracy is off but precision is strong across positions, you regulate. If precision is weak and amplitude is low in some positions, you look for friction, oiling, pivots, poise, or interference. If precision is weak at full wind but improves after 24 hours, the mainspring or barrel may be the culprit. Each metric points to different work.
 

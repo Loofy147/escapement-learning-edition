@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "validate:book": "node programs/interactive-book-learning-edition/scripts/validate-book-package.mjs programs/interactive-book-learning-edition/sample-package",
+    "validate:book-claims": "node scripts/validate-book-publication-claims.mjs",
     "db:push": "drizzle-kit generate && drizzle-kit migrate"
   },
   "dependencies": {

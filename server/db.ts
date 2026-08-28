@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, learnerProgress, InsertLearnerProgress } from "../drizzle/schema";
+import { InsertUser, users, learnerProgress, InsertLearnerProgress, learnerLearningEvents, InsertLearnerLearningEvent } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -99,6 +99,58 @@ export async function getLearnerProgress(userId: number) {
 export async function upsertLearnerProgress(input: InsertLearnerProgress) {
   const db = await getDb();
   if (!db) return undefined;
-  await db.insert(learnerProgress).values(input).onDuplicateKeyUpdate({ set: { state: input.state, updatedAt: new Date() } });
+  const existing = await getLearnerProgress(input.userId);
+  let state = input.state;
+  try {
+    const incoming = JSON.parse(input.state);
+    const previous = existing?.state ? JSON.parse(existing.state) : {};
+    if (previous && typeof previous === "object" && previous.learningState && incoming && typeof incoming === "object" && !incoming.learningState) {
+      incoming.learningState = previous.learningState;
+      state = JSON.stringify(incoming);
+    }
+  } catch {
+    // Preserve legacy behavior when a malformed/opaque snapshot is supplied.
+  }
+  await db.insert(learnerProgress).values({ ...input, state }).onDuplicateKeyUpdate({ set: { state, updatedAt: new Date() } });
   return getLearnerProgress(input.userId);
+}
+
+export async function getLearnerLearningState(userId: number) {
+  const row = await getLearnerProgress(userId);
+  if (!row) return undefined;
+  try {
+    const parsed = JSON.parse(row.state);
+    return parsed && typeof parsed === "object" ? parsed.learningState ?? null : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function upsertLearnerLearningState(userId: number, learningState: string) {
+  const existing = await getLearnerProgress(userId);
+  let state = "{}";
+  try {
+    const current = existing?.state ? JSON.parse(existing.state) : {};
+    const nextLearning = JSON.parse(learningState);
+    state = JSON.stringify({ ...(current && typeof current === "object" ? current : {}), learningState: nextLearning });
+  } catch {
+    throw new Error("Learning state must be valid JSON");
+  }
+  return upsertLearnerProgress({ userId, state });
+}
+
+export async function appendLearnerLearningEvents(userId: number, events: Array<{ eventId: string; kind: string; occurredAt: Date; payload: string }>) {
+  const db = await getDb();
+  if (!db || events.length === 0) return { inserted: 0 };
+  const rows: InsertLearnerLearningEvent[] = events.map((event) => ({ userId, ...event }));
+  for (const row of rows) {
+    await db.insert(learnerLearningEvents).values(row).onDuplicateKeyUpdate({ set: { eventId: row.eventId } });
+  }
+  return { inserted: rows.length };
+}
+
+export async function getLearnerLearningEvents(userId: number, limit = 500) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(learnerLearningEvents).where(eq(learnerLearningEvents.userId, userId)).limit(limit);
 }

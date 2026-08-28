@@ -1,17 +1,8 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, uniqueIndex } from "drizzle-orm/mysql-core";
 
-/**
- * Core user table backing auth flow.
- * Extend this file with additional tables as your product grows.
- * Columns use camelCase to match both database fields and generated types.
- */
+/** Core user table backing auth flow. */
 export const users = mysqlTable("users", {
-  /**
-   * Surrogate primary key. Auto-incremented numeric value managed by the database.
-   * Use this for relations between tables.
-   */
   id: int("id").autoincrement().primaryKey(),
-  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
@@ -34,3 +25,18 @@ export const learnerProgress = mysqlTable("learner_progress", {
 
 export type LearnerProgress = typeof learnerProgress.$inferSelect;
 export type InsertLearnerProgress = typeof learnerProgress.$inferInsert;
+
+export const learnerLearningEvents = mysqlTable("learner_learning_events", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  eventId: varchar("eventId", { length: 191 }).notNull(),
+  kind: varchar("kind", { length: 32 }).notNull(),
+  occurredAt: timestamp("occurredAt").notNull(),
+  payload: text("payload").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userEventUnique: uniqueIndex("learner_learning_events_user_event_uq").on(table.userId, table.eventId),
+}));
+
+export type LearnerLearningEvent = typeof learnerLearningEvents.$inferSelect;
+export type InsertLearnerLearningEvent = typeof learnerLearningEvents.$inferInsert;

@@ -20,58 +20,58 @@ For the people who keep small machines honest.
 
 **Part I — Foundations: Why Timekeeping Is Hard**
 
-1. The Problem With Seconds  
+1. Equal Seconds: Physics Meets the Bench
 2. The Longitude Problem
 
 **Part II — Mechanics: How a Movement Works**
 
-3. Power and the Going Train  
-4. Regulation: The Balance and Hairspring  
-5. The Escapement Family  
+3. Energy In, Work Out: Mainspring, Barrel, and Train
+4. The Oscillator: Balance, Hairspring, Isochronism, and Positions
+5. The Escapement: Dosing Energy and Keeping Order
 6. Complications as Engineering Problems
 
 **Part III — Materials & Precision Science**
 
-7. Metals and Alloys  
-8. Friction and Jeweling  
-9. Thermal Compensation  
-10. Magnetic Resistance
+7. Metals and Alloys in the Movement
+8. Hairsprings: Evolution, Geometry, and Control
+9. Jewels, Friction, and Energy
+10. Thermal Compensation, Temperature Testing, and Magnetic Resistance; Silicon and Non‑Ferrous Components
 
 **Part IV — The Standards That Prove It**
 
-11. What “Chronometer” Actually Means  
-12. COSC, Step by Step  
-13. Beyond COSC: METAS, Superlative, and 1000 Hours  
-14. The New Standard: COSC Excellence Chronometer  
-15. Historical Precedent: The Observatory Trials
+11. Chronometer Is Not Chronograph
+12. ISO 3159 and the COSC Regime
+13. Beyond COSC: First-Party and Composite Regimes
+14. COSC Excellence Chronometer: From Movement to Finished Watch
+15. Observatory Trials: The Ancestry of Modern Testing
 
 **Part V — Practice: At the Bench**
 
-16. Tools and Workspace  
-17. Service Cycles  
-18. Timing and Regulation in Practice  
-19. Restoration Ethics  
+16. Tools and Workspace
+17. Service Cycles
+18. Timing and Regulation in Practice
+19. Restoration Ethics
 20. Getting Into the Trade
 
 **Part VI — Context & Future**
 
-21. Mechanical, Quartz, and Atomic  
-22. The Independent Watchmaking Movement  
-23. Where the Standards Go Next  
+21. Mechanical, Quartz, and Atomic
+22. The Independent Watchmaking Movement
+23. Where the Standards Go Next
 
 Conclusion — The Discipline of a Number
 
 **Back Matter**
 
-Working Glossary  
-Appendix A — Standards at a Glance  
-Bibliography and Reference Notes  
-Editorial and Publication Note  
+Working Glossary
+Appendix A — Standards at a Glance
+Bibliography and Reference Notes
+Editorial and Publication Note
 Index
 
 ## How to Use This Book
 
-This is a book to read in sequence and to revisit by subject. Part I establishes why timekeeping is a difficult physical problem. Part II follows energy through the movement and ends at the escapement. Part III explains why material and surface decisions alter behavior. Part IV examines the standards that convert claims into test results. Part V moves to the bench, where diagnosis and documentation matter as much as manipulation. Part VI places mechanical horology beside other timekeeping systems and asks what a future standard should measure.
+This is a practitioner-oriented technical guide for readers of mechanical horology. It is not an accredited training course, a caliber-specific service manual, or a complete professional reference. Read it in sequence and revisit it by subject. Part I establishes why timekeeping is a difficult physical problem. Part II follows energy through the movement and ends at the escapement. Part III explains why material and surface decisions alter behavior. Part IV examines the standards that convert claims into test results. Part V moves to the bench, where diagnosis and documentation matter as much as manipulation. Part VI places mechanical horology beside other timekeeping systems and asks what a future standard should measure.
 
 The recurring question is simple: **what problem is being solved, under what conditions, and how do we know?**
 
@@ -124,7 +124,7 @@ Table: Terms at the bench
 | Accuracy            | Closeness to reference time                         | Cumulative time error over hours/days                  | Set rate, define use-case, verify in trial             |
 | Rate                | Gain/loss per day under stated conditions           | Timing machine trace, time-signal comparisons          | Regulate, alter mean-time screws, adjust hairspring    |
 | Precision           | Repeatability of rate                               | Low scatter over repeated runs                         | Reduce friction, stabilize amplitude, improve poise    |
-| Amplitude           | Angular swing of balance                            | 200–320° typical modern range (context-dependent)      | Power delivery, oil, endshake, banking/escapement      |
+| Amplitude           | Angular swing of balance                            | A measured or inferred angular swing; interpret against caliber, escapement, lift-angle setting, winding state, position, and instrument method | Power delivery, oil, endshake, banking/escapement      |
 | Positional behavior | Rate change with orientation                        | Differences among dial up/down, pendant up/left/right | Poise, pivots, jewels, guard pin/roller jewel geometry |
 
 References: technique and definitions in practice [6][7][8]. Do not substitute folklore for measurement.
@@ -187,7 +187,7 @@ Navigation forced the world to define what “good timekeeping” meant. On land
 
 ### The need: find your longitude
 
-Latitude (north–south position) could be found by the Sun’s altitude at noon or the Pole Star at night. Longitude (east–west position) required you to know the time difference between local noon and a reference meridian. A reliable portable timekeeper set to a known reference could, in principle, give longitude from the time difference. But the sea punished every defect in a watch: constant motion, temperature swings, humidity, and the inability to mount a pendulum [4][8].
+Latitude (north–south position) could be found by the Sun’s altitude at noon or the Pole Star at night. Longitude (east–west position) required you to know the time difference between local noon and a reference meridian. A reliable portable timekeeper set to a known reference could, in principle, give longitude from the time difference. But this was not the only serious route: astronomical methods such as lunar-distance observations remained important alternatives. The sea punished every defect in a watch, exposing the practical trade-off between portable timekeeping and astronomical observation [4][8].
 
 ### The warning: Scilly, 1707
 
@@ -201,16 +201,16 @@ Parliament’s 1714 Act established monetary rewards to encourage a practical so
 
 John Harrison was a cabinetmaker and self-taught mechanic who approached the problem through wood and metal, springs and balances, with a practical mechanic’s belief that faults could be engineered out rather than merely tolerated. The Royal Museums Greenwich account traces his machines and their proving [4]:
 
-- H1. A large, complex, gimballed timekeeper with paired balances to counter motion, using a remontoire and novel anti-friction designs. It represented a bold attempt to stabilize rate aboard ship and was trialed at sea to Lisbon [4].
-- H2. An improvement on H1 aiming to address identified defects. Harrison ultimately considered it imperfect and did not seek its sea trial [4].
-- H3. A rethinking with new elements—most famously a bimetallic compensation device and caged roller bearings—seeking to solve the remaining isochronism and temperature errors. It took many years and did not achieve the performance Harrison wanted [4].
-- H4. A different approach, small and watch-like, with a fast balance and a spring, showing that a portable watch could reach the required steadiness if designed and made with extraordinary care. It was this instrument that underwent a famous long-distance test [4].
+- H1. A large, complex, gimballed timekeeper with paired balances and novel anti-friction and compensation ideas; it was trialed at sea to Lisbon [4].
+- H2. A development of H1 that Harrison did not submit to a sea trial after identifying a flaw [4].
+- H3. A further development addressing temperature compensation and oscillator behavior; Harrison continued work on it for years rather than treating it as the final solution [4].
+- H4. A smaller, watch-like timekeeper with a balance and spring. Its Jamaica trial in 1761, followed by later trials and examination, became the most famous stage in Harrison’s pursuit of the Longitude reward [4].
 
 Here, the workshop meets the sea. Harrison chased the same failure modes we do: drive variability, friction, thermal drift, and positional error. He engineered redundancy into power delivery, employed compensation for temperature, and sought to isolate the oscillator from the ship’s violence. The technical narrative is familiar, but the standard changed: the workshop’s opinion no longer mattered; the Board’s trial did.
 
 ### The Jamaica trial of H4
 
-H4 was dispatched on a voyage to the Caribbean to test its ability to carry Greenwich time across the Atlantic. Observers recorded its behavior relative to astronomical determinations at sea and at landfall. The Royal Museums Greenwich account summarizes the voyage and its assessment: H4’s performance demonstrated that a portable timekeeper could meet the Act’s criteria on a real sea passage [4]. A bench note to modern readers: the test had a route, a duration, and a method for comparing the device against reference observations. It was a chronometric trial, not a workshop boast.
+H4 was dispatched on the 1761 voyage to Jamaica. Its performance demonstrated the feasibility of using a portable timekeeper for longitude under the relevant trial conditions, but the result did not end the controversy over the reward. Further testing followed, including the Barbados trial of 1763–1764, Board consideration in 1765, and Royal Observatory testing beginning in 1766 [4]. The important historical point is not a single triumphant voyage but a sequence of increasingly demanding trials.
 
 ### Dispute and resolution
 
@@ -259,7 +259,7 @@ You do not need a laboratory to think like one. The following approach works at 
 - Rate is a number under circumstances.
 - Precision is the scatter of those numbers when you repeat the same circumstances.
 - Accuracy is the closeness of the indicated time to a reference over a period, and it is only meaningful with the trial attached.
-- Amplitude is the enabling variable; without enough of it, even a well-adjusted escapement will misbehave.
+- Amplitude is an important diagnostic and operating variable; too little or too much can move an escapement or oscillator outside its intended operating range, depending on the design.
 - Positional behavior is a design and finishing report card; it tells you what gravity and geometry do to your oscillator.
 
 Say what you measure. Then make the machine better.
@@ -273,16 +273,6 @@ Say what you measure. Then make the machine better.
 - Pencil, ruler, and graph paper or a spreadsheet template to visualize amplitude and rate versus hours since wind.
 
 
-## Review before publication
-
-Claims in this section that should be cross-checked against practitioner or primary sources before final publication:
-
-- The general description of verge-and-foliot behavior and its variability with drive is grounded in standard horological texts but should be checked against the relevant sections in Britten and de Carle for wording alignment [7][8].
-- The summary of H1–H4 features and the Jamaica trial is based on the Royal Museums Greenwich overview; any mention of specific devices (e.g., remontoire, bimetallic compensation, roller bearings) should be reconciled with the precise descriptions in museum or primary technical notes to avoid overgeneralization [4].
-- The characterization of disputes with the Board of Longitude and the nature/timeline of payments should be compared with detailed historical accounts to ensure factual precision beyond the high-level summary in [4].
-- The practical accounts of escapement geometry effects on isochronism and positional behavior follow workshop literature; where possible, cite the exact sections in Daniels, de Carle, or Britten that support the specific adjustments described [6][7][8].
-- The linkage of COSC procedures to ISO 3159 is made at a high level; before publication, verify the exact phrasing used by COSC regarding its adherence to ISO 3159 and avoid implying specific numerical criteria unless directly quoted from COSC’s public documents [1][2][5].
-- The mention of “Excellence Chronometer Certified” as an extended certification offer relies on COSC’s public page; confirm the program’s current description and scope before finalizing wording [3].
 
 # Part II — Mechanics: How a Movement Works
 
@@ -341,7 +331,7 @@ The two contact interfaces that most often degrade your amplitude are:
 
 Do not assume an automatic barrel’s slipping bridle masks poor barrel lubrication. If the bridle grabs too well, you stress the train at full wind; if it grabs too little, you lose usable reserve to uncontrolled slipping.
 
-Multiple barrels are used to extend reserve without excessive spring height, to reduce peak torque for a given total energy, or both. Whether in series (longer reserve, lower average torque) or parallel (higher torque for complications), the gearing and bearing loads change. Series barrels reduce peak drive to the escapement for a given reserve but demand tighter train losses for the same amplitude. These are design trades; at the bench you mostly see them as differences in amplitude margins and “stubbornness” under load.
+Multiple-barrel architectures can be used to reshape available torque, extend reserve, or supply particular loads. The resulting torque profile depends on spring characteristics and the gearing arrangement. At the bench, evaluate the actual movement’s amplitude margin, rate behavior, and reserve rather than assuming a universal series-versus-parallel outcome.
 
 ### 3.4 Tooth forms, depthing, and train efficiency
 
@@ -378,9 +368,9 @@ Chronometer certification bodies test rate and positional behavior over days and
 
 Common issues encountered after mainspring or barrel work:
 
-- Low amplitude immediately after service: suspect barrel wall grease (too much/too viscous), barrel arbor friction, or a too-strong spring overloading a marginal escapement.
-- Good amplitude but poor precision (scatter): look for stick–slip in the barrel (especially automatics), rough tooth pair in the train, or a cannon pinion too tight.
-- Short reserve: spring set, bridle slipping early, or excess drag downstream.
+- Low amplitude immediately after service can be caused by barrel-wall lubrication, barrel-arbor friction, spring characteristics, train losses, or escapement loading; use the symptom to prioritize checks rather than as a diagnosis.
+- Good amplitude with poor repeatability can point toward intermittent friction or load variation in the barrel, train, motion works, or escapement; isolate variables before concluding the cause.
+- Short reserve can result from spring set, premature bridle slip, excess downstream drag, or other movement-specific faults; verify against the actual caliber’s expected power path.
 
 Organize your diagnosis from source outward: barrel first, then center to third, then third to fourth, escapement last. Do not mask a noisy energy supply by over-regulating the balance.
 
@@ -408,7 +398,7 @@ The balance-and-hairspring form a harmonic oscillator where the balance’s iner
 - Inertia is set by the balance’s mass distribution. Adjustable-inertia balances use screws or movable weights to vary radius (hence inertia) with minimal change to spring condition [6][7].
 - The spring’s effective length sets rate for index-regulated balances; curb pins move the active length. Free-sprung designs regulate by inertia only; the spring is shaped and pinned to its terminal curve and left undisturbed [6].
 
-A flat spiral spring is economical of height but sensitive to vertical motion and curb-pin interference. A properly formed overcoil (Breguet overcoil) improves concentric “breathing” of the spring, aiding isochronism and positional stability by keeping the center of mass closer to the balance staff across amplitudes [6][7]. The execution of the terminal curve, not the name, does the work.
+A flat spiral spring is economical of height but can be sensitive to vertical motion and regulator interaction. A properly formed terminal curve or Breguet overcoil is intended to improve the concentric development of the spring. Its effect on positional and isochronal behavior depends on the complete oscillator and escapement design [6][7]. The execution of the terminal curve, not the name, does the work.
 
 ### 4.2 Definitions that belong at the bench
 
@@ -436,7 +426,7 @@ Bench-visible symptoms:
 - Trace on the timing machine shows “smile” or “frown” across amplitude sweeps.
 
 Mitigations:
-- Free-sprung balances reduce curb-pin friction and stabilize the effective length [6].
+- Free-sprung regulation removes or reduces dependence on curb-pin adjustment, eliminating one source of regulator interaction. Overall isochronism remains dependent on spring geometry, oscillator design, escapement behavior, amplitude, and adjustment [6][7].
 - Overcoil or carefully formed terminal curves keep the spring breathing concentrically [6][7].
 - Set pallet lubrication and draw to provide consistent, gentle impulse without excessive sliding.
 - Match spring strength to escapement energy: too-stiff springs produce low amplitudes where escapement non-idealities dominate; too-weak springs swing wide and run into banking changes.
@@ -445,7 +435,7 @@ Temperature compensation is largely a solved materials problem in modern alloys;
 
 ### 4.4 Beat rate and lift: how fast and how far
 
-Beat rate (e.g., 18,000, 21,600, 28,800 vph) is a design choice balancing impulse frequency against friction and shock performance. Higher beat rates can average disturbances and improve precision at a given amplitude band, at the price of increased escapement events per hour (more oil stress and wear). Lower beat rates reduce escapement losses, help long reserves, and are gentler with marginal lubrication. The balance must be dimensioned for the chosen rate; retrofitting a higher rate to a train and escapement not intended for it is unsound [6][7].
+Beat rate (e.g., 18,000, 21,600, 28,800 vph) is a system trade-off involving oscillator design, escapement event frequency, disturbance response, power consumption, lubrication, wear, and robustness. No single beat-rate value is universally superior. The balance, train, and escapement must be designed as a coherent system; retrofitting a different rate without the corresponding engineering changes is unsound [6][7].
 
 Lift angle is the escapement’s geometric property defining the angular portion of the balance’s swing during which the pallet and escape wheel are in contact. Timing machines need the correct lift angle to compute amplitude from beat period. Use the maker’s data or measure; do not assume.
 
@@ -509,9 +499,13 @@ The escapement sits between energy and oscillator. It meters torque into impulse
 
 ### 5.1 Families and first principles
 
-- Recoil escapements (e.g., verge, anchor variants) permit backward motion under lock; not used in modern precision watches.
-- Deadbeat escapements (e.g., detached lever, detent) avoid recoil; the escape wheel rests without pushing during lock.
-- Detached escapements isolate the balance from the train except during brief impulses. This supports precision by minimizing disturbance [6][7][8].
+Escapements can be compared along several independent dimensions: whether the locking action permits recoil or is deadbeat; whether the oscillator is detached from the train between impulses; and whether impulse is predominantly sliding or direct. These dimensions should not be treated as synonyms.
+
+- Recoil escapements permit some backward motion of the train during locking.
+- Deadbeat escapements use a locking geometry that avoids recoil during the locked interval.
+- Detached escapements isolate the oscillator from the driving train except during the intended unlocking and impulse events.
+
+The Swiss lever is detached and predominantly uses sliding impulse. The traditional spring detent is detached and uses direct impulse. Verge escapements are recoil and non-detached. These categories describe different properties and should be kept separate [6][7][8].
 
 Marine chronometers historically used detent escapements for their high efficiency and low disturbance; pocket and wristwatches overwhelmingly use the detached lever for safety under shock and robust self-starting [4][6][7].
 
@@ -531,11 +525,11 @@ Bench-critical points:
 - Pallet stone setting: impulse and locking angles determine both safety and efficiency. Tiny adjustments matter; work under magnification and record baseline settings.
 - Lubrication: micro-films at precise locations on pallet impulse faces; dry or near-dry lock faces in many practices for stability. Excess oil migrates to the roller and destroys consistency. Follow established watchmaking practice for the caliber and oil family [6][7].
 
-Beat error in a lever escapement arises from asymmetry in the roller jewel’s rest relative to the banking: the instant of unlocking differs left to right. Set the collet on the balance staff (for fixed stud) or the stud carrier (for movable stud) to center the pallet fork’s neutral relative to the balance’s rest. Aim to correct geometry before trimming rate.
+Beat error in a lever escapement expresses asymmetry in the timing of the oscillator’s two directional events relative to the escapement’s unlocking and impulse geometry. Collet, roller, stud, fork, and escapement geometry can all contribute. The appropriate correction is movement-specific; correct the relevant geometry before using rate adjustment to mask the error.
 
 ### 5.3 English lever versus Swiss lever (and why you rarely see the former)
 
-The English lever uses pointed pallets with line contact and equal impulse. It is elegant and can be efficient, but it is less forgiving to dirt and inconsistent oils, and its manufacture is costlier. The Swiss lever’s plane pallets and sliding impulse produce slightly more friction but deliver robustness and practical safety. In wristwatches, the Swiss lever’s balance of cost, performance, and shock resistance won [6][8].
+The English lever is a historical lever-escapement form whose construction and impulse geometry differ from the later Swiss lever. English and Swiss forms should not be ranked by a single universal efficiency or robustness claim; their practical behavior depends on the specific construction, adjustment, materials, and conditions. The Swiss lever became dominant in commercial wristwatches because it offered a strong combination of manufacturability, robustness, and service practicality [6][8].
 
 ### 5.4 The detent escapement: efficiency with fragility
 
@@ -543,7 +537,7 @@ The spring detent (chronometer) escapement provides a single impulse per oscilla
 
 Merits and costs:
 
-- Very high efficiency and exquisite precision in fixed positions; minimal oiling needs at the escapement itself.
+- Direct impulse can give very high efficiency relative to sliding-impulse designs in suitable constructions, with low friction at the impulse interface. The practical result depends on the specific detent design and adjustment [6][8].
 - Poor shock safety: a jar can bounce the escape wheel past the detent or let the balance unlock outside intent, causing tripping or “galloping.” Self-starting is unreliable.
 - Demands immaculate geometry and pivot condition; small burrs or oil migration can stop it [6][8].
 
@@ -559,9 +553,9 @@ George Daniels devised the co-axial escapement as a way to reduce the lever esca
 
 Purposes and consequences:
 
-- Reducing sliding impulse friction aims to stabilize performance over time as oils age or thin, and to relax oil film sensitivity.
-- The geometry is more complex; tolerances and endshakes are tight, and lift angles differ from the Swiss lever. Misadjustment quickly erodes the intended advantages.
-- Practical implementations must reconcile the co-axial’s theoretical dry impulse with real materials; in-service practice still uses carefully placed lubrication at defined surfaces [6].
+- Reducing sliding impulse friction aims to reduce sensitivity to changes in sliding-contact lubrication; the degree of benefit depends on the implementation and service regime.
+- The geometry is more complex; tolerances and endshakes are tight, and lift angles differ from the Swiss lever. Misadjustment can quickly erode the intended advantages.
+- Daniels’ design emphasized reduced sliding friction, but practical implementations can still specify lubrication for particular contacts. Follow the manufacturer’s service documentation for the specific co-axial construction rather than applying a universal “dry escapement” rule [6].
 
 Treat co-axial escapements as their own species. Do not apply lever “rules of thumb” to stone settings or lubrication locations. Follow source geometry and document every move.
 
@@ -666,7 +660,7 @@ A tourbillon rotates the escapement and balance in a cage, aiming to average out
 - Tight poise and endshake requirements for the cage to avoid adding new positional errors.
 - Constraints on regulator access and spring forming due to compact geometry.
 
-From an engineering standpoint, a tourbillon is a dial-side complication that consumes power to buy potential improvements in precision by averaging. It is not a magic source of accuracy; setting, spring geometry, and escapement execution still rule. Historically, precision-winning tourbillons were tailored to specific positions and use cases; modern wristwatch tourbillons must succeed under motion or accept that their value is elsewhere. Historical literature and later technical analyses attribute both triumphs and disappointments to tourbillons; handle the claims with care and verify with measurements in realistic wearing patterns (general historical context; review needed) [9].
+From an engineering standpoint, a tourbillon is a dial-side complication that consumes power to buy potential improvements in precision by averaging. It is not a magic source of accuracy; setting, spring geometry, and escapement execution still rule. Historically, precision-winning tourbillons were tailored to specific positions and use cases; modern wristwatch tourbillons must succeed under motion or accept that their value is elsewhere. Historical literature contains both positive and negative assessments of tourbillons. Treat modern performance claims as design- and use-case-dependent, and verify them with measurements under realistic wearing patterns.
 
 Bench approach:
 
@@ -700,28 +694,6 @@ If your target is performance aligned with wrist-chronometer standards (ISO 3159
 
 ---
 
-## Review before publication
-
-Claims and passages that warrant practitioner or primary-source verification before publication:
-
-- Any implied performance advantages of specific beat rates (e.g., “higher beats can improve precision at a given amplitude band”) are practitioner interpretations consistent with watchmaking texts but should be cross-checked against controlled measurements or authoritative sources [6][7].
-- The summary of co-axial lubrication practices notes that “in-service practice still uses carefully placed lubrication.” Specific locations and regimes vary by implementation and should be verified against manufacturer technical documents; Daniels’ general concept supports reduced sliding, not a universal dry practice [6].
-- Statements regarding tourbillon effectiveness in modern wristwatches are common practitioner interpretations; quantitative benefits depend on specific designs and wearing patterns and should be illustrated with measured datasets if available (review needed) [9].
-- Comments on the comparative robustness of English vs. Swiss lever escapements in wristwatches reflect traditional practice and literature; detailed efficiency comparisons should be referenced to primary test data where possible [6][8].
-- Descriptions of calendar “danger zones” and safety clutches are grounded in standard watchmaking practice; specific no-set intervals and mechanisms vary widely and must be reviewed against caliber documents [7][8].
-- Generalizations about vertical clutch “creep” and lubrication are drawn from workshop experience and texts; verify friction targets and surface treatments case-by-case [6][7].
-- Multiple-barrel series vs. parallel characterizations are qualitative; exact torque profiles and efficiency differences depend on specific designs and should be supported by maker data or test measurements where used for specification [6][7]. 
-
-References:
-[1] COSC, COSC certifications
-[2] COSC, FAQ
-[3] COSC, Excellence Chronometer Certified
-[4] Royal Museums Greenwich, Longitude found: the story of Harrison's timekeepers
-[5] ISO 3159, Wrist-chronometers with sprung balance oscillator
-[6] George Daniels, Watchmaking, 1981
-[7] Donald de Carle, Practical Watch Repair
-[8] F. J. Britten, The Watch & Clock Maker's Handbook, Dictionary and Guide
-[9] Derek Pratt / horological technical literature where general historical context is needed; mark claims for review rather than fabricate specifics.
 
 # Part III — Materials & Precision Science
 
@@ -734,9 +706,9 @@ Practical timekeeping quality is a negotiation among:
 - Precision: how tightly repeated rate measurements cluster under the same conditions.
 - Positional behavior: how rates differ among vertical and horizontal positions due to gravity’s influence on the balance, spring, and pivots.
 - Amplitude: the balance’s swing in degrees, which co-varies with delivered torque, friction, lubrication, and escapement geometry.
-- Accuracy: the closeness of the watch’s indicated time to a reference after adjusting for the watch’s typical conditions of use.
+- Accuracy: closeness of the watch’s indicated time to a defined reference over a stated interval and conditions; use the observed rate and accumulated error with the reference and test regime stated.
 
-Materials control stability against temperature and magnetic fields; they set the friction the train can tolerate; and they define how the oscillator’s elastic and inertial properties drift with age. The workshop concern is not catalog names, but the mechanisms: expansion, magnetization, wear, and energy loss. 
+Materials control stability against temperature and magnetic fields; they set the friction the train can tolerate; and they define how the oscillator’s elastic and inertial properties drift with age. The workshop concern is not catalog names, but the mechanisms: expansion, magnetization, wear, and energy loss.
 
 COSC testing (built on ISO 3159) evaluates uncased movements in multiple positions and temperatures over many days, reporting statistics such as mean daily rate and variation [1][2][5]. Those are material tests as much as mechanical ones.
 
@@ -758,7 +730,7 @@ Risks and remedies:
 
 Hardened carbon steel remains the working standard for pinions and pivots because it takes a polish, holds form at small section, and can be burnished to reduce boundary friction [6][7]. Danse macabre: higher hardness improves wear but increases brittleness; finishing must keep compressive surface states and roundness.
 
-- Polishing versus burnishing: Polishing reduces asperities; burnishing compacts and work-hardens the surface, improving oil retention and impact resilience. Both raise amplitude by lowering friction, but the effect shows most in vertical positions where pivot and jewel contact is largest [6][7].
+- Polishing can reduce surface asperities; burnishing can improve surface finish and, in appropriate repairs, restore a suitable bearing surface. Either may reduce friction when surface condition is the limiting factor, but the measured effect depends on pivot geometry, bearing condition, lubrication, and load [6][7].
 - Magnetization: Steel pivots and pinions can retain magnetism from tools or external fields. While steel’s ferromagnetism hardly affects train torque directly, magnetized pivots accumulate swarf and alter lubrication behavior; magnetized hairsprings are the true rate hazard (Chapter 10).
 
 ### Wheels and Plates: Brass and Its Bearings
@@ -810,7 +782,7 @@ If the balance is the flywheel, the hairspring is the law. Mechanical timekeepin
 ### From Tempered Steel to Self-Compensating Alloys
 
 - Tempered blued steel: Early hairsprings were spring steel, hardened and tempered. Strength was high; corrosion and magnetization were endemic; the elastic modulus drifted with temperature, producing a pronounced rate error [6][7][8]. Temperature compensation was delegated to bi-metallic balances (Chapter 10), a second-order fix that worked but demanded vigilant regulation [4][6].
-- Elinvar and successors: Nickel–iron–chromium alloys developed for near-constant elastic modulus with temperature reduced the problem at its source. In practice, they render the balance solid (no cuts) and leave the spring to self-compensate. The net effect is improved stability of rate over temperature, with less residual error to correct mechanically [6].
+- Elinvar and successors: Nickel–iron–chromium alloys developed for a lower temperature coefficient of elastic modulus reduced one major source of rate drift. They enabled more practical use of solid balances, although the complete temperature behavior of a watch still depends on the balance, spring, escapement, lubrication, and other components [6].
 
 Practical interpretation: self-compensating alloys remove the need for cuts in the balance, but they do not abolish temperature effects on oil viscosity or torque. If amplitude collapses when chilled or heated, blame lubrication before geometry.
 
@@ -828,7 +800,7 @@ Table: terminal choices in practice
 |---|---|---|---|
 | Unshaped flat | Minimal | Poor | Larger spread, especially crown up/down vs dial up |
 | Shaped flat (Phillips/Grossmann) | Minimal | Good if executed well | Reduced spread; sensitive to slight mishaping |
-| Breguet overcoil | Increased | Very good | Often the tightest vertical/horizontal spread at similar amplitude |
+| Breguet overcoil | Increased | Very good when properly formed | May reduce certain positional and isochronal errors; outcome depends on the complete oscillator |
 
 Bench rule: do not compensate a bad terminal with regulator pin abuse. Shape first, regulate second.
 
@@ -861,7 +833,7 @@ COSC and ISO 3159 force temperature and positional thinking [1][2][5]:
 - Positions: Multiple positions expose gravity’s hand on the spring and balance. Vertical rates reveal terminal and poise issues; horizontal rates reveal escapement and endshake friction asymmetries.
 - Temperatures: Tests at three temperatures probe both the spring’s modulus drift and oil viscosity changes; residual temperature coefficient shows as parallel rate shifts across positions.
 
-Treat those statistics as material fingerprints. If temperature shifts all positions similarly, suspect spring metallurgy; if verticals shift more than horizontals with temperature, suspect combined spring/escapement friction effects.
+Treat those statistics as evidence about the combined system rather than as a direct material assay. A common temperature-related shift across positions can implicate the oscillator’s temperature coefficient; orientation-dependent changes can implicate interactions among spring geometry, friction, endshake, and escapement behavior. Use additional inspection and controlled tests before assigning a material cause.
 
 ### What to carry to the bench
 - Hairspring collet and stud stakes, fine broaches, and studding blocks.
@@ -888,7 +860,7 @@ Sapphire and spinel have similar virtues. The choices you will see and service a
 ### Hole Jewels and Cap Jewels
 
 - Hole jewels locate the pivot radially. Their bore finish and oil sink geometry govern drag and oil film stability [7].
-- Cap jewels (endstones) limit axial displacement and present a flat, polished plane to the pivot end. They reduce friction at low loads (vertical positions) and stabilize amplitude [6][7].
+- Cap jewels (endstones) limit axial displacement and provide a polished bearing surface for the pivot end. Their role and loading differ by orientation; in horizontal positions the pivot end can bear on the cap jewel, while in vertical positions the pivot commonly loads the wall of the hole jewel [6][7].
 
 Endshake (axial) and side shake (radial) must be tuned together. Too little endshake binds the train in verticals; too much endshake lets the escape wheel climb the pallet prematurely under shock. Side shake too tight leads to oil starvation and galling; too loose presents as erratic amplitude and accidental depthing changes.
 
@@ -942,7 +914,7 @@ Harrison’s marine timekeepers confronted temperature and motion directly. His 
 - Oil viscosity: Temperature changes oil drag. At cold, amplitude falls and unlocking roughness rises; at heat, oil can thin and migrate. Both appear directly in amplitude and indirectly in rate via escapement behavior.
 - Mainspring torque: Coiled-steel torque varies with temperature and time since wind. Isochronism tuning (Chapter 8) is the countermeasure.
 
-Practical diagnosis: if all positions lose amplitude equally with cold, suspect oil; if rate changes substantially with little amplitude shift across temperatures, suspect the spring’s residual temperature coefficient.
+Practical diagnosis: a temperature-dependent amplitude loss across positions can be a clue to lubrication or other temperature-sensitive losses; a rate shift with relatively little amplitude change can point toward the oscillator’s residual temperature coefficient. These are diagnostic patterns, not standalone diagnoses; verify with controlled measurement.
 
 ### Temperature testing and what standards mean for you
 
@@ -970,7 +942,7 @@ The hairspring is the magnet’s preferred victim. Magnetization can:
 - Leave amplitude little changed, misleading the diagnosis.
 
 Symptoms:
-- Sudden large daily gain with preserved amplitude points to a magnetized spring.
+- A sudden large daily gain with relatively preserved amplitude is a diagnostic clue that should prompt a magnetism check; it is not, by itself, proof of a magnetized spring.
 - Coils that “breathe” unevenly under the microscope, especially in verticals.
 - Ferrous debris accumulation on pivots and stones (secondary effect).
 
@@ -989,9 +961,9 @@ Note: Specific anti-magnetic field thresholds belong to standards outside our re
 
 Silicon (monocrystalline) and other non-ferrous parts have entered the bench as facts, not fads. Consider them from first principles:
 
-- Material properties that matter: low density (low inertia for moving parts), high stiffness, excellent dimensional precision from microfabrication, and amagnetic behavior. These help amplitude (less mass to drive), positional precision (stable geometry), and magnetic immunity (no force coupling to the hairspring) in practice.
-- Escapement parts: Silicon escape wheels and pallets remove steel’s magnetism and, with appropriate surface finish, may reduce lubrication dependence. Geometry is cut, not worn in; damage tends to be brittle rather than ductile. Handling must respect that.
-- Hairsprings: Silicon hairsprings provide intrinsic amagnetic behavior and can be formed in geometries that encourage concentric breathing without overcoil height. Their thermal coefficient can be tailored by geometry and, in some designs, by thin surface treatments; in practice on the bench, expect good temperature behavior but verify it the same way you would with alloys—test and adjust regulator/terminal shape as needed.
+- Material properties that matter include low density, high stiffness, microfabrication precision, and amagnetic behavior. These are design inputs rather than guarantees of system-level performance.
+- Escapement parts: silicon components eliminate ferromagnetic steel in the component itself and can alter friction and lubrication requirements depending on the design and surface treatment.
+- Hairsprings: silicon hairsprings are intrinsically non-ferromagnetic and can be manufactured in complex geometries. Their actual temperature, positional, and shock performance remains a property of the complete oscillator and must be verified by measurement.
 
 Cautions (practitioner conventions; see Review before publication):
 - Shock behavior differs from metal springs; check staff and collet integrity after impact.
@@ -1000,9 +972,7 @@ Cautions (practitioner conventions; see Review before publication):
 
 ### Practical temperature and magnetism tests
 
-- Temperature:
-  - Cold test: Place the cased watch in a sealed bag to prevent condensation, cool gently, let equilibrate, then measure rate and amplitude quickly after returning to room temperature.
-  - Warm test: Warm similarly and measure. Look for parallel shifts in rate across positions and for amplitude changes that differ by position (lubrication symptom).
+- Temperature (informal screening only): Gentle cool/warm exposure can be used to look for gross thermal effects after adequate equilibration and condensation control. It is not a substitute for a standardized temperature test or certification protocol. Follow the manufacturer’s handling limits and avoid thermal shock.
 - Magnetism:
   - Compass or magnet indicator at the bench can show gross magnetization of the case; the timing machine shows the effect where it matters—rate and beat scatter. If the gain is large and immediate, demagnetize before any regulation.
 
@@ -1026,26 +996,20 @@ Link to standards:
 
 ## References
 
-[1] COSC, COSC certifications: https://www.cosc.swiss/cosc-certifications  
-[2] COSC, FAQ: https://www.cosc.swiss/cosc-faq  
-[3] COSC, Excellence Chronometer Certified: https://www.cosc.swiss/certified-excellence-chronometer  
-[4] Royal Museums Greenwich, Longitude found: the story of Harrison's timekeepers: https://www.rmg.co.uk/stories/time/harrisons-clocks-longitude-problem  
-[5] ISO 3159, Wrist-chronometers with sprung balance oscillator (cite as the standard; do not invent clauses or quote inaccessible text).  
-[6] George Daniels, Watchmaking, 1981.  
-[7] Donald de Carle, Practical Watch Repair.  
-[8] F. J. Britten, The Watch & Clock Maker's Handbook, Dictionary and Guide.  
-[9] Derek Pratt / horological technical literature where general historical context is needed; mark claims for review rather than fabricate specifics.
+[1] COSC, COSC certifications: https://www.cosc.swiss/cosc-certifications
+[2] COSC, FAQ: https://www.cosc.swiss/cosc-faq
+[3] COSC, Excellence Chronometer Certified: https://www.cosc.swiss/certified-excellence-chronometer
+[4] Royal Museums Greenwich, Longitude found: the story of Harrison's timekeepers: https://www.rmg.co.uk/stories/time/harrisons-clocks-longitude-problem
+[5] International Organization for Standardization. ISO 3159:2009, *Timekeeping instruments — Wrist-chronometers with spring-balance oscillator*, Edition 2. ISO currently lists this edition as published/current; the standard is under systematic review as of 2026. Consult the licensed edition for exact clauses and definitions.
+[6] George Daniels, Watchmaking, 1981.
+[7] Donald de Carle, Practical Watch Repair.
+[8] F. J. Britten, The Watch & Clock Maker's Handbook, Dictionary and Guide.
+[9] Federal Institute of Metrology (METAS), *METAS-N001*, Requirements for certification of movements and mechanical watches resistant to magnetic fields of 1.5 T (15,000 G).
+[10] Federation of the Swiss Watch Industry, COSC Excellence Chronometer announcement, 12 March 2026.
+[11] Rolex, current Superlative Chronometer specification, 2026.
+[12] Jaeger-LeCoultre, 1000 Hour Control.
 
 
-## Review before publication
-
-Claims below should be cross-checked by practitioners or primary sources before publication:
-
-- Specific alloy names mapped to exact compositions (e.g., “beryllium bronze” balances as a class) are described generically here; brand-proprietary compositions vary. Verify terminology against current supplier data.  
-- Statements about silicon hairspring shock behavior, surface treatments, and lubrication interactions are practitioner conventions; seek primary technical notes from manufacturers for definitive guidance.  
-- Effectiveness of soft-iron inner cases and shields is discussed qualitatively; specific field thresholds and standards are not cited here. If included, they should be tied to a recognized standard and test.  
-- Informal temperature testing procedures (sealed bag, cool/warm pack) are workshop practices; ensure they align with best-practice safety regarding condensation and thermal shock.  
-- Any implication that COSC/ISO 3159 use a specific set of temperatures or positions beyond “multiple positions and three temperatures” should be verified directly against the current COSC publications [1][2] and ISO 3159 [5].
 
 # Part IV — The Standards That Prove It
 
@@ -1068,11 +1032,11 @@ Clarity about measurement
 
 When you say “good timing,” you need at least four numbers and one picture in your head:
 
-- Accuracy: The closeness of the rate to a reference. If the rate averages +3 s/d against a standard time signal, accuracy is +3 s/d. Accuracy can look good with poor precision if measurements scatter widely around +3.
+- Accuracy: The closeness of indicated time to a defined reference over a stated interval and conditions. An observed rate deviation of +3 s/d is a rate result; whether the watch is accurate depends on the reference, interval, conditions, and acceptance criterion. Accuracy can look good with poor precision if measurements scatter widely around +3.
 - Precision/repeatability: How much the rate varies when repeated under similar conditions. A movement that runs +3, +3, +3 is precise. One that runs +6, 0, +7 in the same condition is imprecise. Precision without accuracy is common; the hairspring or regulator can be set to bring the precise rate to zero.
 - Rate: Conventionally expressed as seconds per day (s/d). It is the primary figure reported by timing equipment and formal tests.
 - Amplitude: The angular swing of the balance in degrees. Amplitude is not a performance criterion in ISO 3159 or COSC acceptance ranges, but it is a diagnostic quantity at the bench: amplitude erosion usually precedes or accompanies poor precision and positional instability [6][7].
-- Positional behavior: The change in rate when the watch’s orientation changes. The classical positions (dial up/down, crown up/right/left, crown down) stress different points of friction and gravity-torque effects on the balance and spring. Good positional behavior implies consistent isochronism and poise.
+- Positional behavior: The change in rate when the watch’s orientation changes. The classical positions (dial up/down, crown up/right/left, crown down) stress different points of friction and gravity-torque effects on the balance and spring. Good positional behavior is evidence about the combined effects of poise, spring geometry, pivots, escapement, and gravity under the tested orientations; it does not by itself prove isochronism or diagnose a single cause.
 
 It helps to maintain a simple mental matrix. If accuracy is off but precision is strong across positions, you regulate. If precision is weak and amplitude is low in some positions, you look for friction, oiling, pivots, poise, or interference. If precision is weak at full wind but improves after 24 hours, the mainspring or barrel may be the culprit. Each metric points to different work.
 
@@ -1160,24 +1124,24 @@ What to carry to the bench
 
 COSC is not the only game in town. Some programs are jointly operated with public bodies; others are entirely first-party. The distinction to keep in mind at the bench is not the logo on the certificate but the scope of the claim: movement or finished watch; environmental stresses considered; tolerances published.
 
-METAS Master Chronometer (industry-described; review-needed)
+METAS Master Chronometer (METAS requirements)
 
-Many readers will have seen “Master Chronometer” descriptions attributed to METAS, the Swiss Federal Institute of Metrology, in partnership with certain manufacturers. Industry descriptions commonly state:
+METAS is the Swiss Federal Institute of Metrology and certifying body for this program. Its published requirements describe certification of fully mechanical watches covering chronometric performance, water resistance, magnetic-field resistance, and power reserve. The movement must first meet the applicable ISO 3159:2009 chronometer criteria, and the testing laboratory is subject to ISO/IEC 17025 accreditation and METAS oversight.
 
-- Testing of the finished, cased watch, not just the movement.
-- A claimed average daily deviation target around 0 to +5 s/d under specified conditions.
-- Resistance to strong magnetic fields, with figures on the order of 15,000 gauss cited repeatedly in manufacturer communications.
-- Multi-position, multi-temperature, and power-reserve-span testing, often including performance after magnetic exposure.
+Key published requirements include:
 
-Because these details are not in the source packet provided for this manuscript, treat them as manufacturer- and industry-stated descriptions that require primary-source confirmation before publication. The bench relevance is clear even without the exact numbers: a regime that evaluates the cased watch and formalizes anti-magnetic behavior gives you a fuller picture than a movement-only test. If a customer brings you a “Master Chronometer” watch that is erratic, your triage should include magnetism checks, amplitude under different states of wind, and confirmation that your timing setup matches the manufacturer’s declared test orientations and measurement windows. Do not assume that a “0 to +5” target translates directly to your timing machine’s single-interval result; many programs compute averages a particular way over several days and conditions.
+- The watch is evaluated in its final configuration as offered for sale.
+- The program includes exposure to a 1.5 T (15,000 G) magnetic field; the movement and finished watch must meet the program’s non-stopping criteria during the relevant tests.
+- Average daily precision is constrained by watch category: 0 to +5 s/day for category 1a, 0 to +6 s/day for category 1b, and 0 to +7 s/day for category 2.
+- The declared power reserve is verified, together with positional rate behavior and other published acceptance criteria.
 
-Brand-internal regimes (manufacturer-stated; review-needed)
+At the bench, the distinction is one of scope: METAS is not merely a movement-rate label. It evaluates the finished watch and combines chronometric, magnetic, water-resistance, and power-reserve requirements. Exact sequences and acceptance calculations belong to the applicable METAS requirements document.
+Brand-internal regimes
 
-Several manufacturers run in-house regimes that they publicize as descriptors of quality control. Common examples include:
+Manufacturers also operate proprietary quality and certification systems. Their scope should be described separately from ISO standards and third-party certifications.
 
-- Rolex “Superlative Chronometer”: Frequently cited as a cased-watch regime with a manufacturer-stated target of approximately -2/+2 s/d after casing. The company’s public messaging presents it as more stringent than third-party movement-only certification. Exact conditions, durations, and measurement methods are not in the provided source packet and must be verified from primary sources before publication.
-- Jaeger-LeCoultre “1000 Hours”: Described as a cased-watch test lasting on the order of weeks, intended to screen reliability and rate stability across positions and temperature changes. The published specifics, if any, are outside the provided source packet and require verification.
-
+- Rolex “Superlative Chronometer”: Rolex states that its current certification rests on seven pillars: precision, waterproofness, self-winding, autonomy, resistance to magnetism, reliability, and sustainability. The finished watch has a stated precision range of -2 to +2 seconds/day after casing. The additional magnetism, reliability, and sustainability criteria were added to the earlier four pillars in 2026.
+- Jaeger-LeCoultre “1000 Hours Control”: Jaeger-LeCoultre states that every watch is tested for up to six weeks, with checks covering positions, power reserve, temperature, movement, and water resistance. It is a proprietary quality-control program, not an ISO or third-party public standard.
 Treat such marks as internal quality systems, not as public, third-party standards. They can be good; they can also be marketing wrappers on competent factory testing. Your job is to translate the claim into bench practice:
 
 - Ask what was tested: movement or cased watch?
@@ -1220,7 +1184,7 @@ What we can say from the public page
 
 COSC’s “Excellence Chronometer Certified” page states that the program exists and is separate from movement certification, and that it is about the finished watch [3]. It positions Excellence Chronometer as an additional, complementary evaluation beyond the traditional movement-only approach. The page underscores that a finished watch can, and in some programs should, be tested as a unit [3].
 
-Any detailed numerical tolerances, duration, specific environmental stresses, or a hard launch year beyond what COSC publishes on that page must be verified from COSC primary sources before publication. The “2026” reference in industry discussions should be treated as review-needed unless and until COSC’s own communications specify it unambiguously.
+COSC’s 2026 Excellence Chronometer program adds a finished-watch stage after the traditional movement certification. The Federation of the Swiss Watch Industry describes five additional days of evaluation, including a 24-hour semi-dynamic simulation of average wrist wear, followed by a -2 to +4 seconds/day rate-deviation requirement, a 200-gauss magnetic test, and verification of the declared power reserve. The program was introduced progressively during 2026; verify the latest COSC publication when citing current availability.
 
 Bench implications of finished-watch evaluation
 
@@ -1253,7 +1217,7 @@ Before wrist-chronometer standards were harmonized, national observatories condu
 What we can say with confidence
 
 - The lineage of chronometer testing is tied to navigational and scientific needs. Harrison’s timekeepers demonstrated the feasibility of high-precision portable timekeeping under varying conditions, setting a precedent for independent evaluation [4].
-- By the late 19th and early 20th centuries, observatories in Europe ran formal trials of pocket and, later, wrist timepieces. The trials influenced watchmaking practice by rewarding not just accuracy but also consistency over time and conditions. Specific procedures, venues, and scoring methods require primary-source confirmation and are beyond the scope of the provided source packet. Treat common references to Kew, Neuchâtel, and other observatories as review-needed pending citation to primary documentation [9].
+- By the late 19th and early 20th centuries, observatories in Europe ran formal timekeeping trials that influenced watchmaking by rewarding performance across defined conditions rather than a single favorable reading. Venue-specific procedures, scoring systems, dates, and participating makers vary by trial and are not summarized here without dedicated archival sourcing.
 
 What mattered in those trials, and still matters
 
@@ -1278,11 +1242,11 @@ The table below summarizes the regimes discussed, emphasizing what is publicly a
 |---|---|---|---|---|---|---|---|---|
 | ISO 3159 (wrist-chronometers with sprung balance) [5] | International Organization for Standardization | Defines framework and metrics for wrist-chronometer testing | Not a lab program; specifies methods | Includes multiple positions | Includes multiple temperatures | Standard defines criteria for acceptance; see ISO 3159 [5] | N/A | Cite as the standard; do not invent clauses or figures beyond public abstracts [5] |
 | COSC Chronometer (Swiss) [1][2] | COSC | Uncased movement | 15 days | 5 positions | 3 temperatures | -4 to +6 s/d (wristwatch movements) | Statistical criteria applied to rate variation, positional spread, temperature effect; see COSC | Publicly described by COSC; movement-only [1][2] |
-| COSC Excellence Chronometer [3] | COSC | Finished, cased watch | Review-needed (COSC page distinguishes scope; durations not specified in provided source) | Review-needed | Review-needed | Review-needed | Review-needed | COSC distinguishes movement certification from finished-watch evaluation [3] |
-| METAS Master Chronometer (industry-described; review-needed) | METAS with participating manufacturers | Finished, cased watch | Review-needed | Review-needed | Review-needed | Commonly stated target around 0 to +5 s/d (manufacturer communications; review-needed) | Claimed anti-magnetic exposure up to approximately 15,000 gauss (manufacturer communications; review-needed) | Treat all specifics as review-needed without primary sources |
-| Rolex “Superlative Chronometer” (manufacturer-stated; review-needed) | Manufacturer | Finished, cased watch | Review-needed | Review-needed | Review-needed | Commonly cited as -2/+2 s/d (manufacturer communications; review-needed) | Review-needed | Internal regime; verify from primary sources before citing details |
-| Jaeger-LeCoultre “1000 Hours” (manufacturer-stated; review-needed) | Manufacturer | Finished, cased watch | Commonly described as multi-week test (review-needed) | Review-needed | Review-needed | Review-needed | Review-needed | Internal regime; verify from primary sources before citing details |
-| Historical observatory trials (review-needed) | National observatories (e.g., Kew, Neuchâtel—review-needed) | Typically complete watches or regulated movements (review-needed) | Extended, multi-week to multi-month (review-needed) | Multiple | Multiple | Scored across multiple parameters (review-needed) | Environmental and handling controls varied by observatory (review-needed) | Historical context requires primary-source verification [9] |
+| COSC Excellence Chronometer [3] | COSC | Finished, cased watch | Traditional 15-day movement stage plus five additional days for the finished-watch stage | Semi-dynamic finished-watch evaluation includes simulated wear | 200-gauss magnetic check in the finished-watch stage | -2 to +4 s/day in the finished-watch stage | Declared power-reserve verification and additional finished-watch evaluation | Additional COSC certification layer introduced during 2026; verify the current COSC publication for availability and exact submission status. |
+| METAS Master Chronometer | METAS with participating manufacturers | Finished, cased watch; movement must also satisfy ISO 3159:2009 criteria | Multi-cycle program; consult METAS-N001 for exact sequence | Six positions are used for instantaneous-rate measurements | 1.5 T / 15,000 G magnetic exposure | 0 to +5, +6, or +7 s/day depending on category | Magnetic non-stop criteria, power reserve, positional behavior, and water-resistance requirements | Third-party metrology certification; consult the applicable current METAS requirements document for exact calculations. |
+| Rolex “Superlative Chronometer” | Rolex | Finished watch | Proprietary | Proprietary | Magnetism is one of the current seven pillars | -2 to +2 s/day stated for the finished watch after casing | 2026 adds magnetism, reliability, and sustainability to precision, waterproofness, self-winding, and autonomy | Proprietary manufacturer certification; do not present it as ISO/COSC. |
+| Jaeger-LeCoultre “1000 Hours” | Jaeger-LeCoultre | Finished watch | Up to six weeks | Proprietary | Temperature and environmental checks | Proprietary criteria | Checks positions, power reserve, temperature, movement, and water resistance | Proprietary quality-control program; do not reduce it to a single tolerance number. |
+| Historical observatory trials | National observatories and testing institutions | Varies by trial | Varies by trial | Multiple | Where specified, multiple | Multi-parameter scoring | Procedures varied by institution and period | General lineage retained; venue-specific claims require dedicated archival sources. |
 
 What to carry to the bench
 
@@ -1316,7 +1280,7 @@ References: [1] COSC, COSC certifications; [2] COSC, FAQ; [3] COSC, Excellence C
 
 # Part V — Practice: At the Bench
 
-A movement is not repaired by enthusiasm. It is repaired by observation, cleanliness, controlled force, and a willingness to stop when the evidence is insufficient. The bench is where the abstractions of the previous Parts meet metal that has been worn, magnetized, bent, dried, polished, or altered by another person. The watchmaker’s task is not merely to make the hands move. It is to restore a stable relationship between power, transmission, regulation, and the conditions in which the watch is expected to operate.
+A movement is not repaired by enthusiasm. It is repaired by observation, cleanliness, controlled force, and a willingness to stop when the evidence is insufficient. The procedures in this part are illustrative practitioner guidance, not universal service specifications; movement-specific tolerances, oils, tools, safety procedures, and adjustment methods must come from the applicable manufacturer documentation and qualified training. The bench is where the abstractions of the previous Parts meet metal that has been worn, magnetized, bent, dried, polished, or altered by another person. The watchmaker’s task is not merely to make the hands move. It is to restore a stable relationship between power, transmission, regulation, and the conditions in which the watch is expected to operate.
 
 ## Chapter 16 — Tools and Workspace
 
@@ -1362,7 +1326,7 @@ A service is complete only when the movement is clean, correctly assembled, appr
 
 A timing machine listens to the escapement and converts its acoustic pattern into an estimate of rate, amplitude, and beat error. The display is powerful because it makes behavior visible, but it is not an oracle. It samples a movement under a particular lift angle, position, winding state, temperature, and level of contact with the instrument. If the instrument is configured incorrectly, a beautiful graph can be a precise description of the wrong thing.
 
-Rate is the daily gain or loss inferred from the observed interval. Amplitude is a measure related to the angular swing of the balance, calculated from the timing pattern and the assumed geometry of the escapement. Beat error expresses asymmetry between the clockwise and counterclockwise portions of the balance’s motion as observed through the impulse sequence. These values are related but not interchangeable. A watch can show an acceptable average rate while amplitude is falling, or an attractive amplitude while positional differences remain large.
+Rate is the daily gain or loss inferred from the observed interval. Amplitude is a measure related to the angular swing of the balance, calculated from the timing pattern and the assumed geometry of the escapement. Beat error expresses asymmetry in the timing of the oscillator’s two directional events relative to the escapement’s unlocking and impulse geometry. Collet, roller, stud, fork, and escapement geometry can all contribute. These values are related but not interchangeable. A watch can show an acceptable average rate while amplitude is falling, or an attractive amplitude while positional differences remain large.
 
 The first measurement should be descriptive, not corrective. Record the position, time since winding, rate, amplitude, beat error, lift angle setting, and any unusual sound or trace. Repeatability matters more than one impressive number. If the movement is tested dial-up, dial-down, crown-up, and crown-down, the pattern of change is more informative than any one result. Position reveals gravity’s influence on the balance, pivots, hairspring, and escapement.
 
@@ -1414,10 +1378,6 @@ There is no single doorway into the trade. Some enter through school, some throu
 
 Choose a learning path that supplies feedback, not just information. Practice on appropriate material, keep records, and make safety and honesty part of technical skill. A watchmaker is trusted with objects, time, money, and history; training must address all four.
 
-## Review before publication
-
-Current details of WOSTEP, AWCI, and BHI programs require direct verification before publication. Service intervals must not be presented as universal prescriptions. Any movement-specific adjustment procedure should be checked against the manufacturer’s technical documentation and qualified instruction.
-
 
 # Part VI — Context & Future
 
@@ -1457,11 +1417,11 @@ Judge independence by decisions, documentation, and responsibility rather than b
 
 Standards evolve when the old test remains useful but no longer describes the most important risk. Traditional chronometer testing made position and temperature explicit. Modern testing has added the finished watch, magnetic exposure, power-reserve behavior, and conditions closer to wear. COSC’s 2026 Excellence program is a visible example: after the traditional movement certification stage, finished watches undergo additional evaluation including simulated wear in semi-dynamic positions, a tighter -2/+4 seconds-per-day precision requirement, magnetic-field checks at 200 gauss, and power-reserve verification as described by COSC.[3]
 
-The next generation of standards may become more continuous and more transparent. A watch could be evaluated across a recorded motion profile rather than a small number of static positions. Magnetic exposure might be characterized by field strength, orientation, duration, and rate recovery. Power reserve could be reported not only as elapsed hours but as rate behavior across the discharge curve. Shock testing could distinguish a momentary disturbance from a permanent change in rate.
+The following are possible future directions proposed by the author; they are not presented as announced policy by standards bodies or manufacturers. The next generation of standards may become more continuous and more transparent. A watch could be evaluated across a recorded motion profile rather than a small number of static positions. Magnetic exposure might be characterized by field strength, orientation, duration, and rate recovery. Power reserve could be reported not only as elapsed hours but as rate behavior across the discharge curve. Shock testing could distinguish a momentary disturbance from a permanent change in rate.
 
 Data creates an opportunity and a danger. More measurements can reveal more truth, but only if the conditions are defined and the result remains intelligible. A graph with thousands of points is not automatically more useful than a table with five. The practitioner needs to know what was measured, how the instrument was calibrated, what the pass criterion was, and whether the test represents service reality.
 
-The future standard may also include maintainability. A movement that passes a laboratory test but cannot be reasonably serviced, documented, or adjusted creates a different kind of risk. Service access, replacement-part continuity, lubrication guidance, and the availability of technical information could become part of a broader definition of long-term reliability. These are not merely commercial concerns. They determine whether precision survives beyond the first certificate.
+A possible future standard could also include maintainability. This is a proposal for discussion, not a current published requirement. A movement that passes a laboratory test but cannot be reasonably serviced, documented, or adjusted creates a different kind of risk. Service access, replacement-part continuity, lubrication guidance, and the availability of technical information could become part of a broader definition of long-term reliability. These are not merely commercial concerns. They determine whether precision survives beyond the first certificate.
 
 The central principle remains unchanged. A standard should not make a claim sound impressive; it should make the claim testable. Harrison’s sea trials, observatory competitions, ISO-based movement testing, magnetic resistance, and semi-dynamic finished-watch evaluation all belong to the same lineage. Each takes a vague word—accurate, reliable, robust—and gives it a procedure.
 
@@ -1478,10 +1438,6 @@ That is why the most valuable word in horology is not “perfect.” It is “me
 The bench teaches the same lesson as the history. Harrison’s timekeeper mattered because it endured a trial. A chronometer matters because it passes a defined test. A regulation record matters because it states its conditions. A restoration matters because it documents its intervention. In every case, credibility is not a mood. It is a result that another person can examine.
 
 Mechanical horology remains valuable not because it has defeated physics, but because it makes physics visible and gives craft a way to work with it. The escapement is a small machine at the boundary between chaos and regularity. To understand it is to understand both the ambition of precision and the honesty required to claim it.
-
-## Review before publication
-
-Re-verify all current certification details against COSC and METAS documentation at the time of release. Avoid presenting predictions about future standards as forecasts of policy. Any discussion of independent makers should remain general unless supported by named, permissioned case studies.
 
 
 # Back Matter

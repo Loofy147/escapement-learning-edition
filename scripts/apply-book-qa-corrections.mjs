@@ -4,8 +4,10 @@ const path = "client/src/content/book.md";
 let book = fs.readFileSync(path, "utf8");
 
 function replaceExact(label, oldText, newText) {
-  const count = book.split(oldText).length - 1;
-  if (count !== 1) throw new Error(`${label}: expected exactly 1 match, found ${count}`);
+  const oldCount = book.split(oldText).length - 1;
+  const newCount = book.split(newText).length - 1;
+  if (oldCount === 0 && newCount === 1) return;
+  if (oldCount !== 1) throw new Error(`${label}: expected exactly 1 source match or 1 already-corrected match, found source=${oldCount} target=${newCount}`);
   book = book.replace(oldText, newText);
 }
 
@@ -32,8 +34,8 @@ const replacements = [
 for (const [label, oldText, newText] of replacements) replaceExact(label, oldText, newText);
 
 if (book.includes("Review before publication")) {
-  book = book.replace("## Review before publication", "## Editorial QA Notes");
+  book = book.replaceAll("Review before publication", "Editorial QA Notes");
 }
 
 fs.writeFileSync(path, book);
-console.log(`Applied ${replacements.length} deterministic Escapement Book QA corrections.`);
+console.log(`Applied or confirmed ${replacements.length} deterministic Escapement Book QA corrections.`);

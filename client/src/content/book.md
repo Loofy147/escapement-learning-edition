@@ -20,58 +20,58 @@ For the people who keep small machines honest.
 
 **Part I — Foundations: Why Timekeeping Is Hard**
 
-1. The Problem With Seconds  
+1. The Problem With Seconds
 2. The Longitude Problem
 
 **Part II — Mechanics: How a Movement Works**
 
-3. Power and the Going Train  
-4. Regulation: The Balance and Hairspring  
-5. The Escapement Family  
+3. Power and the Going Train
+4. Regulation: The Balance and Hairspring
+5. The Escapement Family
 6. Complications as Engineering Problems
 
 **Part III — Materials & Precision Science**
 
-7. Metals and Alloys  
-8. Friction and Jeweling  
-9. Thermal Compensation  
+7. Metals and Alloys
+8. Friction and Jeweling
+9. Thermal Compensation
 10. Magnetic Resistance
 
 **Part IV — The Standards That Prove It**
 
-11. What “Chronometer” Actually Means  
-12. COSC, Step by Step  
-13. Beyond COSC: METAS, Superlative, and 1000 Hours  
-14. The New Standard: COSC Excellence Chronometer  
+11. What “Chronometer” Actually Means
+12. COSC, Step by Step
+13. Beyond COSC: METAS, Superlative, and 1000 Hours
+14. The New Standard: COSC Excellence Chronometer
 15. Historical Precedent: The Observatory Trials
 
 **Part V — Practice: At the Bench**
 
-16. Tools and Workspace  
-17. Service Cycles  
-18. Timing and Regulation in Practice  
-19. Restoration Ethics  
+16. Tools and Workspace
+17. Service Cycles
+18. Timing and Regulation in Practice
+19. Restoration Ethics
 20. Getting Into the Trade
 
 **Part VI — Context & Future**
 
-21. Mechanical, Quartz, and Atomic  
-22. The Independent Watchmaking Movement  
-23. Where the Standards Go Next  
+21. Mechanical, Quartz, and Atomic
+22. The Independent Watchmaking Movement
+23. Where the Standards Go Next
 
 Conclusion — The Discipline of a Number
 
 **Back Matter**
 
-Working Glossary  
-Appendix A — Standards at a Glance  
-Bibliography and Reference Notes  
-Editorial and Publication Note  
+Working Glossary
+Appendix A — Standards at a Glance
+Bibliography and Reference Notes
+Editorial and Publication Note
 Index
 
 ## How to Use This Book
 
-This is a book to read in sequence and to revisit by subject. Part I establishes why timekeeping is a difficult physical problem. Part II follows energy through the movement and ends at the escapement. Part III explains why material and surface decisions alter behavior. Part IV examines the standards that convert claims into test results. Part V moves to the bench, where diagnosis and documentation matter as much as manipulation. Part VI places mechanical horology beside other timekeeping systems and asks what a future standard should measure.
+This is a practitioner-oriented technical guide for readers of mechanical horology. It is not an accredited training course, a caliber-specific service manual, or a complete professional reference. Read it in sequence and revisit it by subject. Part I establishes why timekeeping is a difficult physical problem. Part II follows energy through the movement and ends at the escapement. Part III explains why material and surface decisions alter behavior. Part IV examines the standards that convert claims into test results. Part V moves to the bench, where diagnosis and documentation matter as much as manipulation. Part VI places mechanical horology beside other timekeeping systems and asks what a future standard should measure.
 
 The recurring question is simple: **what problem is being solved, under what conditions, and how do we know?**
 
@@ -124,7 +124,7 @@ Table: Terms at the bench
 | Accuracy            | Closeness to reference time                         | Cumulative time error over hours/days                  | Set rate, define use-case, verify in trial             |
 | Rate                | Gain/loss per day under stated conditions           | Timing machine trace, time-signal comparisons          | Regulate, alter mean-time screws, adjust hairspring    |
 | Precision           | Repeatability of rate                               | Low scatter over repeated runs                         | Reduce friction, stabilize amplitude, improve poise    |
-| Amplitude           | Angular swing of balance                            | 200–320° typical modern range (context-dependent)      | Power delivery, oil, endshake, banking/escapement      |
+| Amplitude           | Angular swing of balance                            | A measured or inferred angular swing; interpret against caliber, escapement, lift-angle setting, winding state, position, and instrument method | Power delivery, oil, endshake, banking/escapement      |
 | Positional behavior | Rate change with orientation                        | Differences among dial up/down, pendant up/left/right | Poise, pivots, jewels, guard pin/roller jewel geometry |
 
 References: technique and definitions in practice [6][7][8]. Do not substitute folklore for measurement.
@@ -201,16 +201,16 @@ Parliament’s 1714 Act established monetary rewards to encourage a practical so
 
 John Harrison was a cabinetmaker and self-taught mechanic who approached the problem through wood and metal, springs and balances, with a practical mechanic’s belief that faults could be engineered out rather than merely tolerated. The Royal Museums Greenwich account traces his machines and their proving [4]:
 
-- H1. A large, complex, gimballed timekeeper with paired balances to counter motion, using a remontoire and novel anti-friction designs. It represented a bold attempt to stabilize rate aboard ship and was trialed at sea to Lisbon [4].
-- H2. An improvement on H1 aiming to address identified defects. Harrison ultimately considered it imperfect and did not seek its sea trial [4].
-- H3. A rethinking with new elements—most famously a bimetallic compensation device and caged roller bearings—seeking to solve the remaining isochronism and temperature errors. It took many years and did not achieve the performance Harrison wanted [4].
-- H4. A different approach, small and watch-like, with a fast balance and a spring, showing that a portable watch could reach the required steadiness if designed and made with extraordinary care. It was this instrument that underwent a famous long-distance test [4].
+- H1. A large, complex, gimballed timekeeper with paired balances and novel anti-friction and compensation ideas; it was trialed at sea to Lisbon [4].
+- H2. A development of H1 that Harrison did not submit to a sea trial after identifying a flaw [4].
+- H3. A further development addressing temperature compensation and oscillator behavior; Harrison continued work on it for years rather than treating it as the final solution [4].
+- H4. A smaller, watch-like timekeeper with a balance and spring. Its Jamaica trial in 1761, followed by later trials and examination, became the most famous stage in Harrison’s pursuit of the Longitude reward [4].
 
 Here, the workshop meets the sea. Harrison chased the same failure modes we do: drive variability, friction, thermal drift, and positional error. He engineered redundancy into power delivery, employed compensation for temperature, and sought to isolate the oscillator from the ship’s violence. The technical narrative is familiar, but the standard changed: the workshop’s opinion no longer mattered; the Board’s trial did.
 
 ### The Jamaica trial of H4
 
-H4 was dispatched on a voyage to the Caribbean to test its ability to carry Greenwich time across the Atlantic. Observers recorded its behavior relative to astronomical determinations at sea and at landfall. The Royal Museums Greenwich account summarizes the voyage and its assessment: H4’s performance demonstrated that a portable timekeeper could meet the Act’s criteria on a real sea passage [4]. A bench note to modern readers: the test had a route, a duration, and a method for comparing the device against reference observations. It was a chronometric trial, not a workshop boast.
+H4 was dispatched on the 1761 voyage to Jamaica. Its performance demonstrated the feasibility of using a portable timekeeper for longitude under the relevant trial conditions, but the result did not end the controversy over the reward. Further testing followed, including the Barbados trial of 1763–1764, Board consideration in 1765, and Royal Observatory testing beginning in 1766 [4]. The important historical point is not a single triumphant voyage but a sequence of increasingly demanding trials.
 
 ### Dispute and resolution
 
@@ -341,7 +341,7 @@ The two contact interfaces that most often degrade your amplitude are:
 
 Do not assume an automatic barrel’s slipping bridle masks poor barrel lubrication. If the bridle grabs too well, you stress the train at full wind; if it grabs too little, you lose usable reserve to uncontrolled slipping.
 
-Multiple barrels are used to extend reserve without excessive spring height, to reduce peak torque for a given total energy, or both. Whether in series (longer reserve, lower average torque) or parallel (higher torque for complications), the gearing and bearing loads change. Series barrels reduce peak drive to the escapement for a given reserve but demand tighter train losses for the same amplitude. These are design trades; at the bench you mostly see them as differences in amplitude margins and “stubbornness” under load.
+Multiple-barrel architectures can be used to reshape available torque, extend reserve, or supply particular loads. The resulting torque profile depends on spring characteristics and the gearing arrangement. At the bench, evaluate the actual movement’s amplitude margin, rate behavior, and reserve rather than assuming a universal series-versus-parallel outcome.
 
 ### 3.4 Tooth forms, depthing, and train efficiency
 
@@ -408,7 +408,7 @@ The balance-and-hairspring form a harmonic oscillator where the balance’s iner
 - Inertia is set by the balance’s mass distribution. Adjustable-inertia balances use screws or movable weights to vary radius (hence inertia) with minimal change to spring condition [6][7].
 - The spring’s effective length sets rate for index-regulated balances; curb pins move the active length. Free-sprung designs regulate by inertia only; the spring is shaped and pinned to its terminal curve and left undisturbed [6].
 
-A flat spiral spring is economical of height but sensitive to vertical motion and curb-pin interference. A properly formed overcoil (Breguet overcoil) improves concentric “breathing” of the spring, aiding isochronism and positional stability by keeping the center of mass closer to the balance staff across amplitudes [6][7]. The execution of the terminal curve, not the name, does the work.
+A flat spiral spring is economical of height but can be sensitive to vertical motion and regulator interaction. A properly formed terminal curve or Breguet overcoil is intended to improve the concentric development of the spring. Its effect on positional and isochronal behavior depends on the complete oscillator and escapement design [6][7]. The execution of the terminal curve, not the name, does the work.
 
 ### 4.2 Definitions that belong at the bench
 
@@ -436,7 +436,7 @@ Bench-visible symptoms:
 - Trace on the timing machine shows “smile” or “frown” across amplitude sweeps.
 
 Mitigations:
-- Free-sprung balances reduce curb-pin friction and stabilize the effective length [6].
+- Free-sprung regulation removes or reduces dependence on curb-pin adjustment, eliminating one source of regulator interaction. Overall isochronism remains dependent on spring geometry, oscillator design, escapement behavior, amplitude, and adjustment [6][7].
 - Overcoil or carefully formed terminal curves keep the spring breathing concentrically [6][7].
 - Set pallet lubrication and draw to provide consistent, gentle impulse without excessive sliding.
 - Match spring strength to escapement energy: too-stiff springs produce low amplitudes where escapement non-idealities dominate; too-weak springs swing wide and run into banking changes.
@@ -445,7 +445,7 @@ Temperature compensation is largely a solved materials problem in modern alloys;
 
 ### 4.4 Beat rate and lift: how fast and how far
 
-Beat rate (e.g., 18,000, 21,600, 28,800 vph) is a design choice balancing impulse frequency against friction and shock performance. Higher beat rates can average disturbances and improve precision at a given amplitude band, at the price of increased escapement events per hour (more oil stress and wear). Lower beat rates reduce escapement losses, help long reserves, and are gentler with marginal lubrication. The balance must be dimensioned for the chosen rate; retrofitting a higher rate to a train and escapement not intended for it is unsound [6][7].
+Beat rate (e.g., 18,000, 21,600, 28,800 vph) is a system trade-off involving oscillator design, escapement event frequency, disturbance response, power consumption, lubrication, wear, and robustness. No single beat-rate value is universally superior. The balance, train, and escapement must be designed as a coherent system; retrofitting a different rate without the corresponding engineering changes is unsound [6][7].
 
 Lift angle is the escapement’s geometric property defining the angular portion of the balance’s swing during which the pallet and escape wheel are in contact. Timing machines need the correct lift angle to compute amplitude from beat period. Use the maker’s data or measure; do not assume.
 
@@ -509,9 +509,13 @@ The escapement sits between energy and oscillator. It meters torque into impulse
 
 ### 5.1 Families and first principles
 
-- Recoil escapements (e.g., verge, anchor variants) permit backward motion under lock; not used in modern precision watches.
-- Deadbeat escapements (e.g., detached lever, detent) avoid recoil; the escape wheel rests without pushing during lock.
-- Detached escapements isolate the balance from the train except during brief impulses. This supports precision by minimizing disturbance [6][7][8].
+Escapements can be compared along several independent dimensions: whether the locking action permits recoil or is deadbeat; whether the oscillator is detached from the train between impulses; and whether impulse is predominantly sliding or direct. These dimensions should not be treated as synonyms.
+
+- Recoil escapements permit some backward motion of the train during locking.
+- Deadbeat escapements use a locking geometry that avoids recoil during the locked interval.
+- Detached escapements isolate the oscillator from the driving train except during the intended unlocking and impulse events.
+
+The Swiss lever is detached and predominantly uses sliding impulse. The traditional spring detent is detached and uses direct impulse. Verge escapements are recoil and non-detached. These categories describe different properties and should be kept separate [6][7][8].
 
 Marine chronometers historically used detent escapements for their high efficiency and low disturbance; pocket and wristwatches overwhelmingly use the detached lever for safety under shock and robust self-starting [4][6][7].
 
@@ -531,7 +535,7 @@ Bench-critical points:
 - Pallet stone setting: impulse and locking angles determine both safety and efficiency. Tiny adjustments matter; work under magnification and record baseline settings.
 - Lubrication: micro-films at precise locations on pallet impulse faces; dry or near-dry lock faces in many practices for stability. Excess oil migrates to the roller and destroys consistency. Follow established watchmaking practice for the caliber and oil family [6][7].
 
-Beat error in a lever escapement arises from asymmetry in the roller jewel’s rest relative to the banking: the instant of unlocking differs left to right. Set the collet on the balance staff (for fixed stud) or the stud carrier (for movable stud) to center the pallet fork’s neutral relative to the balance’s rest. Aim to correct geometry before trimming rate.
+Beat error in a lever escapement expresses asymmetry in the timing of the oscillator’s two directional events relative to the escapement’s unlocking and impulse geometry. Collet, roller, stud, fork, and escapement geometry can all contribute. The appropriate correction is movement-specific; correct the relevant geometry before using rate adjustment to mask the error.
 
 ### 5.3 English lever versus Swiss lever (and why you rarely see the former)
 
@@ -710,7 +714,7 @@ Claims and passages that warrant practitioner or primary-source verification bef
 - Comments on the comparative robustness of English vs. Swiss lever escapements in wristwatches reflect traditional practice and literature; detailed efficiency comparisons should be referenced to primary test data where possible [6][8].
 - Descriptions of calendar “danger zones” and safety clutches are grounded in standard watchmaking practice; specific no-set intervals and mechanisms vary widely and must be reviewed against caliber documents [7][8].
 - Generalizations about vertical clutch “creep” and lubrication are drawn from workshop experience and texts; verify friction targets and surface treatments case-by-case [6][7].
-- Multiple-barrel series vs. parallel characterizations are qualitative; exact torque profiles and efficiency differences depend on specific designs and should be supported by maker data or test measurements where used for specification [6][7]. 
+- Multiple-barrel series vs. parallel characterizations are qualitative; exact torque profiles and efficiency differences depend on specific designs and should be supported by maker data or test measurements where used for specification [6][7].
 
 References:
 [1] COSC, COSC certifications
@@ -736,7 +740,7 @@ Practical timekeeping quality is a negotiation among:
 - Amplitude: the balance’s swing in degrees, which co-varies with delivered torque, friction, lubrication, and escapement geometry.
 - Accuracy: the closeness of the watch’s indicated time to a reference after adjusting for the watch’s typical conditions of use.
 
-Materials control stability against temperature and magnetic fields; they set the friction the train can tolerate; and they define how the oscillator’s elastic and inertial properties drift with age. The workshop concern is not catalog names, but the mechanisms: expansion, magnetization, wear, and energy loss. 
+Materials control stability against temperature and magnetic fields; they set the friction the train can tolerate; and they define how the oscillator’s elastic and inertial properties drift with age. The workshop concern is not catalog names, but the mechanisms: expansion, magnetization, wear, and energy loss.
 
 COSC testing (built on ISO 3159) evaluates uncased movements in multiple positions and temperatures over many days, reporting statistics such as mean daily rate and variation [1][2][5]. Those are material tests as much as mechanical ones.
 
@@ -828,7 +832,7 @@ Table: terminal choices in practice
 |---|---|---|---|
 | Unshaped flat | Minimal | Poor | Larger spread, especially crown up/down vs dial up |
 | Shaped flat (Phillips/Grossmann) | Minimal | Good if executed well | Reduced spread; sensitive to slight mishaping |
-| Breguet overcoil | Increased | Very good | Often the tightest vertical/horizontal spread at similar amplitude |
+| Breguet overcoil | Increased | Very good when properly formed | May reduce certain positional and isochronal errors; outcome depends on the complete oscillator |
 
 Bench rule: do not compensate a bad terminal with regulator pin abuse. Shape first, regulate second.
 
@@ -888,7 +892,7 @@ Sapphire and spinel have similar virtues. The choices you will see and service a
 ### Hole Jewels and Cap Jewels
 
 - Hole jewels locate the pivot radially. Their bore finish and oil sink geometry govern drag and oil film stability [7].
-- Cap jewels (endstones) limit axial displacement and present a flat, polished plane to the pivot end. They reduce friction at low loads (vertical positions) and stabilize amplitude [6][7].
+- Cap jewels (endstones) limit axial displacement and provide a polished bearing surface for the pivot end. Their role and loading differ by orientation; in horizontal positions the pivot end can bear on the cap jewel, while in vertical positions the pivot commonly loads the wall of the hole jewel [6][7].
 
 Endshake (axial) and side shake (radial) must be tuned together. Too little endshake binds the train in verticals; too much endshake lets the escape wheel climb the pallet prematurely under shock. Side shake too tight leads to oil starvation and galling; too loose presents as erratic amplitude and accidental depthing changes.
 
@@ -970,7 +974,7 @@ The hairspring is the magnet’s preferred victim. Magnetization can:
 - Leave amplitude little changed, misleading the diagnosis.
 
 Symptoms:
-- Sudden large daily gain with preserved amplitude points to a magnetized spring.
+- A sudden large daily gain with relatively preserved amplitude is a diagnostic clue that should prompt a magnetism check; it is not, by itself, proof of a magnetized spring.
 - Coils that “breathe” unevenly under the microscope, especially in verticals.
 - Ferrous debris accumulation on pivots and stones (secondary effect).
 
@@ -989,9 +993,9 @@ Note: Specific anti-magnetic field thresholds belong to standards outside our re
 
 Silicon (monocrystalline) and other non-ferrous parts have entered the bench as facts, not fads. Consider them from first principles:
 
-- Material properties that matter: low density (low inertia for moving parts), high stiffness, excellent dimensional precision from microfabrication, and amagnetic behavior. These help amplitude (less mass to drive), positional precision (stable geometry), and magnetic immunity (no force coupling to the hairspring) in practice.
-- Escapement parts: Silicon escape wheels and pallets remove steel’s magnetism and, with appropriate surface finish, may reduce lubrication dependence. Geometry is cut, not worn in; damage tends to be brittle rather than ductile. Handling must respect that.
-- Hairsprings: Silicon hairsprings provide intrinsic amagnetic behavior and can be formed in geometries that encourage concentric breathing without overcoil height. Their thermal coefficient can be tailored by geometry and, in some designs, by thin surface treatments; in practice on the bench, expect good temperature behavior but verify it the same way you would with alloys—test and adjust regulator/terminal shape as needed.
+- Material properties that matter include low density, high stiffness, microfabrication precision, and amagnetic behavior. These are design inputs rather than guarantees of system-level performance.
+- Escapement parts: silicon components eliminate ferromagnetic steel in the component itself and can alter friction and lubrication requirements depending on the design and surface treatment.
+- Hairsprings: silicon hairsprings are intrinsically non-ferromagnetic and can be manufactured in complex geometries. Their actual temperature, positional, and shock performance remains a property of the complete oscillator and must be verified by measurement.
 
 Cautions (practitioner conventions; see Review before publication):
 - Shock behavior differs from metal springs; check staff and collet integrity after impact.
@@ -1000,9 +1004,7 @@ Cautions (practitioner conventions; see Review before publication):
 
 ### Practical temperature and magnetism tests
 
-- Temperature:
-  - Cold test: Place the cased watch in a sealed bag to prevent condensation, cool gently, let equilibrate, then measure rate and amplitude quickly after returning to room temperature.
-  - Warm test: Warm similarly and measure. Look for parallel shifts in rate across positions and for amplitude changes that differ by position (lubrication symptom).
+- Temperature (informal screening only): Gentle cool/warm exposure can be used to look for gross thermal effects after adequate equilibration and condensation control. It is not a substitute for a standardized temperature test or certification protocol. Follow the manufacturer’s handling limits and avoid thermal shock.
 - Magnetism:
   - Compass or magnet indicator at the bench can show gross magnetization of the case; the timing machine shows the effect where it matters—rate and beat scatter. If the gain is large and immediate, demagnetize before any regulation.
 
@@ -1026,14 +1028,14 @@ Link to standards:
 
 ## References
 
-[1] COSC, COSC certifications: https://www.cosc.swiss/cosc-certifications  
-[2] COSC, FAQ: https://www.cosc.swiss/cosc-faq  
-[3] COSC, Excellence Chronometer Certified: https://www.cosc.swiss/certified-excellence-chronometer  
-[4] Royal Museums Greenwich, Longitude found: the story of Harrison's timekeepers: https://www.rmg.co.uk/stories/time/harrisons-clocks-longitude-problem  
-[5] ISO 3159, Wrist-chronometers with sprung balance oscillator (cite as the standard; do not invent clauses or quote inaccessible text).  
-[6] George Daniels, Watchmaking, 1981.  
-[7] Donald de Carle, Practical Watch Repair.  
-[8] F. J. Britten, The Watch & Clock Maker's Handbook, Dictionary and Guide.  
+[1] COSC, COSC certifications: https://www.cosc.swiss/cosc-certifications
+[2] COSC, FAQ: https://www.cosc.swiss/cosc-faq
+[3] COSC, Excellence Chronometer Certified: https://www.cosc.swiss/certified-excellence-chronometer
+[4] Royal Museums Greenwich, Longitude found: the story of Harrison's timekeepers: https://www.rmg.co.uk/stories/time/harrisons-clocks-longitude-problem
+[5] International Organization for Standardization. ISO 3159:2009, *Timekeeping instruments — Wrist-chronometers with spring-balance oscillator*, Edition 2. ISO currently lists this edition as published/current; the standard is under systematic review as of 2026. Consult the licensed edition for exact clauses and definitions.
+[6] George Daniels, Watchmaking, 1981.
+[7] Donald de Carle, Practical Watch Repair.
+[8] F. J. Britten, The Watch & Clock Maker's Handbook, Dictionary and Guide.
 [9] Derek Pratt / horological technical literature where general historical context is needed; mark claims for review rather than fabricate specifics.
 
 
@@ -1041,10 +1043,10 @@ Link to standards:
 
 Claims below should be cross-checked by practitioners or primary sources before publication:
 
-- Specific alloy names mapped to exact compositions (e.g., “beryllium bronze” balances as a class) are described generically here; brand-proprietary compositions vary. Verify terminology against current supplier data.  
-- Statements about silicon hairspring shock behavior, surface treatments, and lubrication interactions are practitioner conventions; seek primary technical notes from manufacturers for definitive guidance.  
-- Effectiveness of soft-iron inner cases and shields is discussed qualitatively; specific field thresholds and standards are not cited here. If included, they should be tied to a recognized standard and test.  
-- Informal temperature testing procedures (sealed bag, cool/warm pack) are workshop practices; ensure they align with best-practice safety regarding condensation and thermal shock.  
+- Specific alloy names mapped to exact compositions (e.g., “beryllium bronze” balances as a class) are described generically here; brand-proprietary compositions vary. Verify terminology against current supplier data.
+- Statements about silicon hairspring shock behavior, surface treatments, and lubrication interactions are practitioner conventions; seek primary technical notes from manufacturers for definitive guidance.
+- Effectiveness of soft-iron inner cases and shields is discussed qualitatively; specific field thresholds and standards are not cited here. If included, they should be tied to a recognized standard and test.
+- Informal temperature testing procedures (sealed bag, cool/warm pack) are workshop practices; ensure they align with best-practice safety regarding condensation and thermal shock.
 - Any implication that COSC/ISO 3159 use a specific set of temperatures or positions beyond “multiple positions and three temperatures” should be verified directly against the current COSC publications [1][2] and ISO 3159 [5].
 
 # Part IV — The Standards That Prove It
@@ -1068,7 +1070,7 @@ Clarity about measurement
 
 When you say “good timing,” you need at least four numbers and one picture in your head:
 
-- Accuracy: The closeness of the rate to a reference. If the rate averages +3 s/d against a standard time signal, accuracy is +3 s/d. Accuracy can look good with poor precision if measurements scatter widely around +3.
+- Accuracy: The closeness of indicated time to a defined reference over a stated interval and conditions. An observed rate deviation of +3 s/d is a rate result; whether the watch is accurate depends on the reference, interval, conditions, and acceptance criterion. Accuracy can look good with poor precision if measurements scatter widely around +3.
 - Precision/repeatability: How much the rate varies when repeated under similar conditions. A movement that runs +3, +3, +3 is precise. One that runs +6, 0, +7 in the same condition is imprecise. Precision without accuracy is common; the hairspring or regulator can be set to bring the precise rate to zero.
 - Rate: Conventionally expressed as seconds per day (s/d). It is the primary figure reported by timing equipment and formal tests.
 - Amplitude: The angular swing of the balance in degrees. Amplitude is not a performance criterion in ISO 3159 or COSC acceptance ranges, but it is a diagnostic quantity at the bench: amplitude erosion usually precedes or accompanies poor precision and positional instability [6][7].
@@ -1362,7 +1364,7 @@ A service is complete only when the movement is clean, correctly assembled, appr
 
 A timing machine listens to the escapement and converts its acoustic pattern into an estimate of rate, amplitude, and beat error. The display is powerful because it makes behavior visible, but it is not an oracle. It samples a movement under a particular lift angle, position, winding state, temperature, and level of contact with the instrument. If the instrument is configured incorrectly, a beautiful graph can be a precise description of the wrong thing.
 
-Rate is the daily gain or loss inferred from the observed interval. Amplitude is a measure related to the angular swing of the balance, calculated from the timing pattern and the assumed geometry of the escapement. Beat error expresses asymmetry between the clockwise and counterclockwise portions of the balance’s motion as observed through the impulse sequence. These values are related but not interchangeable. A watch can show an acceptable average rate while amplitude is falling, or an attractive amplitude while positional differences remain large.
+Rate is the daily gain or loss inferred from the observed interval. Amplitude is a measure related to the angular swing of the balance, calculated from the timing pattern and the assumed geometry of the escapement. Beat error expresses asymmetry in the timing of the oscillator’s two directional events relative to the escapement’s unlocking and impulse geometry. Collet, roller, stud, fork, and escapement geometry can all contribute. These values are related but not interchangeable. A watch can show an acceptable average rate while amplitude is falling, or an attractive amplitude while positional differences remain large.
 
 The first measurement should be descriptive, not corrective. Record the position, time since winding, rate, amplitude, beat error, lift angle setting, and any unusual sound or trace. Repeatability matters more than one impressive number. If the movement is tested dial-up, dial-down, crown-up, and crown-down, the pattern of change is more informative than any one result. Position reveals gravity’s influence on the balance, pivots, hairspring, and escapement.
 

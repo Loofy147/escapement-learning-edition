@@ -45,40 +45,23 @@ for (const [label, oldText, newText] of replacements) replaceExact(label, oldTex
 replaceRegexOnce(
   "METAS section",
   /METAS Master Chronometer \(industry-described; review-needed\)[\s\S]*?(?=\nReasonable expectations at the bench)/,
-  `METAS Master Chronometer (METAS requirements)
-
-METAS is the certifying body for this program. Its published requirements describe certification of fully mechanical watches, focused on chronometric performance, water resistance, magnetic-field resistance, and power reserve. The process uses testing of the movement and finished watch, with the applicant’s testing laboratory independently monitored by METAS. The movement must first satisfy ISO 3159:2009 chronometer criteria, with the relevant tests performed by an ISO/IEC 17025-accredited laboratory.
-
-Key published requirements include:
-
-- The watch is tested in its final configuration as offered for sale.
-- The program includes exposure to a 1.5 T (15,000 G) magnetic field; the movement and the finished watch must not stop during the relevant magnetic tests.
-- Average daily precision is constrained by watch category: 0 to +5 s/day for category 1a, 0 to +6 s/day for category 1b, and 0 to +7 s/day for category 2.
-- The declared power reserve is tested, and the watch must continue to operate for the declared duration.
-- Positional instantaneous-rate spread and rate change across the power-reserve test are also subject to published acceptance limits.
-
-The important distinction at the bench is scope. METAS is not merely a movement-rate label: it evaluates the finished watch and adds magnetic, power-reserve, water-resistance, and positional criteria. Exact procedures and acceptance calculations belong to the current METAS requirements document; do not infer them from a timing-machine snapshot.`
+  `METAS Master Chronometer (METAS requirements)\n\nMETAS is the certifying body for this program. Its published requirements describe certification of fully mechanical watches, focused on chronometric performance, water resistance, magnetic-field resistance, and power reserve. The process uses testing of the movement and finished watch, with the applicant’s testing laboratory independently monitored by METAS. The movement must first satisfy ISO 3159:2009 chronometer criteria, with the relevant tests performed by an ISO/IEC 17025-accredited laboratory.\n\nKey published requirements include:\n\n- The watch is tested in its final configuration as offered for sale.\n- The program includes exposure to a 1.5 T (15,000 G) magnetic field; the movement and the finished watch must not stop during the relevant magnetic tests.\n- Average daily precision is constrained by watch category: 0 to +5 s/day for category 1a, 0 to +6 s/day for category 1b, and 0 to +7 s/day for category 2.\n- The declared power reserve is tested, and the watch must continue to operate for the declared duration.\n- Positional instantaneous-rate spread and rate change across the power-reserve test are also subject to published acceptance limits.\n\nThe important distinction at the bench is scope. METAS is not merely a movement-rate label: it evaluates the finished watch and adds magnetic, power-reserve, water-resistance, and positional criteria. Exact procedures and acceptance calculations belong to the current METAS requirements document; do not infer them from a timing-machine snapshot.`
 );
 
 replaceRegexOnce(
   "brand regimes",
   /Brand-internal regimes \(manufacturer-stated; review-needed\)[\s\S]*?(?=\nTreat such marks as internal quality systems)/,
-  `Brand-internal regimes
-
-Manufacturers also operate proprietary quality and certification systems. Their scope should be described separately from ISO standards and third-party certifications.
-
-- Rolex “Superlative Chronometer”: Rolex states that, from 2026, its certification rests on seven pillars: precision, waterproofness, self-winding, autonomy (power reserve), resistance to magnetism, reliability, and sustainability. The finished watch is subjected to the brand’s post-casing precision requirements, with a stated range of -2 to +2 seconds/day. The three additional criteria introduced in 2026 are incorporated across design and manufacturing, while the original four are validated on the finished watch.
-- Jaeger-LeCoultre “1000 Hours Control”: Jaeger-LeCoultre states that every watch is tested for up to six weeks, with extensive checks covering positions, power reserve, temperature, movement, and water resistance. The program has evolved over time, so individual procedural details should not be inferred from the program name alone.`
+  `Brand-internal regimes\n\nManufacturers also operate proprietary quality and certification systems. Their scope should be described separately from ISO standards and third-party certifications.\n\n- Rolex “Superlative Chronometer”: Rolex states that, from 2026, its certification rests on seven pillars: precision, waterproofness, self-winding, autonomy (power reserve), resistance to magnetism, reliability, and sustainability. The finished watch is subjected to the brand’s post-casing precision requirements, with a stated range of -2 to +2 seconds/day. The three additional criteria introduced in 2026 are incorporated across design and manufacturing, while the original four are validated on the finished watch.\n- Jaeger-LeCoultre “1000 Hours Control”: Jaeger-LeCoultre states that every watch is tested for up to six weeks, with extensive checks covering positions, power reserve, temperature, movement, and water resistance. The program has evolved over time, so individual procedural details should not be inferred from the program name alone.`
 );
 
 replaceRegexOnce(
   "COSC Excellence current details",
   /Any detailed numerical tolerances, duration, specific environmental stresses, or a hard launch year beyond what COSC publishes on that page must be verified from COSC primary sources before publication\. The “2026” reference in industry discussions should be treated as review-needed unless and until COSC’s own communications specify it unambiguously\./,
-  `COSC’s 2026 Excellence Chronometer program adds a finished-watch stage after the traditional 15-day movement certification. The Federation of the Swiss Watch Industry reports five additional days of evaluation, including semi-dynamic simulation of average wrist wear for 24 hours, followed by a -2 to +4 seconds/day rate-deviation requirement, a 200-gauss magnetic test, and verification of the declared power reserve. The program was being introduced progressively during 2026, so the exact current submission status should be checked against COSC’s latest publication when a watch is presented as Excellence-certified.`
+  `COSC’s 2026 Excellence Chronometer program adds a finished-watch stage after the traditional 15-day movement certification. The Federation of the Swiss Watch Industry reports five additional days of evaluation, including semi-dynamic simulation of average wrist wear for 24 hours, followed by a -2 to +4 seconds/day rate-deviation requirement, a 200-gauss magnetic test, and verification of the declared power reserve. The program was introduced progressively during 2026; verify the latest COSC publication when a watch is presented as Excellence-certified.`
 );
 
 replaceRegexOnce(
-  "future observatory wording",
+  "observatory wording",
   /- By the late 19th and early 20th centuries, observatories in Europe ran formal trials of pocket and, later, wrist timepieces\. The trials influenced watchmaking practice by rewarding not just accuracy but also consistency over time and conditions\. Specific procedures, venues, and scoring methods require primary-source confirmation and are beyond the scope of the provided source packet\. Treat common references to Kew, Neuchâtel, and other observatories as review-needed pending citation to primary documentation \[9\]\./,
   `- By the late 19th and early 20th centuries, observatories in Europe ran formal timekeeping trials that influenced watchmaking by rewarding performance across defined conditions rather than a single favorable reading. Venue-specific procedures, scoring systems, dates, and participating makers vary by trial and are not summarized here without dedicated archival sourcing.`
 );
@@ -114,38 +97,42 @@ replaceRegexOnce(
 );
 
 replaceRegexOnce(
-  "tourbillon review wording",
+  "tourbillon wording",
   /Historical literature and later technical analyses attribute both triumphs and disappointments to tourbillons; handle the claims with care and verify with measurements in realistic wearing patterns \(general historical context; review needed\) \[9\]\./,
   `Historical literature contains both positive and negative assessments of tourbillons. Treat modern performance claims as design- and use-case-dependent, and verify them with measurements under realistic wearing patterns.`
 );
 
-replaceRegexOnce(
-  "materials bench terminology",
-  /Cautions \(practitioner conventions; see Review before publication\):/,
-  `Cautions (practitioner conventions):`
-);
-
-// Publication-facing manuscript must not contain internal unresolved-review sections.
-book = book.replace(/\n## Review before publication\n[\s\S]*?(?=\n# Part |\n# Back Matter)/g, "\n");
-
-// Remove obsolete placeholder citation [9] from body, then repurpose the reference slot with exact sources.
-book = book.replaceAll("[9]", "");
-book = book.replaceAll(
+replaceExact(
+  "Part III placeholder reference",
   "[9] Derek Pratt / horological technical literature where general historical context is needed; mark claims for review rather than fabricate specifics.",
-  "[9] Federal Institute of Metrology (METAS). METAS-N001, Requirements for certification of movements and mechanical watches resistant to magnetic fields of 1.5 T (15,000 G), version 1.2, approved 12 December 2022."
+  "[9] Federal Institute of Metrology (METAS). *METAS-N001, Requirements for certification of movements and mechanical watches resistant to magnetic fields of 1.5 T (15,000 G)*, version 1.2.\n[10] Federation of the Swiss Watch Industry. “The COSC announces an additional level of certification,” 12 March 2026.\n[11] Rolex. “New Superlative Chronometer certification,” 2026.\n[12] Jaeger-LeCoultre. “The History of the Master Control: 1000 Hours Control.”"
 );
-book = book.replaceAll(
-  "References: [1] COSC, COSC certifications; [2] COSC, FAQ; [3] COSC, Excellence Chronometer Certified; [4] Royal Museums Greenwich, Harrison’s timekeepers; [5] ISO 3159; [6] George Daniels, Watchmaking; [7] Donald de Carle, The Watch & Clock Maker’s Handbook, Dictionary and Guide; [8] F. J. Britten, The Watch & Clock Maker’s Handbook, Dictionary and Guide.",
+
+replaceExact(
+  "Part IV placeholder reference",
+  "[9] Derek Pratt / horological technical literature where general historical context is needed; mark claims for review rather than fabricate specifics.",
+  "[9] Federal Institute of Metrology (METAS). *METAS-N001, Requirements for certification of movements and mechanical watches resistant to magnetic fields of 1.5 T (15,000 G)*, version 1.2.\n[10] Federation of the Swiss Watch Industry. “The COSC announces an additional level of certification,” 12 March 2026.\n[11] Rolex. “New Superlative Chronometer certification,” 2026.\n[12] Jaeger-LeCoultre. “The History of the Master Control: 1000 Hours Control.”"
+);
+
+replaceExact(
+  "references summary",
+  "References: [1] COSC, COSC certifications; [2] COSC, FAQ; [3] COSC, Excellence Chronometer Certified; [4] Royal Museums Greenwich, Harrison’s timekeepers; [5] ISO 3159; [6] George Daniels, Watchmaking; [7] Donald de Carle, Practical Watch Repair; [8] F. J. Britten, The Watch & Clock Maker’s Handbook, Dictionary and Guide; [9] Derek Pratt / horological technical literature (for review-needed context).",
   "References: [1] COSC, COSC certifications; [2] COSC, FAQ; [3] COSC, Excellence Chronometer Certified; [4] Royal Museums Greenwich, Harrison’s timekeepers; [5] ISO 3159; [6] George Daniels, Watchmaking; [7] Donald de Carle, Practical Watch Repair; [8] F. J. Britten, The Watch & Clock Maker’s Handbook, Dictionary and Guide; [9] METAS, METAS-N001, version 1.2; [10] Federation of the Swiss Watch Industry, COSC Excellence Chronometer announcement, 12 March 2026; [11] Rolex, New Superlative Chronometer certification, 2026; [12] Jaeger-LeCoultre, 1000 Hour Control."
 );
 
-// Replace the standalone Part III/IV bibliography [9] placeholder where present.
-book = book.replaceAll(
-  "[9] Derek Pratt / horological technical literature where general historical context is needed; mark claims for review rather than fabricate specifics.",
-  "[9] Federal Institute of Metrology (METAS). METAS-N001, Requirements for certification of movements and mechanical watches resistant to magnetic fields of 1.5 T (15,000 G), version 1.2. [10] Federation of the Swiss Watch Industry, COSC Excellence Chronometer announcement, 12 March 2026. [11] Rolex, New Superlative Chronometer certification, 2026. [12] Jaeger-LeCoultre, 1000 Hour Control."
+replaceExact(
+  "materials cautions",
+  "Cautions (practitioner conventions; see Review before publication):",
+  "Cautions (practitioner conventions):"
 );
 
-// Global cleanup of line-end whitespace without touching content.
+// Publication-facing manuscript must not expose unresolved editorial-review sections.
+book = book.replace(/\n## Review before publication\n[\s\S]*?(?=\n# Part |\n# Back Matter)/g, "\n");
+
+// Remove any obsolete inline [9] markers left after bibliography normalization.
+book = book.replaceAll("[9]", "");
+
+// Normalize line-end whitespace without altering manuscript wording.
 book = book.replace(/[ \t]+\n/g, "\n");
 
 fs.writeFileSync(path, book);

@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Learning Intelligence v1 turns the existing persisted learner evidence into a deterministic learner model. It is intentionally conservative and auditable. It does not use an LLM to grade answers and it does not claim psychometric validity.
+Learning Intelligence v1 turns persisted learner evidence into a deterministic learner model. It is intentionally conservative and auditable. It does not use an LLM to grade answers and does not claim psychometric validity.
 
-## State hierarchy
+## Implemented state hierarchy
 
 Activity state is represented by a continuous score and a qualitative band:
 
@@ -18,20 +18,13 @@ The current heuristic requires at least three attempts for activity-level `maste
 
 ## Evidence used
 
-The model consumes the hardened progress evidence already persisted by the application:
+The model consumes persisted application evidence including attempts, misconception counts, hint usage, retries, source returns, and confidence.
 
-- attempts
-- misconception count
-- hint usage
-- retries
-- source returns
-- confidence
+The scoring function intentionally treats these as application evidence signals. They are not validated psychometric measurements.
 
-The scoring function intentionally penalizes repeated misconceptions, source returns, retries, and heavy hint dependence.
+## Concept graph and misconception model
 
-## Concept aggregation
-
-Concepts may declare explicit `conceptIds` on activities. Until the full catalog is migrated to explicit links, the V1 adapter falls back to chapter membership. This fallback is deliberately documented because chapter membership is broader than a true concept-to-activity mapping.
+Activities now have explicit concept and misconception mappings through the canonical catalog/adapter. The concept graph records prerequisites, related concepts, applications, activities, misconception identifiers, and transfer tasks. Missing mappings are treated as validation failures rather than silently inferred from chapter membership where the canonical contract requires explicit links.
 
 ## Next-best-action policy
 
@@ -41,18 +34,33 @@ The deterministic priority order is:
 2. `retrieve` for an unresolved concept in the current chapter.
 3. `advance` when current evidence is stable enough and an unseen chapter exists.
 4. `introduce` for the first available unresolved concept when no stronger action exists.
-5. `transfer` when core activities are stable and the system needs a novel-context assessment.
+5. `transfer` when core activities are stable and a novel-context assessment is appropriate.
 
-The `transfer` action is a policy signal in V1. The current activity catalog does not yet contain a dedicated transfer exercise type in the runtime model.
+## Transfer
 
-## What V1 does not claim
+Transfer tasks are deterministic and separately recorded from ordinary activity mastery. Reasoning-transfer responses use an explicit evidence rubric; this is deterministic matching, not AI grading.
+
+## Spaced retrieval and temporal evidence
+
+Retrieval reviews maintain due dates, intervals, review counts, and correctness. Temporal assessments support `pre`, `post`, and `delayed` stages and preserve immutable learning events with deduplication and backwards-compatible merge behavior.
+
+The learning state is persisted locally and can be synchronized to the authenticated account. Timeline events can also be persisted to the durable learning timeline store.
+
+## Longitudinal reporting
+
+The temporal report compares concept-level pre/post/delayed performance and misconception trends. These reports describe observed evidence in the system; they do not establish causal learning effectiveness.
+
+## What this implementation does not claim
 
 - It is not a calibrated psychometric model.
-- `confidence` is currently an application evidence signal, not a validated probability of correctness.
-- Mastery is not durable retention; no delayed retrieval measurement exists yet.
+- `confidence` is an application evidence signal, not a validated probability of correctness.
+- Mastery is a heuristic and is not, by itself, proof of durable retention.
 - Concept mastery is not transfer mastery.
-- Recommendation quality has not yet been validated with learner outcome data.
+- Recommendation quality has not been validated with learner outcome data.
+- Pre/post/delayed instrumentation does not by itself prove that the learning system caused the observed change.
 
-## Next implementation layer
+## Current status
 
-V2 should add explicit concept links for every activity, misconception identifiers, transfer activities, spaced-retrieval scheduling, temporal attempt history, and outcome-based calibration using pre/post/delayed assessments.
+Learning Intelligence v1 has progressed beyond its original activity-only scope. Concept mapping, misconception IDs, transfer, spaced retrieval, temporal assessment, durable timeline persistence, and longitudinal reporting are implemented in the current product baseline.
+
+Future work should focus on calibration and empirical validation only when the project deliberately enters that phase. No new learning-intelligence feature should be treated as validated merely because it is implemented and covered by software tests.

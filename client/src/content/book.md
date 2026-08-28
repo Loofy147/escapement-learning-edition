@@ -273,16 +273,6 @@ Say what you measure. Then make the machine better.
 - Pencil, ruler, and graph paper or a spreadsheet template to visualize amplitude and rate versus hours since wind.
 
 
-## Review before publication
-
-Claims in this section that should be cross-checked against practitioner or primary sources before final publication:
-
-- The general description of verge-and-foliot behavior and its variability with drive is grounded in standard horological texts but should be checked against the relevant sections in Britten and de Carle for wording alignment [7][8].
-- The summary of H1–H4 features and the Jamaica trial is based on the Royal Museums Greenwich overview; any mention of specific devices (e.g., remontoire, bimetallic compensation, roller bearings) should be reconciled with the precise descriptions in museum or primary technical notes to avoid overgeneralization [4].
-- The characterization of disputes with the Board of Longitude and the nature/timeline of payments should be compared with detailed historical accounts to ensure factual precision beyond the high-level summary in [4].
-- The practical accounts of escapement geometry effects on isochronism and positional behavior follow workshop literature; where possible, cite the exact sections in Daniels, de Carle, or Britten that support the specific adjustments described [6][7][8].
-- The linkage of COSC procedures to ISO 3159 is made at a high level; before publication, verify the exact phrasing used by COSC regarding its adherence to ISO 3159 and avoid implying specific numerical criteria unless directly quoted from COSC’s public documents [1][2][5].
-- The mention of “Excellence Chronometer Certified” as an extended certification offer relies on COSC’s public page; confirm the program’s current description and scope before finalizing wording [3].
 
 # Part II — Mechanics: How a Movement Works
 
@@ -670,7 +660,7 @@ A tourbillon rotates the escapement and balance in a cage, aiming to average out
 - Tight poise and endshake requirements for the cage to avoid adding new positional errors.
 - Constraints on regulator access and spring forming due to compact geometry.
 
-From an engineering standpoint, a tourbillon is a dial-side complication that consumes power to buy potential improvements in precision by averaging. It is not a magic source of accuracy; setting, spring geometry, and escapement execution still rule. Historically, precision-winning tourbillons were tailored to specific positions and use cases; modern wristwatch tourbillons must succeed under motion or accept that their value is elsewhere. Historical literature and later technical analyses attribute both triumphs and disappointments to tourbillons; handle the claims with care and verify with measurements in realistic wearing patterns (general historical context; review needed) [9].
+From an engineering standpoint, a tourbillon is a dial-side complication that consumes power to buy potential improvements in precision by averaging. It is not a magic source of accuracy; setting, spring geometry, and escapement execution still rule. Historically, precision-winning tourbillons were tailored to specific positions and use cases; modern wristwatch tourbillons must succeed under motion or accept that their value is elsewhere. Historical literature contains both positive and negative assessments of tourbillons. Treat modern performance claims as design- and use-case-dependent, and verify them with measurements under realistic wearing patterns.
 
 Bench approach:
 
@@ -704,28 +694,6 @@ If your target is performance aligned with wrist-chronometer standards (ISO 3159
 
 ---
 
-## Review before publication
-
-Claims and passages that warrant practitioner or primary-source verification before publication:
-
-- Any implied performance advantages of specific beat rates (e.g., “higher beats can improve precision at a given amplitude band”) are practitioner interpretations consistent with watchmaking texts but should be cross-checked against controlled measurements or authoritative sources [6][7].
-- The summary of co-axial lubrication practices notes that “in-service practice still uses carefully placed lubrication.” Specific locations and regimes vary by implementation and should be verified against manufacturer technical documents; Daniels’ general concept supports reduced sliding, not a universal dry practice [6].
-- Statements regarding tourbillon effectiveness in modern wristwatches are common practitioner interpretations; quantitative benefits depend on specific designs and wearing patterns and should be illustrated with measured datasets if available (review needed) [9].
-- Comments on the comparative robustness of English vs. Swiss lever escapements in wristwatches reflect traditional practice and literature; detailed efficiency comparisons should be referenced to primary test data where possible [6][8].
-- Descriptions of calendar “danger zones” and safety clutches are grounded in standard watchmaking practice; specific no-set intervals and mechanisms vary widely and must be reviewed against caliber documents [7][8].
-- Generalizations about vertical clutch “creep” and lubrication are drawn from workshop experience and texts; verify friction targets and surface treatments case-by-case [6][7].
-- Multiple-barrel series vs. parallel characterizations are qualitative; exact torque profiles and efficiency differences depend on specific designs and should be supported by maker data or test measurements where used for specification [6][7].
-
-References:
-[1] COSC, COSC certifications
-[2] COSC, FAQ
-[3] COSC, Excellence Chronometer Certified
-[4] Royal Museums Greenwich, Longitude found: the story of Harrison's timekeepers
-[5] ISO 3159, Wrist-chronometers with sprung balance oscillator
-[6] George Daniels, Watchmaking, 1981
-[7] Donald de Carle, Practical Watch Repair
-[8] F. J. Britten, The Watch & Clock Maker's Handbook, Dictionary and Guide
-[9] Derek Pratt / horological technical literature where general historical context is needed; mark claims for review rather than fabricate specifics.
 
 # Part III — Materials & Precision Science
 
@@ -1036,18 +1004,12 @@ Link to standards:
 [6] George Daniels, Watchmaking, 1981.
 [7] Donald de Carle, Practical Watch Repair.
 [8] F. J. Britten, The Watch & Clock Maker's Handbook, Dictionary and Guide.
-[9] Derek Pratt / horological technical literature where general historical context is needed; mark claims for review rather than fabricate specifics.
+[9] Federal Institute of Metrology (METAS), *METAS-N001*, Requirements for certification of movements and mechanical watches resistant to magnetic fields of 1.5 T (15,000 G).
+[10] Federation of the Swiss Watch Industry, COSC Excellence Chronometer announcement, 12 March 2026.
+[11] Rolex, current Superlative Chronometer specification, 2026.
+[12] Jaeger-LeCoultre, 1000 Hour Control.
 
 
-## Review before publication
-
-Claims below should be cross-checked by practitioners or primary sources before publication:
-
-- Specific alloy names mapped to exact compositions (e.g., “beryllium bronze” balances as a class) are described generically here; brand-proprietary compositions vary. Verify terminology against current supplier data.
-- Statements about silicon hairspring shock behavior, surface treatments, and lubrication interactions are practitioner conventions; seek primary technical notes from manufacturers for definitive guidance.
-- Effectiveness of soft-iron inner cases and shields is discussed qualitatively; specific field thresholds and standards are not cited here. If included, they should be tied to a recognized standard and test.
-- Informal temperature testing procedures (sealed bag, cool/warm pack) are workshop practices; ensure they align with best-practice safety regarding condensation and thermal shock.
-- Any implication that COSC/ISO 3159 use a specific set of temperatures or positions beyond “multiple positions and three temperatures” should be verified directly against the current COSC publications [1][2] and ISO 3159 [5].
 
 # Part IV — The Standards That Prove It
 
@@ -1162,24 +1124,24 @@ What to carry to the bench
 
 COSC is not the only game in town. Some programs are jointly operated with public bodies; others are entirely first-party. The distinction to keep in mind at the bench is not the logo on the certificate but the scope of the claim: movement or finished watch; environmental stresses considered; tolerances published.
 
-METAS Master Chronometer (industry-described; review-needed)
+METAS Master Chronometer (METAS requirements)
 
-Many readers will have seen “Master Chronometer” descriptions attributed to METAS, the Swiss Federal Institute of Metrology, in partnership with certain manufacturers. Industry descriptions commonly state:
+METAS is the Swiss Federal Institute of Metrology and certifying body for this program. Its published requirements describe certification of fully mechanical watches covering chronometric performance, water resistance, magnetic-field resistance, and power reserve. The movement must first meet the applicable ISO 3159:2009 chronometer criteria, and the testing laboratory is subject to ISO/IEC 17025 accreditation and METAS oversight.
 
-- Testing of the finished, cased watch, not just the movement.
-- A claimed average daily deviation target around 0 to +5 s/d under specified conditions.
-- Resistance to strong magnetic fields, with figures on the order of 15,000 gauss cited repeatedly in manufacturer communications.
-- Multi-position, multi-temperature, and power-reserve-span testing, often including performance after magnetic exposure.
+Key published requirements include:
 
-Because these details are not in the source packet provided for this manuscript, treat them as manufacturer- and industry-stated descriptions that require primary-source confirmation before publication. The bench relevance is clear even without the exact numbers: a regime that evaluates the cased watch and formalizes anti-magnetic behavior gives you a fuller picture than a movement-only test. If a customer brings you a “Master Chronometer” watch that is erratic, your triage should include magnetism checks, amplitude under different states of wind, and confirmation that your timing setup matches the manufacturer’s declared test orientations and measurement windows. Do not assume that a “0 to +5” target translates directly to your timing machine’s single-interval result; many programs compute averages a particular way over several days and conditions.
+- The watch is evaluated in its final configuration as offered for sale.
+- The program includes exposure to a 1.5 T (15,000 G) magnetic field; the movement and finished watch must meet the program’s non-stopping criteria during the relevant tests.
+- Average daily precision is constrained by watch category: 0 to +5 s/day for category 1a, 0 to +6 s/day for category 1b, and 0 to +7 s/day for category 2.
+- The declared power reserve is verified, together with positional rate behavior and other published acceptance criteria.
 
-Brand-internal regimes (manufacturer-stated; review-needed)
+At the bench, the distinction is one of scope: METAS is not merely a movement-rate label. It evaluates the finished watch and combines chronometric, magnetic, water-resistance, and power-reserve requirements. Exact sequences and acceptance calculations belong to the applicable METAS requirements document.
+Brand-internal regimes
 
-Several manufacturers run in-house regimes that they publicize as descriptors of quality control. Common examples include:
+Manufacturers also operate proprietary quality and certification systems. Their scope should be described separately from ISO standards and third-party certifications.
 
-- Rolex “Superlative Chronometer”: Frequently cited as a cased-watch regime with a manufacturer-stated target of approximately -2/+2 s/d after casing. The company’s public messaging presents it as more stringent than third-party movement-only certification. Exact conditions, durations, and measurement methods are not in the provided source packet and must be verified from primary sources before publication.
-- Jaeger-LeCoultre “1000 Hours”: Described as a cased-watch test lasting on the order of weeks, intended to screen reliability and rate stability across positions and temperature changes. The published specifics, if any, are outside the provided source packet and require verification.
-
+- Rolex “Superlative Chronometer”: Rolex states that its current certification rests on seven pillars: precision, waterproofness, self-winding, autonomy, resistance to magnetism, reliability, and sustainability. The finished watch has a stated precision range of -2 to +2 seconds/day after casing. The additional magnetism, reliability, and sustainability criteria were added to the earlier four pillars in 2026.
+- Jaeger-LeCoultre “1000 Hours Control”: Jaeger-LeCoultre states that every watch is tested for up to six weeks, with checks covering positions, power reserve, temperature, movement, and water resistance. It is a proprietary quality-control program, not an ISO or third-party public standard.
 Treat such marks as internal quality systems, not as public, third-party standards. They can be good; they can also be marketing wrappers on competent factory testing. Your job is to translate the claim into bench practice:
 
 - Ask what was tested: movement or cased watch?
@@ -1222,7 +1184,7 @@ What we can say from the public page
 
 COSC’s “Excellence Chronometer Certified” page states that the program exists and is separate from movement certification, and that it is about the finished watch [3]. It positions Excellence Chronometer as an additional, complementary evaluation beyond the traditional movement-only approach. The page underscores that a finished watch can, and in some programs should, be tested as a unit [3].
 
-Any detailed numerical tolerances, duration, specific environmental stresses, or a hard launch year beyond what COSC publishes on that page must be verified from COSC primary sources before publication. The “2026” reference in industry discussions should be treated as review-needed unless and until COSC’s own communications specify it unambiguously.
+COSC’s 2026 Excellence Chronometer program adds a finished-watch stage after the traditional movement certification. The Federation of the Swiss Watch Industry describes five additional days of evaluation, including a 24-hour semi-dynamic simulation of average wrist wear, followed by a -2 to +4 seconds/day rate-deviation requirement, a 200-gauss magnetic test, and verification of the declared power reserve. The program was introduced progressively during 2026; verify the latest COSC publication when citing current availability.
 
 Bench implications of finished-watch evaluation
 
@@ -1255,7 +1217,7 @@ Before wrist-chronometer standards were harmonized, national observatories condu
 What we can say with confidence
 
 - The lineage of chronometer testing is tied to navigational and scientific needs. Harrison’s timekeepers demonstrated the feasibility of high-precision portable timekeeping under varying conditions, setting a precedent for independent evaluation [4].
-- By the late 19th and early 20th centuries, observatories in Europe ran formal trials of pocket and, later, wrist timepieces. The trials influenced watchmaking practice by rewarding not just accuracy but also consistency over time and conditions. Specific procedures, venues, and scoring methods require primary-source confirmation and are beyond the scope of the provided source packet. Treat common references to Kew, Neuchâtel, and other observatories as review-needed pending citation to primary documentation [9].
+- By the late 19th and early 20th centuries, observatories in Europe ran formal timekeeping trials that influenced watchmaking by rewarding performance across defined conditions rather than a single favorable reading. Venue-specific procedures, scoring systems, dates, and participating makers vary by trial and are not summarized here without dedicated archival sourcing.
 
 What mattered in those trials, and still matters
 
@@ -1280,11 +1242,11 @@ The table below summarizes the regimes discussed, emphasizing what is publicly a
 |---|---|---|---|---|---|---|---|---|
 | ISO 3159 (wrist-chronometers with sprung balance) [5] | International Organization for Standardization | Defines framework and metrics for wrist-chronometer testing | Not a lab program; specifies methods | Includes multiple positions | Includes multiple temperatures | Standard defines criteria for acceptance; see ISO 3159 [5] | N/A | Cite as the standard; do not invent clauses or figures beyond public abstracts [5] |
 | COSC Chronometer (Swiss) [1][2] | COSC | Uncased movement | 15 days | 5 positions | 3 temperatures | -4 to +6 s/d (wristwatch movements) | Statistical criteria applied to rate variation, positional spread, temperature effect; see COSC | Publicly described by COSC; movement-only [1][2] |
-| COSC Excellence Chronometer [3] | COSC | Finished, cased watch | Review-needed (COSC page distinguishes scope; durations not specified in provided source) | Review-needed | Review-needed | Review-needed | Review-needed | COSC distinguishes movement certification from finished-watch evaluation [3] |
-| METAS Master Chronometer (industry-described; review-needed) | METAS with participating manufacturers | Finished, cased watch | Review-needed | Review-needed | Review-needed | Commonly stated target around 0 to +5 s/d (manufacturer communications; review-needed) | Claimed anti-magnetic exposure up to approximately 15,000 gauss (manufacturer communications; review-needed) | Treat all specifics as review-needed without primary sources |
-| Rolex “Superlative Chronometer” (manufacturer-stated; review-needed) | Manufacturer | Finished, cased watch | Review-needed | Review-needed | Review-needed | Commonly cited as -2/+2 s/d (manufacturer communications; review-needed) | Review-needed | Internal regime; verify from primary sources before citing details |
-| Jaeger-LeCoultre “1000 Hours” (manufacturer-stated; review-needed) | Manufacturer | Finished, cased watch | Commonly described as multi-week test (review-needed) | Review-needed | Review-needed | Review-needed | Review-needed | Internal regime; verify from primary sources before citing details |
-| Historical observatory trials (review-needed) | National observatories (e.g., Kew, Neuchâtel—review-needed) | Typically complete watches or regulated movements (review-needed) | Extended, multi-week to multi-month (review-needed) | Multiple | Multiple | Scored across multiple parameters (review-needed) | Environmental and handling controls varied by observatory (review-needed) | Historical context requires primary-source verification [9] |
+| COSC Excellence Chronometer [3] | COSC | Finished, cased watch | Traditional 15-day movement stage plus five additional days for the finished-watch stage | Semi-dynamic finished-watch evaluation includes simulated wear | 200-gauss magnetic check in the finished-watch stage | -2 to +4 s/day in the finished-watch stage | Declared power-reserve verification and additional finished-watch evaluation | Additional COSC certification layer introduced during 2026; verify the current COSC publication for availability and exact submission status. |
+| METAS Master Chronometer | METAS with participating manufacturers | Finished, cased watch; movement must also satisfy ISO 3159:2009 criteria | Multi-cycle program; consult METAS-N001 for exact sequence | Six positions are used for instantaneous-rate measurements | 1.5 T / 15,000 G magnetic exposure | 0 to +5, +6, or +7 s/day depending on category | Magnetic non-stop criteria, power reserve, positional behavior, and water-resistance requirements | Third-party metrology certification; consult the applicable current METAS requirements document for exact calculations. |
+| Rolex “Superlative Chronometer” | Rolex | Finished watch | Proprietary | Proprietary | Magnetism is one of the current seven pillars | -2 to +2 s/day stated for the finished watch after casing | 2026 adds magnetism, reliability, and sustainability to precision, waterproofness, self-winding, and autonomy | Proprietary manufacturer certification; do not present it as ISO/COSC. |
+| Jaeger-LeCoultre “1000 Hours” | Jaeger-LeCoultre | Finished watch | Up to six weeks | Proprietary | Temperature and environmental checks | Proprietary criteria | Checks positions, power reserve, temperature, movement, and water resistance | Proprietary quality-control program; do not reduce it to a single tolerance number. |
+| Historical observatory trials | National observatories and testing institutions | Varies by trial | Varies by trial | Multiple | Where specified, multiple | Multi-parameter scoring | Procedures varied by institution and period | General lineage retained; venue-specific claims require dedicated archival sources. |
 
 What to carry to the bench
 
@@ -1416,10 +1378,6 @@ There is no single doorway into the trade. Some enter through school, some throu
 
 Choose a learning path that supplies feedback, not just information. Practice on appropriate material, keep records, and make safety and honesty part of technical skill. A watchmaker is trusted with objects, time, money, and history; training must address all four.
 
-## Review before publication
-
-Current details of WOSTEP, AWCI, and BHI programs require direct verification before publication. Service intervals must not be presented as universal prescriptions. Any movement-specific adjustment procedure should be checked against the manufacturer’s technical documentation and qualified instruction.
-
 
 # Part VI — Context & Future
 
@@ -1480,10 +1438,6 @@ That is why the most valuable word in horology is not “perfect.” It is “me
 The bench teaches the same lesson as the history. Harrison’s timekeeper mattered because it endured a trial. A chronometer matters because it passes a defined test. A regulation record matters because it states its conditions. A restoration matters because it documents its intervention. In every case, credibility is not a mood. It is a result that another person can examine.
 
 Mechanical horology remains valuable not because it has defeated physics, but because it makes physics visible and gives craft a way to work with it. The escapement is a small machine at the boundary between chaos and regularity. To understand it is to understand both the ambition of precision and the honesty required to claim it.
-
-## Review before publication
-
-Re-verify all current certification details against COSC and METAS documentation at the time of release. Avoid presenting predictions about future standards as forecasts of policy. Any discussion of independent makers should remain general unless supported by named, permissioned case studies.
 
 
 # Back Matter

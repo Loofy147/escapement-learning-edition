@@ -19,9 +19,9 @@ describe("persisted learning state", () => {
   it("records an ordered temporal event history for learning evidence", () => {
     const transfer = recordTransferAttempt(emptyLearningState, "t1", true, 1000);
     const retrieval = recordRetrievalReview(transfer, "a1", false, 2000);
-    const assessed = recordAssessment(retrieval, "pre", 0.5, 3000);
+    const assessed = recordAssessment(retrieval, "pre", 0.5, { rate: 0.5 }, { "M-RATE-001": 1 }, 3000);
     expect(assessed.events.map((event) => event.kind)).toEqual(["transfer", "retrieval", "assessment"]);
-    expect(assessmentHistory(assessed)[0]).toMatchObject({ stage: "pre", score: 0.5, occurredAt: 3000 });
+    expect(assessmentHistory(assessed)[0]).toMatchObject({ stage: "pre", score: 0.5, conceptScores: { rate: 0.5 }, misconceptionCounts: { "M-RATE-001": 1 }, occurredAt: 3000 });
   });
 
   it("merges temporal events without duplicating the same event id", () => {

@@ -143,3 +143,6 @@
 - [x] Verify deterministically graded transfer runtime from canonical transfer tasks
 - [x] Add and run regression/browser coverage for transfer grading with retrieval and assessment flows
 - [x] Push the latest temporal-runtime head, verify its Quality gates run, and save a fresh checkpoint
+
+- [ ] Pull the latest remote branch changes and reconcile local work safely
+- [ ] Push all intended local commits and verify local/remote parity
